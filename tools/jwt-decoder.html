@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JWT Decoder - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .jwt-section { margin-top: 0.75rem; display: none; }
+    .jwt-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .jwt-section pre {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      font-size: 0.82rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>JWT Decoder</h1>
+      <p>Decode and inspect JSON Web Tokens — header, payload, claims, and expiry. Decoding only, no verification.</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="jwt-input">Paste JWT</label>
+        <textarea id="jwt-input" rows="4" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="clear-btn">clear</button>
+      <div id="jwt-error" class="text-error mt-1" style="display:none"></div>
+    </div>
+
+    <div class="tool-section" id="jwt-header-section">
+      <div class="jwt-label"></div>
+      <pre></pre>
+    </div>
+
+    <div class="tool-section" id="jwt-payload-section">
+      <div class="jwt-label"></div>
+      <pre></pre>
+    </div>
+
+    <div class="tool-section" id="jwt-sig-section">
+      <div class="jwt-label"></div>
+      <pre></pre>
+    </div>
+
+    <div class="tool-section" id="jwt-claims-section" style="display:none">
+      <h2>Parsed Claims</h2>
+      <div id="jwt-claims"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/jwt-decoder.js"></script>
+</body>
+</html>

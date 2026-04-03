@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DNS Lookup - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>DNS Lookup</h1>
+      <p>Query DNS records via Cloudflare DNS-over-HTTPS. A, AAAA, MX, TXT, NS, CNAME, SOA, PTR, and more. Includes SPF/DMARC/DKIM email security checker.</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group" style="flex:3">
+          <label for="dns-name">Domain name</label>
+          <input type="text" id="dns-name" placeholder="example.com" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="input-group" style="flex:1">
+          <label for="dns-type">Record type</label>
+          <select id="dns-type">
+            <option value="A">A</option>
+            <option value="AAAA">AAAA</option>
+            <option value="CNAME">CNAME</option>
+            <option value="MX">MX</option>
+            <option value="NS">NS</option>
+            <option value="TXT">TXT</option>
+            <option value="SOA">SOA</option>
+            <option value="PTR">PTR</option>
+            <option value="SRV">SRV</option>
+            <option value="CAA">CAA</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="dns-btn">lookup</button>
+        <button class="btn btn-secondary" id="email-check-btn">check email security (SPF/DMARC/MX/DKIM)</button>
+        <span id="dns-loader" style="display:none;color:var(--fg-muted);font-size:0.875rem;align-self:center">querying...</span>
+      </div>
+      <div id="dns-error" class="text-error mt-1" style="display:none"></div>
+    </div>
+
+    <div id="dns-status" style="margin-top:0.75rem;font-size:0.85rem"></div>
+    <div id="dns-results"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/dns-lookup.js"></script>
+</body>
+</html>

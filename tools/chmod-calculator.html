@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chmod Calculator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .chmod-grid {
+      display: grid;
+      grid-template-columns: auto 1fr 1fr 1fr;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .chmod-grid-header {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+    .chmod-grid-label {
+      font-size: 0.85rem;
+      color: var(--fg-emphasis);
+      padding-right: 0.5rem;
+    }
+    .chmod-bit {
+      display: block;
+      width: 100%;
+      padding: 0.4rem;
+      text-align: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--fg-muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.85rem;
+      transition: background-color 0.1s, color 0.1s, border-color 0.1s;
+    }
+    .chmod-bit.active {
+      background: var(--accent);
+      color: var(--base03);
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+    .chmod-symbol {
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .preset-grid {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Chmod Calculator</h1>
+      <p>Toggle read/write/execute bits for owner, group, and other. Get the octal value and chmod command.</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="chmod-grid">
+        <div class="chmod-grid-header"></div>
+        <div class="chmod-grid-header">read (r)</div>
+        <div class="chmod-grid-header">write (w)</div>
+        <div class="chmod-grid-header">execute (x)</div>
+
+        <div class="chmod-grid-label">owner</div>
+        <button class="chmod-bit" data-cat="owner" data-perm="r">r</button>
+        <button class="chmod-bit" data-cat="owner" data-perm="w">w</button>
+        <button class="chmod-bit" data-cat="owner" data-perm="x">x</button>
+
+        <div class="chmod-grid-label">group</div>
+        <button class="chmod-bit" data-cat="group" data-perm="r">r</button>
+        <button class="chmod-bit" data-cat="group" data-perm="w">w</button>
+        <button class="chmod-bit" data-cat="group" data-perm="x">x</button>
+
+        <div class="chmod-grid-label">other</div>
+        <button class="chmod-bit" data-cat="other" data-perm="r">r</button>
+        <button class="chmod-bit" data-cat="other" data-perm="w">w</button>
+        <button class="chmod-bit" data-cat="other" data-perm="x">x</button>
+      </div>
+
+      <div class="input-group">
+        <label for="chmod-octal">Octal value (edit directly)</label>
+        <input type="text" id="chmod-octal" placeholder="755" maxlength="3" style="max-width:8rem">
+      </div>
+
+      <div class="result mt-1">
+        <div class="result-label">symbolic notation</div>
+        <div class="chmod-symbol" id="chmod-symbolic">----------</div>
+      </div>
+
+      <div class="result mt-1">
+        <div class="result-label">command</div>
+        <div class="result-value" style="font-size:1rem" id="chmod-cmd">chmod 000 &lt;file&gt;</div>
+        <button class="btn btn-secondary btn-sm mt-1" id="copy-cmd">copy</button>
+      </div>
+
+      <div class="preset-grid">
+        <span style="font-size:0.8rem;color:var(--fg-muted);align-self:center">presets:</span>
+        <button class="btn btn-secondary btn-sm" data-preset="755">755 &mdash; rwxr-xr-x</button>
+        <button class="btn btn-secondary btn-sm" data-preset="644">644 &mdash; rw-r--r--</button>
+        <button class="btn btn-secondary btn-sm" data-preset="777">777 &mdash; rwxrwxrwx</button>
+        <button class="btn btn-secondary btn-sm" data-preset="600">600 &mdash; rw-------</button>
+        <button class="btn btn-secondary btn-sm" data-preset="700">700 &mdash; rwx------</button>
+        <button class="btn btn-secondary btn-sm" data-preset="664">664 &mdash; rw-rw-r--</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/chmod-calculator.js"></script>
+</body>
+</html>

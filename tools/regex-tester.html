@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Regex Tester - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    mark {
+      background-color: var(--yellow);
+      color: var(--base03);
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+    #regex-preview {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      font-size: 0.875rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 3rem;
+      margin-top: 0.75rem;
+    }
+    .flag-row {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .flag-row label {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin: 0;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Regex Tester</h1>
+      <p>Test regular expressions with live match highlighting and group capture display</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="regex-pattern">Pattern</label>
+        <input type="text" id="regex-pattern" placeholder="e.g. \b\w+@\w+\.\w+\b" spellcheck="false" autocomplete="off">
+      </div>
+
+      <div class="flag-row">
+        <label><input type="checkbox" id="flag-g" checked> g &mdash; global</label>
+        <label><input type="checkbox" id="flag-i"> i &mdash; case insensitive</label>
+        <label><input type="checkbox" id="flag-m"> m &mdash; multiline</label>
+        <label><input type="checkbox" id="flag-s"> s &mdash; dot matches newline</label>
+        <label><input type="checkbox" id="flag-u"> u &mdash; unicode</label>
+      </div>
+
+      <div id="regex-error" class="text-error" style="display:none"></div>
+
+      <div class="input-group">
+        <label for="regex-test">Test string</label>
+        <textarea id="regex-test" rows="6" placeholder="Paste text to test against..." spellcheck="false"></textarea>
+      </div>
+
+      <div class="input-row" style="align-items:center">
+        <span id="regex-stats" style="color:var(--fg-muted);font-size:0.875rem"></span>
+        <button class="btn btn-secondary btn-sm" id="clear-btn" style="flex:0">clear</button>
+      </div>
+
+      <label style="margin-top:0.75rem">Match preview</label>
+      <div id="regex-preview"></div>
+    </div>
+
+    <div id="regex-matches"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/regex-tester.js"></script>
+</body>
+</html>
