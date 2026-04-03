@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mstrhakr tools</title>
+  <meta name="description" content="A collection of useful developer and networking tools in one place.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>mstrhakr tools</h1>
+      <p>all the random tools you keep googling, in one place</p>
+    </section>
+
+    <div class="search-wrapper">
+      <input type="text" id="tool-search" class="search-input" placeholder="search tools..." autocomplete="off">
+    </div>
+
+    <div class="tool-grid">
+
+      <!-- Converters -->
+      <a href="/tools/data-size-converter.html" class="tool-card" data-name="data size converter" data-tags="mb gb tb kb bits bytes binary decimal convert">
+        <span class="card-category">converter</span>
+        <h3>Data Size Converter</h3>
+        <p>Convert between bits, bytes, KB, MB, GB, TB and network units</p>
+      </a>
+
+      <a href="/tools/download-time.html" class="tool-card" data-name="download time calculator" data-tags="download speed time estimate bandwidth file size transfer">
+        <span class="card-category">converter</span>
+        <h3>Download Time Calculator</h3>
+        <p>Estimate file download time based on size and connection speed</p>
+      </a>
+
+      <a href="/tools/unix-timestamp.html" class="tool-card" data-name="unix timestamp converter" data-tags="unix epoch timestamp date time convert utc">
+        <span class="card-category">converter</span>
+        <h3>Unix Timestamp Converter</h3>
+        <p>Convert between Unix timestamps and human-readable dates</p>
+      </a>
+
+      <a href="/tools/color-picker.html" class="tool-card" data-name="color picker" data-tags="color hex rgb hsl picker convert">
+        <span class="card-category">converter</span>
+        <h3>Color Picker</h3>
+        <p>Pick colors and convert between Hex, RGB, and HSL formats</p>
+      </a>
+
+      <!-- Text & Encoding -->
+      <a href="/tools/base64.html" class="tool-card" data-name="base64 encode decode" data-tags="base64 encode decode text binary">
+        <span class="card-category">encoding</span>
+        <h3>Base64 Encode / Decode</h3>
+        <p>Encode and decode Base64 strings with UTF-8 support</p>
+      </a>
+
+      <a href="/tools/url-encode-decode.html" class="tool-card" data-name="url encode decode" data-tags="url encode decode percent uri component">
+        <span class="card-category">encoding</span>
+        <h3>URL Encode / Decode</h3>
+        <p>Encode and decode URL components</p>
+      </a>
+
+      <a href="/tools/json-formatter.html" class="tool-card" data-name="json formatter validator" data-tags="json format pretty print minify validate syntax">
+        <span class="card-category">encoding</span>
+        <h3>JSON Formatter</h3>
+        <p>Format, minify, and validate JSON with syntax highlighting</p>
+      </a>
+
+      <a href="/tools/text-counter.html" class="tool-card" data-name="text counter" data-tags="character word count sentence paragraph line text">
+        <span class="card-category">text</span>
+        <h3>Text Counter</h3>
+        <p>Count characters, words, sentences, paragraphs and reading time</p>
+      </a>
+
+      <!-- Math -->
+      <a href="/tools/calculator.html" class="tool-card" data-name="calculator" data-tags="calculator math add subtract multiply divide basic">
+        <span class="card-category">math</span>
+        <h3>Calculator</h3>
+        <p>Basic calculator with keyboard support</p>
+      </a>
+
+      <a href="/tools/percentage-calc.html" class="tool-card" data-name="percentage calculator" data-tags="percentage percent change increase decrease math">
+        <span class="card-category">math</span>
+        <h3>Percentage Calculator</h3>
+        <p>Calculate percentages, percentage of, and percent change</p>
+      </a>
+
+      <!-- Generators -->
+      <a href="/tools/password-generator.html" class="tool-card" data-name="password generator" data-tags="password generate random secure strength">
+        <span class="card-category">generator</span>
+        <h3>Password Generator</h3>
+        <p>Generate secure random passwords with configurable options</p>
+      </a>
+
+      <a href="/tools/uuid-generator.html" class="tool-card" data-name="uuid generator" data-tags="uuid guid v4 generate random unique identifier">
+        <span class="card-category">generator</span>
+        <h3>UUID Generator</h3>
+        <p>Generate v4 UUIDs individually or in bulk</p>
+      </a>
+
+      <!-- Network -->
+      <a href="/tools/subnet-calculator.html" class="tool-card" data-name="subnet calculator" data-tags="subnet cidr ip network mask broadcast address range ipv4">
+        <span class="card-category">network</span>
+        <h3>Subnet Calculator</h3>
+        <p>Calculate network address, broadcast, range and subnet details from CIDR</p>
+      </a>
+
+      <a href="/tools/ip-info.html" class="tool-card" data-name="ip address info" data-tags="ip address public ipv4 ipv6 info lookup whois">
+        <span class="card-category">network</span>
+        <h3>IP Address Info</h3>
+        <p>Look up your public IP address and basic info</p>
+      </a>
+
+      <a href="/tools/mac-lookup.html" class="tool-card" data-name="mac address lookup" data-tags="mac address vendor oui lookup manufacturer network">
+        <span class="card-category">network</span>
+        <h3>MAC Address Lookup</h3>
+        <p>Identify the manufacturer from a MAC address OUI prefix</p>
+      </a>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+</body>
+</html>

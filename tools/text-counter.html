@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Counter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Text Counter</h1>
+      <p>Count characters, words, sentences, paragraphs and estimate reading time</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="text-input">Enter or paste text</label>
+        <textarea id="text-input" rows="10" placeholder="Start typing or paste text here..."></textarea>
+      </div>
+
+      <div class="stats-grid mt-2" id="stats">
+        <div class="stat-item"><div class="stat-value" id="s-chars">0</div><div class="stat-label">Characters</div></div>
+        <div class="stat-item"><div class="stat-value" id="s-chars-ns">0</div><div class="stat-label">No Spaces</div></div>
+        <div class="stat-item"><div class="stat-value" id="s-words">0</div><div class="stat-label">Words</div></div>
+        <div class="stat-item"><div class="stat-value" id="s-sentences">0</div><div class="stat-label">Sentences</div></div>
+        <div class="stat-item"><div class="stat-value" id="s-paragraphs">0</div><div class="stat-label">Paragraphs</div></div>
+        <div class="stat-item"><div class="stat-value" id="s-lines">0</div><div class="stat-label">Lines</div></div>
+        <div class="stat-item"><div class="stat-value" id="s-reading">0s</div><div class="stat-label">Reading Time</div></div>
+        <div class="stat-item"><div class="stat-value" id="s-bytes">0</div><div class="stat-label">Bytes (UTF-8)</div></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/text-counter.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Calculator</h1>
+      <p>Basic calculator with keyboard support</p>
+    </div>
+
+    <div class="tool-section" style="max-width: 360px;">
+      <div class="calc-display">
+        <div class="calc-expression" id="calc-expression">&nbsp;</div>
+        <div class="calc-result" id="calc-result">0</div>
+      </div>
+
+      <div class="calc-grid">
+        <button class="calc-btn" data-action="clear">C</button>
+        <button class="calc-btn" data-action="clear-entry">CE</button>
+        <button class="calc-btn operator" data-action="%">%</button>
+        <button class="calc-btn operator" data-action="/">/</button>
+
+        <button class="calc-btn" data-action="7">7</button>
+        <button class="calc-btn" data-action="8">8</button>
+        <button class="calc-btn" data-action="9">9</button>
+        <button class="calc-btn operator" data-action="*">x</button>
+
+        <button class="calc-btn" data-action="4">4</button>
+        <button class="calc-btn" data-action="5">5</button>
+        <button class="calc-btn" data-action="6">6</button>
+        <button class="calc-btn operator" data-action="-">-</button>
+
+        <button class="calc-btn" data-action="1">1</button>
+        <button class="calc-btn" data-action="2">2</button>
+        <button class="calc-btn" data-action="3">3</button>
+        <button class="calc-btn operator" data-action="+">+</button>
+
+        <button class="calc-btn" data-action="negate">+/-</button>
+        <button class="calc-btn" data-action="0">0</button>
+        <button class="calc-btn" data-action=".">.</button>
+        <button class="calc-btn equals" data-action="=">=</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/calculator.js"></script>
+</body>
+</html>

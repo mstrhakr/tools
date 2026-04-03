@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IP Address Info - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>IP Address Info</h1>
+      <p>Look up your public IP address and basic geolocation info</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="btn-group mb-2">
+        <button class="btn" id="btn-lookup">Lookup My IP</button>
+      </div>
+
+      <div id="ip-loading" class="text-muted" style="display:none">Looking up your IP...</div>
+      <div id="ip-error" class="text-error" style="display:none"></div>
+
+      <div class="stats-grid" id="ip-results"></div>
+    </div>
+
+    <div class="tool-section">
+      <h2>Lookup Any IP</h2>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="custom-ip">IP Address</label>
+          <input type="text" id="custom-ip" placeholder="8.8.8.8">
+        </div>
+        <div class="input-group" style="flex:0 0 auto;align-self:flex-end">
+          <button class="btn" id="btn-lookup-custom">Lookup</button>
+        </div>
+      </div>
+      <div id="custom-error" class="text-error mt-1" style="display:none"></div>
+      <div class="stats-grid mt-2" id="custom-results"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/ip-info.js"></script>
+</body>
+</html>

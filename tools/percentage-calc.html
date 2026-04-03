@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Percentage Calculator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Percentage Calculator</h1>
+      <p>Calculate percentages, percentage of a number, and percentage change</p>
+    </div>
+
+    <div class="tool-section">
+      <h2>What is X% of Y?</h2>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="p1-x">X (%)</label>
+          <input type="number" id="p1-x" step="any" placeholder="25">
+        </div>
+        <div class="input-group">
+          <label for="p1-y">Y</label>
+          <input type="number" id="p1-y" step="any" placeholder="200">
+        </div>
+      </div>
+      <div class="result">
+        <span class="result-label">Result:</span>
+        <span class="result-value" id="p1-result">--</span>
+      </div>
+    </div>
+
+    <div class="tool-section">
+      <h2>X is what % of Y?</h2>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="p2-x">X</label>
+          <input type="number" id="p2-x" step="any" placeholder="50">
+        </div>
+        <div class="input-group">
+          <label for="p2-y">Y</label>
+          <input type="number" id="p2-y" step="any" placeholder="200">
+        </div>
+      </div>
+      <div class="result">
+        <span class="result-label">Result:</span>
+        <span class="result-value" id="p2-result">--</span>
+      </div>
+    </div>
+
+    <div class="tool-section">
+      <h2>Percentage change from X to Y</h2>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="p3-x">From (X)</label>
+          <input type="number" id="p3-x" step="any" placeholder="100">
+        </div>
+        <div class="input-group">
+          <label for="p3-y">To (Y)</label>
+          <input type="number" id="p3-y" step="any" placeholder="150">
+        </div>
+      </div>
+      <div class="result">
+        <span class="result-label">Result:</span>
+        <span class="result-value" id="p3-result">--</span>
+        <span id="p3-direction" class="text-muted"></span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/percentage-calc.js"></script>
+</body>
+</html>

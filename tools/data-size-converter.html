@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Size Converter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Data Size Converter</h1>
+      <p>Convert between bits, bytes, and all standard data size units</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="value-input">Value</label>
+          <input type="number" id="value-input" value="1" min="0" step="any">
+        </div>
+        <div class="input-group">
+          <label for="unit-select">Unit</label>
+          <select id="unit-select">
+            <optgroup label="Decimal (1000-based)">
+              <option value="b">Bits (b)</option>
+              <option value="B">Bytes (B)</option>
+              <option value="KB">Kilobytes (KB)</option>
+              <option value="MB" selected>Megabytes (MB)</option>
+              <option value="GB">Gigabytes (GB)</option>
+              <option value="TB">Terabytes (TB)</option>
+              <option value="PB">Petabytes (PB)</option>
+            </optgroup>
+            <optgroup label="Binary (1024-based)">
+              <option value="KiB">Kibibytes (KiB)</option>
+              <option value="MiB">Mebibytes (MiB)</option>
+              <option value="GiB">Gibibytes (GiB)</option>
+              <option value="TiB">Tebibytes (TiB)</option>
+            </optgroup>
+            <optgroup label="Network (bits)">
+              <option value="Kb">Kilobits (Kb)</option>
+              <option value="Mb">Megabits (Mb)</option>
+              <option value="Gb">Gigabits (Gb)</option>
+              <option value="Tb">Terabits (Tb)</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <table class="conversion-table" id="results-table">
+        <thead>
+          <tr><th>Unit</th><th>Value</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/data-size-converter.js"></script>
+</body>
+</html>

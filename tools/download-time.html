@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Download Time Calculator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Download Time Calculator</h1>
+      <p>Estimate how long a file download will take at a given speed</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="file-size">File Size</label>
+          <input type="number" id="file-size" value="1" min="0" step="any">
+        </div>
+        <div class="input-group">
+          <label for="size-unit">Unit</label>
+          <select id="size-unit">
+            <option value="KB">KB</option>
+            <option value="MB">MB</option>
+            <option value="GB" selected>GB</option>
+            <option value="TB">TB</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="speed-value">Download Speed</label>
+          <input type="number" id="speed-value" value="100" min="0" step="any">
+        </div>
+        <div class="input-group">
+          <label for="speed-unit">Unit</label>
+          <select id="speed-unit">
+            <option value="Kbps">Kbps</option>
+            <option value="Mbps" selected>Mbps</option>
+            <option value="Gbps">Gbps</option>
+            <option value="KB/s">KB/s</option>
+            <option value="MB/s">MB/s</option>
+            <option value="GB/s">GB/s</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="result mt-2">
+        <div class="result-label">Estimated Download Time</div>
+        <div class="result-value" id="time-result">--</div>
+        <div class="text-muted mt-1" id="time-seconds"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/download-time.js"></script>
+</body>
+</html>
