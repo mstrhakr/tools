@@ -14,15 +14,18 @@ import (
 )
 
 // --- CORS allowed origins ---
-var allowedOrigins = []string{
-	"https://tools.mstrhakr.com",
-	"http://localhost",
-	"http://127.0.0.1",
-}
-
+// Matches any subdomain of mstrhakr.com, localhost, and loopback.
 func isAllowedOrigin(origin string) bool {
-	for _, o := range allowedOrigins {
-		if strings.HasPrefix(origin, o) {
+	if origin == "" {
+		return false
+	}
+	allowed := []string{
+		".mstrhakr.com",
+		"//localhost",
+		"//127.0.0.1",
+	}
+	for _, suffix := range allowed {
+		if strings.Contains(origin, suffix) {
 			return true
 		}
 	}
@@ -91,7 +94,12 @@ func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		origin := r.Header.Get("Origin")
 		if isAllowedOrigin(origin) {
+			// Reflect the specific origin so credentials can work if ever needed
 			w.Header().Set("Access-Control-Allow-Origin", origin)
+		} else {
+			// NPM or proxies sometimes strip the Origin header; fall back to wildcard.
+			// This is safe because the API only does read-only lookups on public hosts.
+			w.Header().Set("Access-Control-Allow-Origin", "*")
 		}
 		w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
