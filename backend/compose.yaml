@@ -1,7 +1,6 @@
 services:
   api:
-    build: .
-    image: mstrhakr/tools-api:latest
+    image: ghcr.io/mstrhakr/tools-api:latest
     container_name: tools-api
     restart: unless-stopped
     ports:
