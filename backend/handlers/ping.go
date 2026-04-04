@@ -23,16 +23,18 @@ func Ping(w http.ResponseWriter, r *http.Request) {
 		writeError(w, "host parameter required", http.StatusBadRequest)
 		return
 	}
-	if err := validateHost(host); err != nil {
+	pinnedIP, err := validateAndResolve(host)
+	if err != nil {
 		writeError(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	result := PingResult{Host: host}
 
-	// Try port 443 first, fall back to 80
+	// Dial the pinned IP directly to prevent DNS rebinding on the second lookup.
+	// Try port 443 first, fall back to 80.
 	for _, port := range []int{443, 80} {
-		addr := net.JoinHostPort(host, fmt.Sprintf("%d", port))
+		addr := net.JoinHostPort(pinnedIP.String(), fmt.Sprintf("%d", port))
 		start := time.Now()
 		conn, err := net.DialTimeout("tcp", addr, 5*time.Second)
 		if err == nil {

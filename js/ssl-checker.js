@@ -45,13 +45,14 @@
 
   function renderResults(data) {
     var el = document.getElementById('ssl-results');
+    var e = window.mtools.escapeHtml;
 
     // Connection info
     var connDiv = document.createElement('div');
     connDiv.className = 'result mt-1';
     connDiv.innerHTML =
       '<div class="result-label">connection</div>' +
-      '<div>' + data.tls_version + ' &middot; ' + data.cipher_suite + '</div>';
+      '<div>' + e(data.tls_version) + ' &middot; ' + e(data.cipher_suite) + '</div>';
     el.appendChild(connDiv);
 
     // Certs
@@ -60,16 +61,16 @@
       row.className = 'result mt-1';
       var expColor = cert.expired ? 'var(--error)' : (cert.days_left < 30 ? 'var(--warning)' : 'var(--success)');
       var sans = cert.sans && cert.sans.length
-        ? '<div class="result-label mt-1">SANs</div><div style="font-size:0.8rem">' + cert.sans.join(', ') + '</div>'
+        ? '<div class="result-label mt-1">SANs</div><div style="font-size:0.8rem">' + cert.sans.map(e).join(', ') + '</div>'
         : '';
       row.innerHTML =
         '<div class="result-label">certificate ' + (i + 1) + (i === 0 ? ' (leaf)' : ' (chain)') + '</div>' +
-        '<div><strong>' + (cert.subject || 'n/a') + '</strong></div>' +
-        '<div style="font-size:0.8rem;color:var(--fg-muted)">issued by: ' + (cert.issuer || 'n/a') + '</div>' +
+        '<div><strong>' + e(cert.subject || 'n/a') + '</strong></div>' +
+        '<div style="font-size:0.8rem;color:var(--fg-muted)">issued by: ' + e(cert.issuer || 'n/a') + '</div>' +
         '<div style="font-size:0.8rem;margin-top:0.35rem">' +
-          'expires <span style="color:' + expColor + '">' + cert.not_after + '</span>' +
+          'expires <span style="color:' + expColor + '">' + e(cert.not_after) + '</span>' +
           (cert.expired ? ' <strong style="color:var(--error)">[EXPIRED]</strong>'
-            : ' (' + cert.days_left + ' days left)') +
+            : ' (' + e(String(cert.days_left)) + ' days left)') +
         '</div>' +
         sans;
       el.appendChild(row);

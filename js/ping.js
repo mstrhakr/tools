@@ -33,11 +33,12 @@
 
         var row = document.createElement('div');
         row.className = 'result mt-1';
+        var e = window.mtools.escapeHtml;
         row.innerHTML =
-          '<div class="result-label">result for ' + data.host + '</div>' +
+          '<div class="result-label">result for ' + e(data.host) + '</div>' +
           (data.alive
-            ? '<div class="result-value">' + data.latency + '</div>' +
-              '<div style="font-size:0.85rem;color:var(--fg-muted)">reachable on port ' + data.port + '</div>'
+            ? '<div class="result-value">' + e(String(data.latency)) + '</div>' +
+              '<div style="font-size:0.85rem;color:var(--fg-muted)">reachable on port ' + e(String(data.port)) + '</div>'
             : '<div class="result-value" style="color:var(--error)">unreachable</div>');
         resultsEl.appendChild(row);
       })

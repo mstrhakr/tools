@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"sync"
@@ -14,22 +15,20 @@ import (
 )
 
 // --- CORS allowed origins ---
-// Matches any subdomain of mstrhakr.com, localhost, and loopback.
+// Accepts exact matches for mstrhakr.com and its subdomains, plus localhost.
+// Uses proper URL parsing to prevent substring-bypass attacks such as
+// https://evil.mstrhakr.com.attacker.com which would fool strings.Contains.
 func isAllowedOrigin(origin string) bool {
 	if origin == "" {
 		return false
 	}
-	allowed := []string{
-		".mstrhakr.com",
-		"//localhost",
-		"//127.0.0.1",
+	u, err := url.Parse(origin)
+	if err != nil {
+		return false
 	}
-	for _, suffix := range allowed {
-		if strings.Contains(origin, suffix) {
-			return true
-		}
-	}
-	return false
+	h := strings.ToLower(u.Hostname())
+	return h == "mstrhakr.com" || strings.HasSuffix(h, ".mstrhakr.com") ||
+		h == "localhost" || h == "127.0.0.1"
 }
 
 // --- Rate limiter ---
@@ -96,14 +95,17 @@ func corsMiddleware(next http.Handler) http.Handler {
 		if isAllowedOrigin(origin) {
 			// Reflect the specific origin so credentials can work if ever needed
 			w.Header().Set("Access-Control-Allow-Origin", origin)
-		} else {
-			// NPM or proxies sometimes strip the Origin header; fall back to wildcard.
-			// This is safe because the API only does read-only lookups on public hosts.
-			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Vary", "Origin")
 		}
+		// Unknown origins get no CORS header — the browser will block the request.
+		// A wildcard fallback would let any site make cross-origin requests on
+		// behalf of a victim's browser (port-scan the victim's IP, etc.).
 		w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-		w.Header().Set("Vary", "Origin")
+		// Security headers applied to every response
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.Header().Set("X-Frame-Options", "DENY")
+		w.Header().Set("Referrer-Policy", "no-referrer")
 
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusNoContent)
@@ -120,10 +122,13 @@ func rateLimitMiddleware(rl *rateLimiter) func(http.Handler) http.Handler {
 			if err != nil {
 				ip = r.RemoteAddr
 			}
-			// Trust X-Forwarded-For from localhost/proxy only
-			if forwarded := r.Header.Get("X-Forwarded-For"); forwarded != "" {
-				ip = strings.SplitN(forwarded, ",", 2)[0]
-				ip = strings.TrimSpace(ip)
+			// Only trust X-Forwarded-For when the TCP connection comes from a
+			// loopback address (i.e. a trusted local reverse proxy). External
+			// clients could otherwise spoof arbitrary IPs to bypass rate limiting.
+			if parsed := net.ParseIP(ip); parsed != nil && parsed.IsLoopback() {
+				if forwarded := r.Header.Get("X-Forwarded-For"); forwarded != "" {
+					ip = strings.TrimSpace(strings.SplitN(forwarded, ",", 2)[0])
+				}
 			}
 			if !rl.allow(ip) {
 				writeError(w, "rate limit exceeded", http.StatusTooManyRequests)
@@ -159,11 +164,14 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	// Health check
-	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
-	})
+	// Health check (rate-limited to prevent DoS amplification)
+	mux.Handle("GET /health", chain(
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+		}),
+		rateLimitMiddleware(defaultRL),
+	))
 
 	// API routes
 	mux.Handle("GET /api/ping", chain(
@@ -184,6 +192,26 @@ func main() {
 	))
 	mux.Handle("GET /api/portscan", chain(
 		http.HandlerFunc(handlers.PortScan),
+		rateLimitMiddleware(heavyRL),
+	))
+	mux.Handle("GET /api/geoip", chain(
+		http.HandlerFunc(handlers.GeoIP),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/reversedns", chain(
+		http.HandlerFunc(handlers.ReverseDNS),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/whois", chain(
+		http.HandlerFunc(handlers.WHOIS),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/dnsbl", chain(
+		http.HandlerFunc(handlers.DNSBL),
+		rateLimitMiddleware(heavyRL),
+	))
+	mux.Handle("GET /api/traceroute", chain(
+		http.HandlerFunc(handlers.Traceroute),
 		rateLimitMiddleware(heavyRL),
 	))
 

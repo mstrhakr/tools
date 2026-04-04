@@ -1,10 +1,16 @@
 (function () {
   'use strict';
 
+  // Route through our own backend so the browser never makes a plaintext HTTP
+  // request directly to ip-api.com. The backend handles the ip-api.com call
+  // server-side and returns the same JSON structure.
+  var API_BASE = 'https://api.tools.mstrhakr.com';
+
   function makeStatItem(label, value) {
+    var e = window.mtools.escapeHtml;
     return '<div class="stat-item">' +
-      '<div class="stat-value" style="font-size:1rem;word-break:break-all">' + (value || 'N/A') + '</div>' +
-      '<div class="stat-label">' + label + '</div>' +
+      '<div class="stat-value" style="font-size:1rem;word-break:break-all">' + e(value || 'N/A') + '</div>' +
+      '<div class="stat-label">' + e(label) + '</div>' +
       '</div>';
   }
 
@@ -28,25 +34,24 @@
     if (loadingEl) loadingEl.style.display = 'block';
     resultsEl.innerHTML = '';
 
-    // Using ip-api.com (free, no key needed, http only for free tier)
-    var url = 'http://ip-api.com/json/' + (ip || '');
+    var url = API_BASE + '/api/geoip?ip=' + encodeURIComponent(ip || 'self');
     fetch(url)
       .then(function (res) { return res.json(); })
       .then(function (data) {
         if (loadingEl) loadingEl.style.display = 'none';
-        if (data.status === 'fail') {
+        if (data.error || data.status === 'fail') {
           if (errorEl) {
-            errorEl.textContent = data.message || 'Lookup failed';
+            errorEl.textContent = data.message || data.error || 'Lookup failed';
             errorEl.style.display = 'block';
           }
           return;
         }
         renderIPInfo(data, resultsEl);
       })
-      .catch(function (err) {
+      .catch(function () {
         if (loadingEl) loadingEl.style.display = 'none';
         if (errorEl) {
-          errorEl.textContent = 'Request failed. This tool requires HTTP access to ip-api.com.';
+          errorEl.textContent = 'Request failed.';
           errorEl.style.display = 'block';
         }
       });

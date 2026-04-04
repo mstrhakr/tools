@@ -1,7 +1,11 @@
 package handlers
 
 import (
+	"errors"
+	"fmt"
 	"io"
+	"log"
+	"net"
 	"net/http"
 	"net/url"
 	"strings"
@@ -25,7 +29,20 @@ func RDAP(w http.ResponseWriter, r *http.Request) {
 		rdapURL = "https://rdap.org/domain/" + url.PathEscape(domain)
 	}
 
-	client := &http.Client{Timeout: 15 * time.Second}
+	client := &http.Client{
+		Timeout: 15 * time.Second,
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			if len(via) >= 5 {
+				return errors.New("too many redirects")
+			}
+			// Validate each redirect target so rdap.org can't redirect us to an
+			// internal address (SSRF via open redirect chain).
+			if err := validateHost(req.URL.Hostname()); err != nil {
+				return fmt.Errorf("redirect blocked: %w", err)
+			}
+			return nil
+		},
+	}
 	req, err := http.NewRequest(http.MethodGet, rdapURL, nil)
 	if err != nil {
 		writeError(w, "failed to build RDAP request", http.StatusInternalServerError)
@@ -36,7 +53,8 @@ func RDAP(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		writeError(w, "RDAP lookup failed: "+err.Error(), http.StatusBadGateway)
+		log.Printf("rdap: lookup for %q failed: %v", query, err)
+		writeError(w, "RDAP lookup failed", http.StatusBadGateway)
 		return
 	}
 	defer resp.Body.Close()
@@ -52,7 +70,9 @@ func RDAP(w http.ResponseWriter, r *http.Request) {
 	w.Write(body)
 }
 
+// isIPAddress uses net.ParseIP for reliable IP detection.
+// The previous heuristic (counting dots or looking for colons) falsely matched
+// domains like a.b.c.d or example.com:8080.
 func isIPAddress(s string) bool {
-	// IPv4 or IPv6
-	return strings.Count(s, ".") == 3 || strings.Contains(s, ":")
+	return net.ParseIP(s) != nil
 }

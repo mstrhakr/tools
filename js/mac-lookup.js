@@ -250,9 +250,10 @@
   }
 
   function makeStatItem(label, value) {
+    var e = window.mtools.escapeHtml;
     return '<div class="stat-item">' +
-      '<div class="stat-value" style="font-size:1rem;word-break:break-all">' + (value || 'N/A') + '</div>' +
-      '<div class="stat-label">' + label + '</div>' +
+      '<div class="stat-value" style="font-size:1rem;word-break:break-all">' + e(value || 'N/A') + '</div>' +
+      '<div class="stat-label">' + e(label) + '</div>' +
       '</div>';
   }
 

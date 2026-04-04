@@ -1,7 +1,10 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
+	"log"
+	"net"
 	"net/http"
 	"net/url"
 	"strings"
@@ -38,8 +41,35 @@ func Headers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Resolve once and pin the IP to prevent DNS rebinding on the actual
+	// TCP connection (TOCTOU). We use a custom DialContext that always
+	// connects to the pinned IP; the Host header is still set correctly
+	// from the original URL by net/http, so TLS SNI works as expected.
+	pinnedIP, err := validateAndResolve(parsed.Hostname())
+	if err != nil {
+		writeError(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	port := parsed.Port()
+	if port == "" {
+		if parsed.Scheme == "https" {
+			port = "443"
+		} else {
+			port = "80"
+		}
+	}
+	pinnedAddr := net.JoinHostPort(pinnedIP.String(), port)
+
+	transport := &http.Transport{
+		DialContext: func(ctx context.Context, network, _ string) (net.Conn, error) {
+			return (&net.Dialer{Timeout: 10 * time.Second}).DialContext(ctx, network, pinnedAddr)
+		},
+	}
+
 	client := &http.Client{
-		Timeout: 15 * time.Second,
+		Timeout:   15 * time.Second,
+		Transport: transport,
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
 			// Don't follow redirects — caller sees the redirect itself
 			return http.ErrUseLastResponse
@@ -55,8 +85,9 @@ func Headers(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(req)
 	if err != nil {
+		log.Printf("headers: request to %s failed: %v", rawURL, err)
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(HeadersResult{URL: rawURL, Error: err.Error()})
+		json.NewEncoder(w).Encode(HeadersResult{URL: rawURL, Error: "request failed"})
 		return
 	}
 	defer resp.Body.Close()

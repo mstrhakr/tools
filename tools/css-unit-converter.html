@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Unit Converter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>CSS Unit Converter</h1>
+      <p>Convert between px, rem, em, pt, vw, vh, and more</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="css-value">Value</label>
+          <input type="number" id="css-value" value="16" step="any">
+        </div>
+        <div class="input-group">
+          <label for="css-from">From</label>
+          <select id="css-from">
+            <option value="px">px</option>
+            <option value="rem">rem</option>
+            <option value="em">em</option>
+            <option value="pt">pt</option>
+            <option value="pc">pc (picas)</option>
+            <option value="vw">vw</option>
+            <option value="vh">vh</option>
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="in">in</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="css-base-size">Base font size (px) — used for rem/em</label>
+        <input type="number" id="css-base-size" value="16" min="1" step="1">
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="css-viewport-w">Viewport width (px)</label>
+          <input type="number" id="css-viewport-w" value="1440" min="1">
+        </div>
+        <div class="input-group">
+          <label for="css-viewport-h">Viewport height (px)</label>
+          <input type="number" id="css-viewport-h" value="900" min="1">
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-convert">Convert</button>
+      </div>
+    </div>
+
+    <div id="css-results"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/css-unit-converter.js"></script>
+</body>
+</html>

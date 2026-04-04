@@ -74,6 +74,18 @@
     });
   }
 
+  // --- HTML Escaping ---
+  // Escapes a value for safe insertion into innerHTML. Apply to every piece of
+  // data sourced from user input or external APIs before building HTML strings.
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   // --- Toast Notification ---
   var toastEl = null;
   var toastTimer = null;
@@ -163,6 +175,7 @@
   // Expose utilities globally for tool pages
   window.mtools = {
     copyToClipboard: copyToClipboard,
-    showToast: showToast
+    showToast: showToast,
+    escapeHtml: escapeHtml
   };
 })();

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Diff - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .diff-added { background-color: rgba(133,153,0,0.2); color: var(--green); }
+    .diff-removed { background-color: rgba(220,50,47,0.2); color: var(--red); }
+    .diff-equal { color: var(--fg-muted); }
+    .diff-line { display: block; padding: 1px 4px; font-size: 0.82rem; white-space: pre-wrap; word-break: break-word; }
+    .diff-gutter { display: inline-block; min-width: 2.5rem; color: var(--fg-muted); font-size: 0.75rem; user-select: none; margin-right: 0.5rem; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Text Diff</h1>
+      <p>Compare two blocks of text and highlight additions, removals, and unchanged lines</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="diff-a">Original</label>
+          <textarea id="diff-a" rows="10" placeholder="Paste original text here..."></textarea>
+        </div>
+        <div class="input-group">
+          <label for="diff-b">Modified</label>
+          <textarea id="diff-b" rows="10" placeholder="Paste modified text here..."></textarea>
+        </div>
+      </div>
+
+      <div class="btn-group mb-2">
+        <button class="btn" id="btn-diff">Compare</button>
+        <button class="btn btn-secondary" id="btn-swap">Swap</button>
+        <button class="btn btn-secondary" id="btn-clear">Clear</button>
+      </div>
+
+      <div id="diff-stats" class="mb-1" style="display:none;font-size:0.85rem;color:var(--fg-muted)"></div>
+    </div>
+
+    <div class="tool-section" id="diff-output-section" style="display:none">
+      <h2>Diff output</h2>
+      <div id="diff-output" style="font-family:inherit"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/diff.js"></script>
+</body>
+</html>

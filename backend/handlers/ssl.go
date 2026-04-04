@@ -39,19 +39,25 @@ func SSL(w http.ResponseWriter, r *http.Request) {
 	host = strings.TrimPrefix(host, "https://")
 	host = strings.TrimPrefix(host, "http://")
 	host = strings.SplitN(host, "/", 2)[0]
+	// Strip port — SSL check always uses 443; keeps host clean for TLS SNI.
+	if h, _, e := net.SplitHostPort(host); e == nil {
+		host = h
+	}
 
-	if err := validateHost(host); err != nil {
+	pinnedIP, err := validateAndResolve(host)
+	if err != nil {
 		writeError(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	dialer := &net.Dialer{Timeout: 10 * time.Second}
-	conn, err := tls.DialWithDialer(dialer, "tcp", net.JoinHostPort(host, "443"), &tls.Config{
+	// Connect to the pinned IP to prevent DNS rebinding; host is used only for TLS SNI.
+	conn, err := tls.DialWithDialer(dialer, "tcp", net.JoinHostPort(pinnedIP.String(), "443"), &tls.Config{
 		ServerName: host,
 	})
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(SSLResult{Host: host, Error: err.Error()})
+		json.NewEncoder(w).Encode(SSLResult{Host: host, Error: "TLS connection failed"})
 		return
 	}
 	defer conn.Close()

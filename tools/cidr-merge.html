@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CIDR Merge / Dedup - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>CIDR Merge / Dedup</h1>
+      <p>Paste a list of IPv4 prefixes — duplicates and subnets are removed, adjacent blocks are merged</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="cidr-input">IPv4 prefixes (one per line)</label>
+        <textarea id="cidr-input" rows="10" placeholder="10.0.0.0/8&#10;10.0.0.0/16&#10;192.168.0.0/24&#10;192.168.1.0/24"></textarea>
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="btn-merge">Merge &amp; Dedup</button>
+        <button class="btn btn-secondary" id="btn-clear">Clear</button>
+        <button class="btn btn-secondary btn-sm" id="btn-copy">Copy Output</button>
+      </div>
+      <div id="cidr-error" class="text-error mt-1" style="display:none"></div>
+    </div>
+
+    <div class="tool-section" id="cidr-output-section" style="display:none">
+      <div id="cidr-stats" class="mb-1" style="font-size:0.85rem;color:var(--fg-muted)"></div>
+      <div class="input-group">
+        <label>Merged prefixes</label>
+        <textarea id="cidr-output" rows="10" readonly></textarea>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/cidr-merge.js"></script>
+</body>
+</html>

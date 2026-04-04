@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Code Generator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    #qr-canvas { border-radius: var(--radius); display: block; margin: 0 auto; }
+    .qr-wrap { text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>QR Code Generator</h1>
+      <p>Generate a QR code from any URL, text, or data — rendered in your browser</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="qr-input">Text / URL</label>
+        <textarea id="qr-input" rows="4" placeholder="https://example.com"></textarea>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="qr-size">Size (px)</label>
+          <input type="number" id="qr-size" value="256" min="64" max="1024" step="32">
+        </div>
+        <div class="input-group">
+          <label for="qr-ec">Error correction</label>
+          <select id="qr-ec">
+            <option value="L">L (low, 7%)</option>
+            <option value="M" selected>M (medium, 15%)</option>
+            <option value="Q">Q (quartile, 25%)</option>
+            <option value="H">H (high, 30%)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-generate">Generate</button>
+        <button class="btn btn-secondary" id="btn-download">Download PNG</button>
+      </div>
+
+      <div id="qr-error" class="text-error mt-1" style="display:none"></div>
+    </div>
+
+    <div class="tool-section qr-wrap" id="qr-output" style="display:none">
+      <canvas id="qr-canvas"></canvas>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js" integrity="sha384-IQ3D8wQKkrjlkFVDCdWFqzSiHJuVjJK2O80xXzaqe3e0IJIR0iKBwJW27xtLbbb" crossorigin="anonymous"></script>
+  <script src="/js/qr-generator.js"></script>
+</body>
+</html>

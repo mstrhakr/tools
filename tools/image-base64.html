@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image to Base64 - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      color: var(--fg-muted);
+      transition: border-color 0.15s;
+    }
+    .drop-zone.drag-over { border-color: var(--accent); color: var(--accent); }
+    .drop-zone input[type="file"] { display: none; }
+    #img-preview { max-width: 100%; max-height: 200px; margin-top: 1rem; border-radius: var(--radius); display: none; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Image to Base64</h1>
+      <p>Convert any image to a Base64 data URI — drag and drop or click to upload</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="drop-zone" id="drop-zone">
+        <input type="file" id="file-input" accept="image/*">
+        <div>drag & drop an image here, or <strong>click to browse</strong></div>
+        <img id="img-preview" alt="preview">
+      </div>
+
+      <div id="img-info" class="mt-1" style="font-size:0.85rem;color:var(--fg-muted);display:none"></div>
+    </div>
+
+    <div class="tool-section" id="output-section" style="display:none">
+      <div class="btn-group mb-2">
+        <button class="btn btn-secondary btn-sm" id="btn-copy-uri">Copy data URI</button>
+        <button class="btn btn-secondary btn-sm" id="btn-copy-b64">Copy Base64 only</button>
+        <button class="btn btn-secondary btn-sm" id="btn-copy-css">Copy CSS background</button>
+      </div>
+      <div class="input-group">
+        <label>Data URI</label>
+        <textarea id="output-uri" rows="5" readonly style="font-size:0.75rem;word-break:break-all"></textarea>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/image-base64.js"></script>
+</body>
+</html>

@@ -61,9 +61,10 @@
     (data.ports || []).forEach(function (p) {
       if (!p.open && document.getElementById('ps-open-only').checked) return;
       var tr = document.createElement('tr');
+      var e = window.mtools.escapeHtml;
       tr.innerHTML =
-        '<td>' + p.port + '</td>' +
-        '<td>' + p.service + '</td>' +
+        '<td>' + e(String(p.port)) + '</td>' +
+        '<td>' + e(p.service) + '</td>' +
         '<td style="color:' + (p.open ? 'var(--success)' : 'var(--fg-muted)') + '">' +
           (p.open ? 'open' : 'closed') +
         '</td>';

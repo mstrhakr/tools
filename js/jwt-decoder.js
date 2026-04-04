@@ -54,6 +54,7 @@
   function renderClaims(payload) {
     var container = document.getElementById('jwt-claims');
     container.innerHTML = '';
+    var e = window.mtools.escapeHtml;
     var claimInfo = {
       iss: 'Issuer', sub: 'Subject', aud: 'Audience',
       exp: 'Expires', iat: 'Issued At', nbf: 'Not Before',
@@ -70,8 +71,8 @@
 
       var expired = key === 'exp' && val && Date.now() / 1000 > val;
       row.innerHTML =
-        '<div class="result-label">' + label + (expired ? ' <span style="color:var(--error)">[EXPIRED]</span>' : '') + '</div>' +
-        '<div style="word-break:break-all;font-size:0.875rem">' + displayVal + '</div>';
+        '<div class="result-label">' + e(label) + (expired ? ' <span style="color:var(--error)">[EXPIRED]</span>' : '') + '</div>' +
+        '<div style="word-break:break-all;font-size:0.875rem">' + e(String(displayVal)) + '</div>';
       container.appendChild(row);
     });
     document.getElementById('jwt-claims-section').style.display = 'block';

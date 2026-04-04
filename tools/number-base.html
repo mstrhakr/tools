@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DNS Lookup - mstrhakr tools</title>
+  <title>Number Base Converter - mstrhakr tools</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
   <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -26,44 +26,37 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>DNS Lookup</h1>
-      <p>Query DNS records via Cloudflare DNS-over-HTTPS. A, AAAA, MX, TXT, NS, CNAME, SOA, PTR, and more. Includes SPF/DMARC/DKIM email security checker.</p>
+      <h1>Number Base Converter</h1>
+      <p>Convert between binary, octal, decimal, and hexadecimal — plus any custom base from 2 to 36</p>
     </div>
 
     <div class="tool-section">
       <div class="input-row">
         <div class="input-group" style="flex:3">
-          <label for="dns-name">Domain name</label>
-          <input type="text" id="dns-name" placeholder="example.com" autocomplete="off" spellcheck="false">
+          <label for="base-input">Value</label>
+          <input type="text" id="base-input" placeholder="255" autocomplete="off" spellcheck="false">
         </div>
         <div class="input-group" style="flex:1">
-          <label for="dns-type">Record type</label>
-          <select id="dns-type">
-            <option value="ALL">ALL</option>
-            <option value="A">A</option>
-            <option value="AAAA">AAAA</option>
-            <option value="CNAME">CNAME</option>
-            <option value="MX">MX</option>
-            <option value="NS">NS</option>
-            <option value="TXT">TXT</option>
-            <option value="SOA">SOA</option>
-            <option value="PTR">PTR</option>
-            <option value="SRV">SRV</option>
-            <option value="CAA">CAA</option>
+          <label for="base-from">From base</label>
+          <select id="base-from">
+            <option value="2">Binary (2)</option>
+            <option value="8">Octal (8)</option>
+            <option value="10" selected>Decimal (10)</option>
+            <option value="16">Hex (16)</option>
+            <option value="custom">Custom</option>
           </select>
         </div>
+        <div class="input-group" style="flex:1" id="custom-base-wrap" style="display:none">
+          <label for="base-from-custom">Base</label>
+          <input type="number" id="base-from-custom" value="10" min="2" max="36">
+        </div>
       </div>
-
       <div class="btn-group">
-        <button class="btn" id="dns-btn">lookup</button>
-        <button class="btn btn-secondary" id="email-check-btn">check email security (SPF/DMARC/MX/DKIM)</button>
-        <span id="dns-loader" style="display:none;color:var(--fg-muted);font-size:0.875rem;align-self:center">querying...</span>
+        <button class="btn" id="btn-convert">Convert</button>
       </div>
-      <div id="dns-error" class="text-error mt-1" style="display:none"></div>
     </div>
 
-    <div id="dns-status" style="margin-top:0.75rem;font-size:0.85rem"></div>
-    <div id="dns-results"></div>
+    <div id="base-results"></div>
   </main>
 
   <footer class="site-footer">
@@ -73,6 +66,6 @@
   </footer>
 
   <script src="/js/common.js"></script>
-  <script src="/js/dns-lookup.js"></script>
+  <script src="/js/number-base.js"></script>
 </body>
 </html>

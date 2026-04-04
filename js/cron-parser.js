@@ -112,12 +112,13 @@
     descEl.textContent = summary;
 
     var fieldLabels = ['minute', 'hour', 'day of month', 'month', 'day of week'];
+    var e = window.mtools.escapeHtml;
     fields.forEach(function (f, i) {
       var row = document.createElement('div');
       row.className = 'result mt-1';
       row.innerHTML =
         '<div class="result-label">' + fieldLabels[i] + '</div>' +
-        '<div><strong>' + f + '</strong> &mdash; ' + describeField(f, i) + '</div>';
+        '<div><strong>' + e(f) + '</strong> &mdash; ' + e(describeField(f, i)) + '</div>';
       fieldsEl.appendChild(row);
     });
   }

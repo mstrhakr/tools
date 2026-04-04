@@ -56,6 +56,7 @@
 
   function renderResults(data) {
     var el = document.getElementById('headers-results');
+    var e = window.mtools.escapeHtml;
 
     // Status
     var statusRow = document.createElement('div');
@@ -63,8 +64,8 @@
     var statusColor = data.status_code < 400 ? 'var(--success)' : 'var(--error)';
     statusRow.innerHTML =
       '<div class="result-label">response</div>' +
-      '<div style="color:' + statusColor + ';font-weight:700">' + data.status + '</div>' +
-      '<div style="font-size:0.8rem;color:var(--fg-muted)">' + data.url + '</div>';
+      '<div style="color:' + statusColor + ';font-weight:700">' + e(data.status) + '</div>' +
+      '<div style="font-size:0.8rem;color:var(--fg-muted)">' + e(data.url) + '</div>';
     el.appendChild(statusRow);
 
     // Security headers summary
@@ -81,8 +82,8 @@
         : '<span style="color:var(--error)">missing</span>';
       secRow.innerHTML +=
         '<div style="font-size:0.82rem;margin-top:0.35rem">' +
-          '<strong>' + h + '</strong>: ' + icon +
-          (val ? '<div style="font-size:0.78rem;color:var(--fg-muted);word-break:break-all">' + val + '</div>' : '') +
+          '<strong>' + e(h) + '</strong>: ' + icon +
+          (val ? '<div style="font-size:0.78rem;color:var(--fg-muted);word-break:break-all">' + e(val) + '</div>' : '') +
         '</div>';
     });
     el.appendChild(secRow);
@@ -94,8 +95,8 @@
     Object.keys(data.headers).sort().forEach(function (k) {
       allRow.innerHTML +=
         '<div style="margin-top:0.35rem;font-size:0.82rem">' +
-          '<span style="color:var(--accent)">' + k + '</span>: ' +
-          '<span style="word-break:break-all">' + data.headers[k] + '</span>' +
+          '<span style="color:var(--accent)">' + e(k) + '</span>: ' +
+          '<span style="word-break:break-all">' + e(data.headers[k]) + '</span>' +
         '</div>';
     });
     el.appendChild(allRow);

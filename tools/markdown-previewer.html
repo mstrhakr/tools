@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markdown Previewer - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .md-preview { line-height: 1.7; font-family: sans-serif; font-size: 0.95rem; }
+    .md-preview h1,.md-preview h2,.md-preview h3 { color: var(--fg-emphasis); margin: 1rem 0 0.5rem; }
+    .md-preview h1 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; }
+    .md-preview h2 { font-size: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.2rem; }
+    .md-preview p { margin-bottom: 0.75rem; }
+    .md-preview code { background: var(--bg-alt); padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace; font-size: 0.85rem; }
+    .md-preview pre { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; overflow-x: auto; margin-bottom: 0.75rem; }
+    .md-preview pre code { background: none; padding: 0; }
+    .md-preview blockquote { border-left: 3px solid var(--accent); margin: 0; padding: 0.25rem 1rem; color: var(--fg-muted); }
+    .md-preview ul,.md-preview ol { margin: 0 0 0.75rem 1.5rem; }
+    .md-preview a { color: var(--accent); }
+    .md-preview table { border-collapse: collapse; width: 100%; margin-bottom: 0.75rem; }
+    .md-preview th,.md-preview td { border: 1px solid var(--border); padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+    .md-preview th { background: var(--bg-alt); }
+    .md-preview hr { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+    .split-pane { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 768px) { .split-pane { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Markdown Previewer</h1>
+      <p>Write Markdown on the left, see the rendered preview on the right — live</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="btn-group mb-2">
+        <button class="btn btn-secondary btn-sm" id="btn-clear">Clear</button>
+        <button class="btn btn-secondary btn-sm" id="btn-copy-html">Copy HTML</button>
+      </div>
+      <div class="split-pane">
+        <div class="input-group" style="margin-bottom:0">
+          <label for="md-input">Markdown</label>
+          <textarea id="md-input" rows="20" placeholder="# Hello world&#10;&#10;Type **markdown** here..." style="min-height:400px"></textarea>
+        </div>
+        <div>
+          <label>Preview</label>
+          <div class="result md-preview" id="md-preview" style="min-height:400px;overflow-y:auto"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js" integrity="sha384-qo4sch09L1mBq0/b3/jSJ0Zp+cUcsFn3qOBY0qsRcO2gbzprdpxTt4OkS1e1HCz" crossorigin="anonymous"></script>
+  <script src="/js/markdown-previewer.js"></script>
+</body>
+</html>

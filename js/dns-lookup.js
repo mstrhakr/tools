@@ -8,6 +8,8 @@
     TXT: 16, SOA: 6, PTR: 12, SRV: 33, CAA: 257
   };
 
+  var ALL_TYPES = ['A', 'AAAA', 'CNAME', 'MX', 'NS', 'TXT', 'SOA', 'SRV', 'CAA'];
+
   function dohQuery(name, type) {
     var typeNum = RECORD_TYPES[type] || 1;
     var url = DOH_URL + '?name=' + encodeURIComponent(name) + '&type=' + typeNum;
@@ -45,6 +47,7 @@
   function renderResults(data, type) {
     var container = document.getElementById('dns-results');
     var statusEl = document.getElementById('dns-status');
+    var e = window.mtools.escapeHtml;
 
     var status = rcodeToText(data.Status);
     statusEl.textContent = 'Status: ' + status;
@@ -64,15 +67,56 @@
     data.Answer.forEach(function (ans) {
       var row = document.createElement('div');
       row.className = 'result mt-1';
+      var escaped = e(formatData(ans));
       row.innerHTML =
         '<div class="result-label">' + typeToName(ans.type) + ' &middot; TTL ' + ans.TTL + 's</div>' +
-        '<div style="word-break:break-all">' + formatData(ans) + '</div>' +
-        '<button class="btn btn-secondary btn-sm mt-1" data-val="' + formatData(ans).replace(/"/g, '&quot;') + '">copy</button>';
+        '<div style="word-break:break-all">' + escaped + '</div>' +
+        '<button class="btn btn-secondary btn-sm mt-1" data-val="' + escaped + '">copy</button>';
       row.querySelector('button').addEventListener('click', function (e) {
         window.mtools.copyToClipboard(e.currentTarget.dataset.val);
       });
       container.appendChild(row);
     });
+  }
+
+  function renderAllResults(results) {
+    var container = document.getElementById('dns-results');
+    var statusEl = document.getElementById('dns-status');
+    var e = window.mtools.escapeHtml;
+    statusEl.textContent = 'Queried all common record types';
+    statusEl.style.color = 'var(--fg-muted)';
+    container.innerHTML = '';
+
+    var hasAny = false;
+    results.forEach(function (res) {
+      if (!res.answers || res.answers.length === 0) return;
+      hasAny = true;
+      var section = document.createElement('div');
+      section.className = 'result mt-1';
+      var inner = '<div class="result-label" style="font-size:0.9rem;color:var(--accent)">' + res.type + ' records</div>';
+      res.answers.forEach(function (ans) {
+        var escaped = e(formatData(ans));
+        inner += '<div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-top:0.35rem">' +
+          '<span style="word-break:break-all;font-size:0.85rem">' + escaped + '<span style="color:var(--fg-muted);font-size:0.75rem"> &middot; TTL ' + ans.TTL + 's</span></span>' +
+          '<button class="btn btn-secondary btn-sm" data-val="' + escaped + '">copy</button>' +
+          '</div>';
+      });
+      section.innerHTML = inner;
+      section.querySelectorAll('button').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          window.mtools.copyToClipboard(e.currentTarget.dataset.val);
+        });
+      });
+      container.appendChild(section);
+    });
+
+    if (!hasAny) {
+      var empty = document.createElement('div');
+      empty.className = 'result mt-1';
+      empty.style.color = 'var(--fg-muted)';
+      empty.textContent = 'No records found for any common type';
+      container.appendChild(empty);
+    }
   }
 
   function lookup() {
@@ -97,18 +141,38 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    dohQuery(name, type)
-      .then(function (data) {
-        renderResults(data, type);
-      })
-      .catch(function (err) {
-        errorEl.textContent = err.message;
-        errorEl.style.display = 'block';
-      })
-      .finally(function () {
-        btn.disabled = false;
-        loader.style.display = 'none';
+    if (type === 'ALL') {
+      var promises = ALL_TYPES.map(function (t) {
+        return dohQuery(name, t).then(function (data) {
+          return { type: t, answers: data.Answer || [] };
+        }).catch(function () {
+          return { type: t, answers: [] };
+        });
       });
+      Promise.all(promises)
+        .then(function (results) { renderAllResults(results); })
+        .catch(function (err) {
+          errorEl.textContent = err.message;
+          errorEl.style.display = 'block';
+        })
+        .finally(function () {
+          btn.disabled = false;
+          loader.style.display = 'none';
+        });
+    } else {
+      dohQuery(name, type)
+        .then(function (data) {
+          renderResults(data, type);
+        })
+        .catch(function (err) {
+          errorEl.textContent = err.message;
+          errorEl.style.display = 'block';
+        })
+        .finally(function () {
+          btn.disabled = false;
+          loader.style.display = 'none';
+        });
+    }
   }
 
   function checkEmailSecurity() {
@@ -142,12 +206,13 @@
 
     Promise.all(promises).then(function (results) {
       statusEl.textContent = 'Email security check for ' + name;
+      var e = window.mtools.escapeHtml;
       results.forEach(function (res) {
         var row = document.createElement('div');
         row.className = 'result mt-1';
         var icon = res.found ? '<span style="color:var(--success)">pass</span>' : '<span style="color:var(--error)">not found</span>';
         var records = res.data.map(function (a) {
-          return '<div style="font-size:0.8rem;word-break:break-all;margin-top:0.25rem">' + formatData(a) + '</div>';
+          return '<div style="font-size:0.8rem;word-break:break-all;margin-top:0.25rem">' + e(formatData(a)) + '</div>';
         }).join('');
         row.innerHTML = '<div class="result-label">' + res.label + ' &middot; ' + icon + '</div>' + records;
         container.appendChild(row);

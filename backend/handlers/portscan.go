@@ -42,7 +42,8 @@ func PortScan(w http.ResponseWriter, r *http.Request) {
 		writeError(w, "host parameter required", http.StatusBadRequest)
 		return
 	}
-	if err := validateHost(host); err != nil {
+	pinnedIP, err := validateAndResolve(host)
+	if err != nil {
 		writeError(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -63,7 +64,8 @@ func PortScan(w http.ResponseWriter, r *http.Request) {
 			sem <- struct{}{}
 			defer func() { <-sem }()
 
-			addr := fmt.Sprintf("%s:%d", host, port)
+			// Dial the pinned IP directly to prevent DNS rebinding.
+			addr := net.JoinHostPort(pinnedIP.String(), fmt.Sprintf("%d", port))
 			conn, err := net.DialTimeout("tcp", addr, 3*time.Second)
 			open := false
 			if err == nil {

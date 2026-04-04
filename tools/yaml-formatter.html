@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YAML Formatter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>YAML Formatter</h1>
+      <p>Validate, format, and convert YAML to JSON — all in your browser</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="yaml-input">Input YAML</label>
+        <textarea id="yaml-input" rows="12" placeholder="key: value&#10;list:&#10;  - item1&#10;  - item2"></textarea>
+      </div>
+
+      <div class="btn-group mb-2">
+        <button class="btn" id="btn-validate">Validate</button>
+        <button class="btn btn-secondary" id="btn-to-json">YAML → JSON</button>
+        <button class="btn btn-secondary" id="btn-from-json">JSON → YAML</button>
+        <button class="btn btn-secondary" id="btn-clear">Clear</button>
+        <button class="btn btn-secondary btn-sm" id="btn-copy">Copy Output</button>
+      </div>
+
+      <div id="status-msg" class="mb-1" style="display:none"></div>
+
+      <div class="input-group">
+        <label>Output</label>
+        <div class="result">
+          <pre id="yaml-output" style="white-space:pre-wrap;word-break:break-word;font-size:0.85rem;line-height:1.5"><span class="text-muted">Output will appear here</span></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js" integrity="sha384-HmFBat9JiOEDEAg3vXbTVMbkfqZBXVx8ZSrTAL/cNMvf3v0A/rCz+iBCX3q+y4" crossorigin="anonymous"></script>
+  <script src="/js/yaml-formatter.js"></script>
+</body>
+</html>

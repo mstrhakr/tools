@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSV ↔ JSON Converter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>CSV ↔ JSON Converter</h1>
+      <p>Convert between CSV and JSON. First row of CSV is treated as headers.</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="csv-delimiter">Delimiter</label>
+          <select id="csv-delimiter">
+            <option value=",">Comma (,)</option>
+            <option value="	">Tab</option>
+            <option value=";">Semicolon (;)</option>
+            <option value="|">Pipe (|)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="csv-input">Input</label>
+        <textarea id="csv-input" rows="10" placeholder='name,age,city&#10;Alice,30,New York&#10;Bob,25,London'></textarea>
+      </div>
+
+      <div class="btn-group mb-2">
+        <button class="btn" id="btn-to-json">CSV → JSON</button>
+        <button class="btn btn-secondary" id="btn-to-csv">JSON → CSV</button>
+        <button class="btn btn-secondary" id="btn-clear">Clear</button>
+        <button class="btn btn-secondary btn-sm" id="btn-copy">Copy Output</button>
+      </div>
+
+      <div id="status-msg" class="mb-1" style="display:none"></div>
+
+      <div class="input-group">
+        <label>Output</label>
+        <textarea id="csv-output" rows="10" readonly></textarea>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/csv-json.js"></script>
+</body>
+</html>

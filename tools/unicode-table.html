@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ASCII / Unicode Table - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px,1fr)); gap: 0.4rem; }
+    .char-cell { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.4rem 0.3rem; text-align: center; cursor: pointer; transition: border-color 0.1s; }
+    .char-cell:hover { border-color: var(--accent); }
+    .char-cell .char-glyph { font-size: 1.1rem; color: var(--fg-emphasis); display: block; }
+    .char-cell .char-dec { font-size: 0.65rem; color: var(--fg-muted); }
+    .char-cell .char-hex { font-size: 0.65rem; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/calculator.html">calculator</a></li>
+          <li><a href="/tools/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>ASCII / Unicode Table</h1>
+      <p>Browse and search characters — click any cell to copy the character, decimal, hex, or HTML entity</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group" style="flex:3">
+          <label for="char-search">Search (character, name, decimal, or hex)</label>
+          <input type="text" id="char-search" placeholder="e.g. copyright, ©, 169, A9">
+        </div>
+        <div class="input-group" style="flex:1">
+          <label for="char-range">Range</label>
+          <select id="char-range">
+            <option value="ascii">ASCII (0–127)</option>
+            <option value="latin1">Latin-1 (128–255)</option>
+            <option value="arrows">Arrows (8592–8703)</option>
+            <option value="math">Math Ops (8704–8959)</option>
+            <option value="misc">Misc Symbols (9728–9983)</option>
+            <option value="emoji">Emoji subset (128512–128591)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-section">
+      <div id="char-detail" class="result mb-2" style="display:none"></div>
+      <div class="char-grid" id="char-grid"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/unicode-table.js"></script>
+</body>
+</html>
