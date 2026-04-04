@@ -1,6 +1,6 @@
 # mstrhakr tools
 
-A collection of useful developer and networking tools in one place. No frameworks, no build step -- just plain HTML, CSS, and JavaScript with a Solarized color theme.
+A collection of useful developer and networking tools in one place. Go backend API with docker build, pure html/css/js frontend hosted with gh-pages.
 
 **Live site:** [tools.mstrhakr.com](https://tools.mstrhakr.com)
 
