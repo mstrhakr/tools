@@ -7,8 +7,13 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
   <link rel="stylesheet" href="/css/style.css">
   <style>
-    #qr-image { border-radius: var(--radius); display: block; margin: 0 auto; max-width: 100%; height: auto; }
+    #qr-canvas { border-radius: var(--radius); display: block; margin: 0 auto; max-width: 100%; height: auto; }
     .qr-wrap { text-align: center; }
+    .qr-type-panel { display: none; }
+    .qr-type-panel.active { display: block; }
+    .qr-help { font-size: 0.8rem; color: var(--fg-muted); margin-top: 0.3rem; }
+    .checkbox-label { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.2rem; }
+    .checkbox-label input { margin-right: 0; }
   </style>
 </head>
 <body>
@@ -35,16 +40,248 @@
     </div>
 
     <div class="tool-section">
+      <h2>Content</h2>
       <div class="input-group">
-        <label for="qr-input">Text / URL</label>
-        <textarea id="qr-input" rows="4" placeholder="https://example.com"></textarea>
+        <label for="qr-type">QR type</label>
+        <select id="qr-type">
+          <option value="text" selected>Text</option>
+          <option value="url">URL</option>
+          <option value="email">Email</option>
+          <option value="phone">Phone</option>
+          <option value="sms">SMS</option>
+          <option value="wifi">Wi-Fi</option>
+          <option value="vcard">Contact (vCard)</option>
+          <option value="geo">Geo location</option>
+          <option value="event">Calendar event</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="otp">OTP / Authenticator</option>
+        </select>
+      </div>
+
+      <div class="qr-type-panel active" data-type="text">
+        <div class="input-group">
+          <label for="qr-text">Text</label>
+          <textarea id="qr-text" rows="4" placeholder="Any text"></textarea>
+        </div>
+      </div>
+
+      <div class="qr-type-panel" data-type="url">
+        <div class="input-group">
+          <label for="qr-url">URL</label>
+          <input type="text" id="qr-url" placeholder="https://example.com">
+        </div>
+      </div>
+
+      <div class="qr-type-panel" data-type="email">
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-email-to">To</label>
+            <input type="text" id="qr-email-to" placeholder="name@example.com">
+          </div>
+          <div class="input-group">
+            <label for="qr-email-subject">Subject</label>
+            <input type="text" id="qr-email-subject" placeholder="Hello">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-email-cc">CC (optional)</label>
+            <input type="text" id="qr-email-cc" placeholder="team@example.com">
+          </div>
+          <div class="input-group">
+            <label for="qr-email-bcc">BCC (optional)</label>
+            <input type="text" id="qr-email-bcc" placeholder="hidden@example.com">
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="qr-email-body">Body</label>
+          <textarea id="qr-email-body" rows="4" placeholder="Message"></textarea>
+        </div>
+      </div>
+
+      <div class="qr-type-panel" data-type="phone">
+        <div class="input-group">
+          <label for="qr-phone">Phone number</label>
+          <input type="text" id="qr-phone" placeholder="+15551234567">
+        </div>
+      </div>
+
+      <div class="qr-type-panel" data-type="sms">
+        <div class="input-group">
+          <label for="qr-sms-number">Phone number</label>
+          <input type="text" id="qr-sms-number" placeholder="+15551234567">
+        </div>
+        <div class="input-group">
+          <label for="qr-sms-message">Message</label>
+          <textarea id="qr-sms-message" rows="4" placeholder="Your message"></textarea>
+        </div>
+      </div>
+
+      <div class="qr-type-panel" data-type="wifi">
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-wifi-ssid">SSID</label>
+            <input type="text" id="qr-wifi-ssid" placeholder="MyWiFi">
+          </div>
+          <div class="input-group">
+            <label for="qr-wifi-encryption">Encryption</label>
+            <select id="qr-wifi-encryption">
+              <option value="WPA" selected>WPA/WPA2</option>
+              <option value="WEP">WEP</option>
+              <option value="nopass">Open</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="qr-wifi-password">Password</label>
+          <input type="text" id="qr-wifi-password" placeholder="Password">
+        </div>
+        <label class="checkbox-label" for="qr-wifi-hidden">
+          <input type="checkbox" id="qr-wifi-hidden"> Hidden network
+        </label>
+      </div>
+
+      <div class="qr-type-panel" data-type="vcard">
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-vcard-first">First name</label>
+            <input type="text" id="qr-vcard-first" placeholder="Jane">
+          </div>
+          <div class="input-group">
+            <label for="qr-vcard-last">Last name</label>
+            <input type="text" id="qr-vcard-last" placeholder="Doe">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-vcard-phone">Phone</label>
+            <input type="text" id="qr-vcard-phone" placeholder="+15551234567">
+          </div>
+          <div class="input-group">
+            <label for="qr-vcard-email">Email</label>
+            <input type="text" id="qr-vcard-email" placeholder="jane@example.com">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-vcard-org">Organization</label>
+            <input type="text" id="qr-vcard-org" placeholder="Acme Inc">
+          </div>
+          <div class="input-group">
+            <label for="qr-vcard-title">Title</label>
+            <input type="text" id="qr-vcard-title" placeholder="Engineer">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-vcard-website">Website</label>
+            <input type="text" id="qr-vcard-website" placeholder="https://example.com">
+          </div>
+          <div class="input-group">
+            <label for="qr-vcard-address">Address</label>
+            <input type="text" id="qr-vcard-address" placeholder="123 Main St, City">
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="qr-vcard-note">Note</label>
+          <textarea id="qr-vcard-note" rows="3" placeholder="Optional note"></textarea>
+        </div>
+      </div>
+
+      <div class="qr-type-panel" data-type="geo">
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-geo-lat">Latitude</label>
+            <input type="text" id="qr-geo-lat" placeholder="37.7749">
+          </div>
+          <div class="input-group">
+            <label for="qr-geo-lng">Longitude</label>
+            <input type="text" id="qr-geo-lng" placeholder="-122.4194">
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="qr-geo-query">Place label (optional)</label>
+          <input type="text" id="qr-geo-query" placeholder="Golden Gate Bridge">
+        </div>
+      </div>
+
+      <div class="qr-type-panel" data-type="event">
+        <div class="input-group">
+          <label for="qr-event-title">Event title</label>
+          <input type="text" id="qr-event-title" placeholder="Team Meeting">
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-event-start">Start</label>
+            <input type="datetime-local" id="qr-event-start">
+          </div>
+          <div class="input-group">
+            <label for="qr-event-end">End</label>
+            <input type="datetime-local" id="qr-event-end">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-event-location">Location</label>
+            <input type="text" id="qr-event-location" placeholder="Conference Room A">
+          </div>
+          <div class="input-group">
+            <label for="qr-event-description">Description</label>
+            <input type="text" id="qr-event-description" placeholder="Optional details">
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-type-panel" data-type="whatsapp">
+        <div class="input-group">
+          <label for="qr-wa-number">Phone number (numbers only)</label>
+          <input type="text" id="qr-wa-number" placeholder="15551234567">
+        </div>
+        <div class="input-group">
+          <label for="qr-wa-message">Prefilled message</label>
+          <textarea id="qr-wa-message" rows="4" placeholder="Hello"></textarea>
+        </div>
+      </div>
+
+      <div class="qr-type-panel" data-type="otp">
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-otp-label">Account label</label>
+            <input type="text" id="qr-otp-label" placeholder="name@example.com">
+          </div>
+          <div class="input-group">
+            <label for="qr-otp-issuer">Issuer</label>
+            <input type="text" id="qr-otp-issuer" placeholder="My App">
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="qr-otp-secret">Secret (Base32)</label>
+          <input type="text" id="qr-otp-secret" placeholder="JBSWY3DPEHPK3PXP">
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label for="qr-otp-digits">Digits</label>
+            <select id="qr-otp-digits">
+              <option value="6" selected>6</option>
+              <option value="8">8</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="qr-otp-period">Period (sec)</label>
+            <input type="number" id="qr-otp-period" min="10" max="120" value="30">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-section">
+      <h2>Display</h2>
+      <div class="input-group">
+        <label for="qr-size">Size (px)</label>
+        <input type="number" id="qr-size" value="256" min="64" max="1024" step="32">
       </div>
 
       <div class="input-row">
-        <div class="input-group">
-          <label for="qr-size">Size (px)</label>
-          <input type="number" id="qr-size" value="256" min="64" max="1024" step="32">
-        </div>
         <div class="input-group">
           <label for="qr-ec">Error correction</label>
           <select id="qr-ec">
@@ -54,7 +291,61 @@
             <option value="H">H (high, 30%)</option>
           </select>
         </div>
+        <div class="input-group">
+          <label for="qr-margin">Margin</label>
+          <input type="number" id="qr-margin" value="2" min="0" max="20" step="1">
+        </div>
       </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="qr-dark">QR color</label>
+          <input type="color" id="qr-dark" value="#000000">
+        </div>
+        <div class="input-group">
+          <label for="qr-light">Background color</label>
+          <input type="color" id="qr-light" value="#ffffff">
+        </div>
+        <div class="input-group">
+          <label for="qr-frame-padding">Frame padding</label>
+          <input type="number" id="qr-frame-padding" value="0" min="0" max="256" step="4">
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="qr-frame-bg">Frame color</label>
+          <input type="color" id="qr-frame-bg" value="#ffffff">
+        </div>
+        <div class="input-group">
+          <label for="qr-bg-opacity">Background image opacity (%)</label>
+          <input type="range" id="qr-bg-opacity" min="0" max="100" value="30">
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="qr-bg-image">Background image (optional)</label>
+          <input type="file" id="qr-bg-image" accept="image/*">
+        </div>
+        <div class="input-group">
+          <label for="qr-center-image">Center image/logo (optional)</label>
+          <input type="file" id="qr-center-image" accept="image/*">
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="qr-center-scale">Center image size (%)</label>
+          <input type="range" id="qr-center-scale" min="10" max="35" value="20">
+        </div>
+        <div class="input-group">
+          <label for="qr-center-padding">Center image padding (px)</label>
+          <input type="number" id="qr-center-padding" value="8" min="0" max="32" step="1">
+        </div>
+      </div>
+
+      <p class="qr-help">Tip: use error correction level Q or H when adding a center image for better scan reliability.</p>
 
       <div class="btn-group">
         <button class="btn" id="btn-generate">Generate</button>
@@ -65,7 +356,7 @@
     </div>
 
     <div class="tool-section qr-wrap" id="qr-output" style="display:none">
-      <img id="qr-image" alt="Generated QR code">
+      <canvas id="qr-canvas"></canvas>
     </div>
   </main>
 
