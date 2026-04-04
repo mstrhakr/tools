@@ -38,6 +38,30 @@
       font-size: 0.875rem;
       cursor: pointer;
     }
+    details.regex-help {
+      margin-top: 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem;
+      background: var(--bg-alt);
+    }
+    details.regex-help summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .regex-help-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+    }
+    .regex-help-table th,
+    .regex-help-table td {
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      padding: 0.45rem 0.35rem;
+      vertical-align: top;
+    }
   </style>
 </head>
 <body>
@@ -61,6 +85,7 @@
     <div class="tool-header">
       <h1>Regex Tester</h1>
       <p>Test regular expressions with live match highlighting and group capture display</p>
+      <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--fg-muted);">Need help building a regex first? <a href="/tools/regex-generator.html">Use the Regex Generator</a>.</p>
     </div>
 
     <div class="tool-section">
@@ -94,6 +119,28 @@
     </div>
 
     <div id="regex-matches"></div>
+
+    <details class="regex-help">
+      <summary>Regex help for beginners</summary>
+      <table class="regex-help-table">
+        <thead>
+          <tr><th>Token</th><th>Meaning</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>^ and $</td><td>Start and end anchors. Use both to force a full match.</td><td>^\\d+$</td></tr>
+          <tr><td>[abc]</td><td>One character from this set.</td><td>[aeiou]</td></tr>
+          <tr><td>[a-z]</td><td>One character in this range.</td><td>[A-Z]{2}</td></tr>
+          <tr><td>\\d / \\w / \\s</td><td>Digit / word char / whitespace shortcuts.</td><td>\\w+@\\w+\\.\\w+</td></tr>
+          <tr><td>+</td><td>One or more.</td><td>\\d+</td></tr>
+          <tr><td>*</td><td>Zero or more.</td><td>a*</td></tr>
+          <tr><td>?</td><td>Optional (zero or one).</td><td>colou?r</td></tr>
+          <tr><td>{m,n}</td><td>Repeat between m and n times.</td><td>[a-z]{3,8}</td></tr>
+          <tr><td>(...)</td><td>Capture group (shown below in match results).</td><td>(\\d{4})-(\\d{2})</td></tr>
+          <tr><td>|</td><td>OR between alternatives.</td><td>cat|dog</td></tr>
+        </tbody>
+      </table>
+      <p style="margin:0.75rem 0 0;color:var(--fg-muted);">Quick tip: start simple, test often, and only add complexity one token at a time.</p>
+    </details>
   </main>
 
   <footer class="site-footer">

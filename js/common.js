@@ -58,6 +58,7 @@
     { category: 'security',  name: 'JWT Decoder',            url: '/tools/jwt-decoder.html' },
     // Dev
     { category: 'dev',       name: 'Regex Tester',           url: '/tools/regex-tester.html' },
+    { category: 'dev',       name: 'Regex Generator',        url: '/tools/regex-generator.html' },
     { category: 'dev',       name: 'Chmod Calculator',       url: '/tools/chmod-calculator.html' },
     { category: 'dev',       name: 'Cron Parser',            url: '/tools/cron-parser.html' },
     { category: 'dev',       name: 'User-Agent Parser',      url: '/tools/ua-parser.html' }

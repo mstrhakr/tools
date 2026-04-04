@@ -110,6 +110,23 @@
   }
 
   function init() {
+    var params = new URLSearchParams(window.location.search);
+    var patternFromUrl = params.get('pattern');
+    var testFromUrl = params.get('test');
+    var flagsFromUrl = params.get('flags') || '';
+
+    if (patternFromUrl !== null) {
+      document.getElementById('regex-pattern').value = patternFromUrl;
+    }
+    if (testFromUrl !== null) {
+      document.getElementById('regex-test').value = testFromUrl;
+    }
+    ['g', 'i', 'm', 's', 'u'].forEach(function (f) {
+      if (flagsFromUrl.indexOf(f) !== -1) {
+        document.getElementById('flag-' + f).checked = true;
+      }
+    });
+
     ['regex-pattern', 'regex-test'].forEach(function (id) {
       document.getElementById(id).addEventListener('input', function () {
         clearTimeout(matchTimeout);
@@ -124,6 +141,8 @@
       document.getElementById('regex-test').value = '';
       run();
     });
+
+    run();
   }
 
   document.addEventListener('DOMContentLoaded', init);
