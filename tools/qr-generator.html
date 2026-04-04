@@ -7,7 +7,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
   <link rel="stylesheet" href="/css/style.css">
   <style>
-    #qr-canvas { border-radius: var(--radius); display: block; margin: 0 auto; }
+    #qr-image { border-radius: var(--radius); display: block; margin: 0 auto; max-width: 100%; height: auto; }
     .qr-wrap { text-align: center; }
   </style>
 </head>
@@ -65,7 +65,7 @@
     </div>
 
     <div class="tool-section qr-wrap" id="qr-output" style="display:none">
-      <canvas id="qr-canvas"></canvas>
+      <img id="qr-image" alt="Generated QR code">
     </div>
   </main>
 
