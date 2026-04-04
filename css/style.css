@@ -224,7 +224,7 @@ a:hover {
 .nav-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 0.6rem);
+  top: 100%;
   left: 0;
   background-color: var(--bg-alt);
   border: 1px solid var(--border);

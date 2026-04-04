@@ -68,6 +68,14 @@
     var navLinks = document.querySelector('.nav-links');
     if (!navLinks) return;
 
+    function closeAllDropdowns() {
+      navLinks.querySelectorAll('.nav-has-dropdown.open').forEach(function (li) {
+        li.classList.remove('open');
+        var t = li.querySelector('.nav-dropdown-toggle');
+        if (t) t.setAttribute('aria-expanded', 'false');
+      });
+    }
+
     // Group tools by category, preserving insertion order
     var categoryOrder = [];
     var categories = {};
@@ -121,6 +129,9 @@
         var a = document.createElement('a');
         a.href = tool.url;
         a.textContent = tool.name;
+        a.addEventListener('click', function () {
+          closeAllDropdowns();
+        });
         if (currentPath === tool.url) {
           a.classList.add('active');
           toggle.classList.add('active');
@@ -175,23 +186,20 @@
     // Close all dropdowns when clicking outside
     document.addEventListener('click', function (e) {
       if (!e.target.closest('.nav-has-dropdown')) {
-        navLinks.querySelectorAll('.nav-has-dropdown.open').forEach(function (li) {
-          li.classList.remove('open');
-          var t = li.querySelector('.nav-dropdown-toggle');
-          if (t) t.setAttribute('aria-expanded', 'false');
-        });
+        closeAllDropdowns();
       }
     });
 
     // Close all dropdowns on Escape
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        navLinks.querySelectorAll('.nav-has-dropdown.open').forEach(function (li) {
-          li.classList.remove('open');
-          var t = li.querySelector('.nav-dropdown-toggle');
-          if (t) t.setAttribute('aria-expanded', 'false');
-        });
+        closeAllDropdowns();
       }
+    });
+
+    // When restoring from bfcache, avoid stale open dropdown state.
+    window.addEventListener('pageshow', function () {
+      closeAllDropdowns();
     });
   }
 
