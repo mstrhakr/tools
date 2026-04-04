@@ -183,6 +183,89 @@ a:hover {
   font-family: inherit;
 }
 
+/* --- Nav Dropdowns --- */
+.nav-has-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: none;
+  border: none;
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-dropdown-toggle:hover,
+.nav-has-dropdown:hover .nav-dropdown-toggle,
+.nav-has-dropdown.open .nav-dropdown-toggle {
+  color: var(--fg-emphasis);
+  border-bottom-color: var(--accent);
+}
+
+.nav-caret {
+  font-size: 0.65rem;
+  transition: transform 0.15s ease;
+  line-height: 1;
+}
+
+.nav-has-dropdown.open .nav-caret {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 0;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.4rem 0;
+  min-width: 210px;
+  list-style: none;
+  z-index: 200;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.nav-has-dropdown:hover .nav-dropdown,
+.nav-has-dropdown.open .nav-dropdown {
+  display: block;
+}
+
+.nav-dropdown li a {
+  display: block;
+  padding: 0.4rem 1rem;
+  white-space: nowrap;
+  color: var(--fg-muted);
+  border-bottom: none;
+  font-size: 0.85rem;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.nav-dropdown li a:hover,
+.nav-dropdown li a.active {
+  background-color: var(--bg);
+  color: var(--fg-emphasis);
+  border-bottom: none;
+}
+
+.nav-stats {
+  color: var(--fg-muted) !important;
+}
+
+.nav-stats:hover {
+  color: var(--accent-hover) !important;
+}
+
 /* Mobile nav */
 @media (max-width: 768px) {
   .hamburger {
@@ -208,6 +291,27 @@ a:hover {
 
   .site-header {
     position: relative;
+  }
+
+  /* Dropdown overrides for mobile */
+  .nav-has-dropdown:hover .nav-dropdown {
+    display: none; /* hover doesn't work on touch; rely on .open class */
+  }
+
+  .nav-has-dropdown.open .nav-dropdown {
+    display: block;
+    position: static;
+    box-shadow: none;
+    border: none;
+    border-left: 2px solid var(--border);
+    border-radius: 0;
+    padding: 0.25rem 0 0.25rem 0.75rem;
+    min-width: unset;
+    margin-top: 0.25rem;
+  }
+
+  .nav-has-dropdown.open .nav-dropdown li a {
+    padding: 0.35rem 0.5rem;
   }
 }
 
