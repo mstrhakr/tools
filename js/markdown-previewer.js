@@ -4,16 +4,25 @@
   var rawHtml = '';
 
   function render() {
+    var markedLib = window.marked;
+    var preview = document.getElementById('md-preview');
+
+    if (!markedLib || typeof markedLib.parse !== 'function') {
+      rawHtml = '';
+      preview.textContent = 'Markdown parser failed to load. Refresh and try again.';
+      return;
+    }
+
     var val = document.getElementById('md-input').value;
     // marked with safe defaults - no HTML passthrough
-    var html = marked.parse(val, {
+    var html = markedLib.parse(val, {
       gfm: true,
       breaks: true,
       mangle: false,
       headerIds: false
     });
     rawHtml = html;
-    document.getElementById('md-preview').innerHTML = html;
+    preview.innerHTML = html;
   }
 
   document.addEventListener('DOMContentLoaded', function () {
