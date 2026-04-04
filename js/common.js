@@ -142,12 +142,22 @@
     });
   }
 
+  // --- GoatCounter Analytics ---
+  function initGoatCounter() {
+    var s = document.createElement('script');
+    s.setAttribute('data-goatcounter', 'https://mstrhakr-tools.goatcounter.com/count');
+    s.async = true;
+    s.src = '//gc.zgo.at/count.js';
+    document.head.appendChild(s);
+  }
+
   // --- Init ---
   document.addEventListener('DOMContentLoaded', function () {
     initTheme();
     initMobileNav();
     initActiveLink();
     initSearch();
+    initGoatCounter();
   });
 
   // Expose utilities globally for tool pages
