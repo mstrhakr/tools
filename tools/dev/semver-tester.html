@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semver Comparator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Semver Comparator</h1>
+      <p>Compare semantic versions and test whether a version satisfies a range expression</p>
+    </div>
+
+    <div class="tool-section">
+      <h2>Version Compare</h2>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="sv-a">Version A</label>
+          <input type="text" id="sv-a" value="1.2.3" placeholder="1.2.3">
+        </div>
+        <div class="input-group">
+          <label for="sv-b">Version B</label>
+          <input type="text" id="sv-b" value="1.3.0" placeholder="2.0.0-beta.1">
+        </div>
+      </div>
+      <div class="result mt-1">
+        <div class="result-label">Comparison result</div>
+        <div id="sv-compare-result" class="result-value" style="font-size:1rem">--</div>
+      </div>
+    </div>
+
+    <div class="tool-section">
+      <h2>Range Test</h2>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="sv-version">Version</label>
+          <input type="text" id="sv-version" value="1.4.5" placeholder="1.4.5">
+        </div>
+        <div class="input-group">
+          <label for="sv-range">Range</label>
+          <input type="text" id="sv-range" value="^1.2.0" placeholder=">=1.2.0 <2.0.0">
+        </div>
+      </div>
+      <div class="result mt-1">
+        <div class="result-label">Range match</div>
+        <div id="sv-range-result" class="result-value" style="font-size:1rem">--</div>
+      </div>
+      <div id="sv-status" class="mt-1 text-muted"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Supported range syntax</h3>
+      <ul>
+        <li>Comparators: <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>=</code></li>
+        <li>Tilde: <code>~1.2.3</code></li>
+        <li>Caret: <code>^1.2.3</code></li>
+        <li>Wildcards: <code>1.x</code>, <code>1.2.*</code></li>
+        <li>Space-separated AND clauses, for example <code>&gt;=1.2.0 &lt;2.0.0</code></li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/semver-tester.js"></script>
+</body>
+</html>

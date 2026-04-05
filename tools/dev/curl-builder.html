@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>cURL Builder - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>cURL Builder</h1>
+      <p>Construct cURL commands from method, URL, headers, auth, and body fields</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="curl-method">Method</label>
+          <select id="curl-method">
+            <option>GET</option>
+            <option>POST</option>
+            <option>PUT</option>
+            <option>PATCH</option>
+            <option>DELETE</option>
+            <option>HEAD</option>
+            <option>OPTIONS</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex:3">
+          <label for="curl-url">URL</label>
+          <input type="text" id="curl-url" placeholder="https://api.example.com/v1/users">
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="curl-auth-type">Auth</label>
+          <select id="curl-auth-type">
+            <option value="none" selected>None</option>
+            <option value="bearer">Bearer token</option>
+            <option value="basic">Basic user:pass</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex:3">
+          <label for="curl-auth-value">Auth value</label>
+          <input type="text" id="curl-auth-value" placeholder="token or user:pass">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="curl-headers">Headers (one per line, Key: Value)</label>
+        <textarea id="curl-headers" rows="5" placeholder="Content-Type: application/json\nAccept: application/json"></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="curl-body">Body</label>
+        <textarea id="curl-body" rows="6" placeholder='{"name":"alice"}'></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-curl-build">Build</button>
+        <button class="btn btn-secondary" id="btn-curl-copy">copy command</button>
+      </div>
+
+      <div id="curl-status" class="mt-1 text-muted"></div>
+
+      <div class="input-group mt-2">
+        <label for="curl-output">Command</label>
+        <textarea id="curl-output" rows="7" readonly></textarea>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/curl-builder.js"></script>
+</body>
+</html>

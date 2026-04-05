@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTTP Status Reference - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>HTTP Status Reference</h1>
+      <p>Look up status codes with concise meanings and common troubleshooting hints</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="hsr-query">Search by code or phrase</label>
+          <input type="text" id="hsr-query" placeholder="404, unauthorized, gateway timeout">
+        </div>
+        <div class="input-group" style="flex:0 0 auto;align-self:flex-end">
+          <button class="btn" id="btn-hsr-search">Search</button>
+        </div>
+      </div>
+      <table class="conversion-table mt-2" id="hsr-results">
+        <thead>
+          <tr><th>Code</th><th>Name</th><th>Class</th><th>Meaning</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="tool-info">
+      <h3>Classes</h3>
+      <ul>
+        <li>1xx informational</li>
+        <li>2xx success</li>
+        <li>3xx redirection</li>
+        <li>4xx client errors</li>
+        <li>5xx server errors</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/http-status-reference.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Env Parser - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Env Parser</h1>
+      <p>Parse .env content into JSON and normalize keys and values for debugging configuration issues</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="env-input">.env input</label>
+        <textarea id="env-input" rows="10" placeholder="APP_ENV=production\nPORT=8080\nDEBUG=false"></textarea>
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="btn-env-parse">Parse</button>
+        <button class="btn btn-secondary" id="btn-env-copy-json">copy json</button>
+        <button class="btn btn-secondary" id="btn-env-copy-env">copy normalized env</button>
+      </div>
+      <div id="env-status" class="mt-1 text-muted"></div>
+
+      <div class="input-group mt-2">
+        <label for="env-json-output">JSON output</label>
+        <textarea id="env-json-output" rows="9" readonly></textarea>
+      </div>
+
+      <div class="input-group mt-2">
+        <label for="env-normalized-output">Normalized env</label>
+        <textarea id="env-normalized-output" rows="9" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Behavior</h3>
+      <ul>
+        <li>Supports optional <code>export</code> prefix.</li>
+        <li>Ignores blank lines and comments starting with <code>#</code>.</li>
+        <li>Parses single or double quoted values and unescapes common sequences in double quotes.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/env-parser.js"></script>
+</body>
+</html>
