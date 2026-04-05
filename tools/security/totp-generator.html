@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOTP Generator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>TOTP Generator</h1>
+      <p>Generate one-time authentication codes from a Base32 secret using RFC 6238 timing</p>
+    </div>
+
+    <div class="tool-section" style="max-width:620px">
+      <div class="input-row">
+        <div class="input-group" style="flex:3">
+          <label for="totp-secret">Base32 secret</label>
+          <input type="text" id="totp-secret" placeholder="JBSWY3DPEHPK3PXP">
+        </div>
+        <div class="input-group">
+          <label for="totp-digits">Digits</label>
+          <select id="totp-digits">
+            <option value="6" selected>6</option>
+            <option value="8">8</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="result mt-2">
+        <div class="result-label">Current code</div>
+        <div id="totp-code" class="result-value" style="font-size:2rem;letter-spacing:0.1em">------</div>
+      </div>
+
+      <div class="stats-grid mt-2">
+        <div class="stat-item"><div id="totp-epoch" class="stat-value">--</div><div class="stat-label">Unix Time</div></div>
+        <div class="stat-item"><div id="totp-step" class="stat-value">--</div><div class="stat-label">Step</div></div>
+        <div class="stat-item"><div id="totp-remaining" class="stat-value">--</div><div class="stat-label">Seconds Left</div></div>
+      </div>
+
+      <div id="totp-status" class="mt-2 text-muted"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Compatibility</h3>
+      <p>This implementation uses HMAC-SHA1 with 30-second windows by default, matching common authenticator apps and most MFA providers.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/totp-generator.js"></script>
+</body>
+</html>

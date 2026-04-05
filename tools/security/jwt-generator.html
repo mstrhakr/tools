@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JWT Generator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>JWT Generator</h1>
+      <p>Generate signed HS256 JSON Web Tokens from custom payload claims</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="jwtg-secret">Secret</label>
+          <input type="text" id="jwtg-secret" placeholder="Signing key">
+        </div>
+        <div class="input-group">
+          <label for="jwtg-exp">Expiration (minutes)</label>
+          <input type="number" id="jwtg-exp" min="1" value="60">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="jwtg-payload">Payload JSON</label>
+        <textarea id="jwtg-payload" rows="8"></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-jwtg-generate">Generate JWT</button>
+        <button class="btn btn-secondary" id="btn-jwtg-copy">copy token</button>
+      </div>
+
+      <div id="jwtg-status" class="mt-2 text-muted"></div>
+
+      <div class="input-group mt-2">
+        <label for="jwtg-output">JWT token</label>
+        <textarea id="jwtg-output" rows="5" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Notes</h3>
+      <p>This generator signs using HS256 (HMAC-SHA256). Keep production signing keys server-side; this tool is intended for local testing and debugging workflows.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/jwt-generator.js"></script>
+</body>
+</html>

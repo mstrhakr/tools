@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HMAC Generator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>HMAC Generator</h1>
+      <p>Generate keyed message digests with HMAC-SHA256, SHA384, and SHA512 using WebCrypto</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="hmac-alg">Algorithm</label>
+          <select id="hmac-alg">
+            <option value="SHA-256" selected>HMAC-SHA256</option>
+            <option value="SHA-384">HMAC-SHA384</option>
+            <option value="SHA-512">HMAC-SHA512</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="hmac-encoding">Output encoding</label>
+          <select id="hmac-encoding">
+            <option value="hex" selected>Hex</option>
+            <option value="base64">Base64</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="hmac-key">Secret key</label>
+        <input type="text" id="hmac-key" placeholder="Enter signing key">
+      </div>
+
+      <div class="input-group">
+        <label for="hmac-message">Message</label>
+        <textarea id="hmac-message" rows="6" placeholder="Message to sign"></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-hmac">Generate</button>
+        <button class="btn btn-secondary" id="btn-hmac-copy">copy output</button>
+      </div>
+
+      <div id="hmac-status" class="mt-2 text-muted"></div>
+      <div class="result mt-2">
+        <div class="result-label">HMAC</div>
+        <div id="hmac-output" class="result-value" style="font-size:0.9rem;word-break:break-all">--</div>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>What HMAC provides</h3>
+      <ul>
+        <li>HMAC provides message integrity and authenticity when both sides share the same secret key.</li>
+        <li>If the message or signature changes, verification fails.</li>
+        <li>This tool signs only; verification can be done by recalculating HMAC and comparing in constant time on the server.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/hmac-generator.js"></script>
+</body>
+</html>
