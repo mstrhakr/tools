@@ -250,6 +250,14 @@ func main() {
 		http.HandlerFunc(handlers.MTASTS),
 		rateLimitMiddleware(defaultRL),
 	))
+	mux.Handle("GET /api/bimi", chain(
+		http.HandlerFunc(handlers.BIMI),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/tlsrpt", chain(
+		http.HandlerFunc(handlers.TLSRPT),
+		rateLimitMiddleware(defaultRL),
+	))
 
 	handler := corsMiddleware(mux)
 
