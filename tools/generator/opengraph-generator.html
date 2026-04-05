@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open Graph Generator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Open Graph Generator</h1>
+      <p>Create Open Graph and Twitter meta tags with a live card preview snippet</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="og-title">Title</label>
+          <input type="text" id="og-title" placeholder="Page title">
+        </div>
+        <div class="input-group">
+          <label for="og-url">URL</label>
+          <input type="text" id="og-url" placeholder="https://example.com/post">
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="og-site-name">Site name</label>
+          <input type="text" id="og-site-name" placeholder="Example">
+        </div>
+        <div class="input-group">
+          <label for="og-type">Type</label>
+          <select id="og-type">
+            <option value="website" selected>website</option>
+            <option value="article">article</option>
+            <option value="profile">profile</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="og-description">Description</label>
+        <textarea id="og-description" rows="4" placeholder="Summary shown on social cards"></textarea>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label for="og-image">Image URL</label>
+          <input type="text" id="og-image" placeholder="https://example.com/card.png">
+        </div>
+        <div class="input-group">
+          <label for="og-twitter-card">Twitter card type</label>
+          <select id="og-twitter-card">
+            <option value="summary_large_image" selected>summary_large_image</option>
+            <option value="summary">summary</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="og-twitter-site">Twitter @site (optional)</label>
+        <input type="text" id="og-twitter-site" placeholder="@example">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-og-generate">Generate Tags</button>
+        <button class="btn btn-secondary" id="btn-og-copy">copy output</button>
+      </div>
+
+      <div class="input-group mt-2">
+        <label for="og-output">Meta tags</label>
+        <textarea id="og-output" rows="12" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Usage</h3>
+      <p>Paste the generated tags inside your HTML <code>&lt;head&gt;</code> section. Use absolute URLs for canonical links and images.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/opengraph-generator.js"></script>
+</body>
+</html>

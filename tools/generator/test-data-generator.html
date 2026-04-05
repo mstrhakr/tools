@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test Data Generator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Test Data Generator</h1>
+      <p>Generate realistic user-like records for local development and testing</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="tdg-count">Rows</label>
+          <input type="number" id="tdg-count" min="1" max="500" value="10">
+        </div>
+        <div class="input-group">
+          <label for="tdg-format">Format</label>
+          <select id="tdg-format">
+            <option value="json" selected>JSON array</option>
+            <option value="ndjson">NDJSON</option>
+            <option value="csv">CSV</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="tdg-seed">Seed (optional)</label>
+          <input type="text" id="tdg-seed" placeholder="stable-seed">
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-tdg-generate">Generate</button>
+        <button class="btn btn-secondary" id="btn-tdg-copy">copy output</button>
+      </div>
+
+      <div class="input-group mt-2">
+        <label for="tdg-output">Output</label>
+        <textarea id="tdg-output" rows="14" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Fields generated</h3>
+      <p>Each row includes id, fullName, email, username, company, IPv4 address, createdAt, and active flag. Values are synthetic and non-production.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/test-data-generator.js"></script>
+</body>
+</html>
