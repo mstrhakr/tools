@@ -234,6 +234,14 @@ func main() {
 		http.HandlerFunc(handlers.HTTPSecurity),
 		rateLimitMiddleware(defaultRL),
 	))
+	mux.Handle("GET /api/siteaudit", chain(
+		http.HandlerFunc(handlers.SiteAudit),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/crawlcheck", chain(
+		http.HandlerFunc(handlers.CrawlCheck),
+		rateLimitMiddleware(defaultRL),
+	))
 
 	handler := corsMiddleware(mux)
 
