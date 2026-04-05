@@ -258,6 +258,14 @@ func main() {
 		http.HandlerFunc(handlers.TLSRPT),
 		rateLimitMiddleware(defaultRL),
 	))
+	mux.Handle("GET /api/dane", chain(
+		http.HandlerFunc(handlers.DANE),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/dnssec", chain(
+		http.HandlerFunc(handlers.DNSSEC),
+		rateLimitMiddleware(defaultRL),
+	))
 
 	handler := corsMiddleware(mux)
 
