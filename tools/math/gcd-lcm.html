@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GCD / LCM Calculator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>GCD / LCM Calculator</h1>
+      <p>Find the greatest common divisor and least common multiple for any list of integers</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="gcd-input">Integers</label>
+        <textarea id="gcd-input" rows="6" placeholder="24, 36, 60"></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-gcd">Calculate</button>
+      </div>
+
+      <div id="gcd-results"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Math background</h3>
+      <ul>
+        <li><strong>GCD</strong> is the largest positive integer that divides every input without a remainder.</li>
+        <li><strong>LCM</strong> is the smallest positive integer that every input divides evenly into.</li>
+        <li>The calculator uses Euclid's algorithm, which repeatedly replaces a pair <code>(a, b)</code> with <code>(b, a mod b)</code> until the remainder is zero.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/gcd-lcm.js"></script>
+</body>
+</html>
