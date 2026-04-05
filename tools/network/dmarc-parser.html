@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DMARC Parser - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>DMARC Parser</h1>
+      <p>Parse and validate DMARC TXT records for policy and reporting tags</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="dmarc-input">DMARC record</label>
+        <textarea id="dmarc-input" rows="6" placeholder="v=DMARC1; p=none; rua=mailto:dmarc@example.com"></textarea>
+      </div>
+      <div class="btn-group mt-1">
+        <button class="btn" id="btn-dmarc-parse">Parse DMARC</button>
+        <button class="btn btn-secondary" id="btn-dmarc-sample">Load sample</button>
+      </div>
+      <div id="dmarc-status" class="mt-1 text-muted"></div>
+      <div id="dmarc-results" class="mt-2"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>What to check</h3>
+      <ul>
+        <li><code>p=none</code> is monitor-only; <code>quarantine</code> and <code>reject</code> enforce stricter action.</li>
+        <li><code>rua</code> enables aggregate reports and helps verify alignment at scale.</li>
+        <li><code>adkim</code> and <code>aspf</code> control DKIM/SPF alignment strictness.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/dmarc-parser.js"></script>
+</body>
+</html>
