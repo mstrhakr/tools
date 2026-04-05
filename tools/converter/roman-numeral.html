@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roman Numeral Converter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Roman Numeral Converter</h1>
+      <p>Convert between decimal numbers and Roman numerals with canonical validation</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="roman-input">Decimal or Roman numeral</label>
+        <input type="text" id="roman-input" placeholder="1999 or MCMXCIX" autocomplete="off" spellcheck="false">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-roman">Convert</button>
+      </div>
+
+      <div id="roman-results"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Rules used</h3>
+      <ul>
+        <li>The standard range is 1 through 3999 using the symbols I, V, X, L, C, D, and M.</li>
+        <li>Subtractive notation is supported for values such as IV, IX, XL, XC, CD, and CM.</li>
+        <li>Roman numeral input is re-encoded after parsing so non-canonical forms can be rejected.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/roman-numeral.js"></script>
+</body>
+</html>
