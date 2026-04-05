@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ASN Lookup - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>ASN Lookup <span class="badge badge-api">backend api</span></h1>
+      <p>Map an IP address to ASN, network prefix, RIR and organization details</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group" style="flex:3">
+          <label for="asn-ip">IP address</label>
+          <input type="text" id="asn-ip" placeholder="1.1.1.1" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="input-group" style="flex:0 0 auto;align-self:flex-end">
+          <button class="btn" id="btn-asn">Lookup</button>
+        </div>
+      </div>
+      <span id="asn-loader" style="display:none;color:var(--fg-muted);font-size:0.875rem">querying...</span>
+      <div id="asn-error" class="text-error mt-1" style="display:none"></div>
+    </div>
+
+    <div id="asn-results"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/asn-lookup.js"></script>
+</body>
+</html>

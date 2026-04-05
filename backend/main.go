@@ -214,6 +214,18 @@ func main() {
 		http.HandlerFunc(handlers.Traceroute),
 		rateLimitMiddleware(heavyRL),
 	))
+	mux.Handle("GET /api/dnsinspect", chain(
+		http.HandlerFunc(handlers.DNSInspect),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/asn", chain(
+		http.HandlerFunc(handlers.ASNLookup),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/dnsprop", chain(
+		http.HandlerFunc(handlers.DNSPropagation),
+		rateLimitMiddleware(defaultRL),
+	))
 
 	handler := corsMiddleware(mux)
 
