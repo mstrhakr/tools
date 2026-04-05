@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MIME Type Lookup - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>MIME Type Lookup</h1>
+      <p>Look up a MIME type by file extension or reverse-search common extensions for a content type</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="mime-query">Extension or MIME type</label>
+          <input type="text" id="mime-query" placeholder="json, .svg, text/html, application/ld+json" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="input-group" style="flex:0 0 auto;align-self:flex-end">
+          <button class="btn" id="btn-mime">Lookup</button>
+        </div>
+      </div>
+
+      <div id="mime-results"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>How to use it</h3>
+      <ul>
+        <li>Enter an extension like <code>json</code> or <code>.tar.gz</code> to look up the most common content type.</li>
+        <li>Enter a MIME type like <code>application/json</code> to see common extensions and a short note.</li>
+        <li>The dataset is local and intentionally focused on common engineering and web file types rather than every registered media type.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/mime-type-lookup.js"></script>
+</body>
+</html>
