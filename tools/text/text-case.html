@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Case Converter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Text Case Converter</h1>
+      <p>Convert text between common naming and writing styles used in code, URLs, and prose</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="case-input">Input text</label>
+        <textarea id="case-input" rows="8" placeholder="Paste text, a variable name, or a sentence"></textarea>
+      </div>
+      <div id="case-results"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>What gets converted</h3>
+      <ul>
+        <li><strong>camelCase</strong>, <strong>PascalCase</strong>, <strong>snake_case</strong>, and <strong>kebab-case</strong> are common identifier styles in codebases and URLs.</li>
+        <li><strong>Sentence case</strong> and <strong>Title Case</strong> are useful for user-facing copy and documentation.</li>
+        <li>Input is tokenized by whitespace, punctuation, dashes, underscores, and camelCase boundaries before each output is rebuilt in the target format.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/text-case.js"></script>
+</body>
+</html>
