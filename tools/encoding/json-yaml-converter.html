@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSON / YAML Converter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>JSON / YAML Converter</h1>
+      <p>Convert between JSON and YAML with validation, formatting, and copy-ready output</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="jy-direction">Direction</label>
+          <select id="jy-direction">
+            <option value="json-to-yaml" selected>JSON to YAML</option>
+            <option value="yaml-to-json">YAML to JSON</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex:0 0 auto;align-self:flex-end">
+          <button class="btn" id="btn-jy-convert">Convert</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="jy-input">Input</label>
+        <textarea id="jy-input" rows="12" placeholder="Paste JSON or YAML input"></textarea>
+      </div>
+
+      <div class="btn-group mb-2">
+        <button class="btn btn-secondary" id="btn-jy-format">Format Input</button>
+        <button class="btn btn-secondary" id="btn-jy-copy">Copy Output</button>
+        <button class="btn btn-secondary" id="btn-jy-clear">Clear</button>
+      </div>
+
+      <div id="jy-status" class="mb-1 text-muted"></div>
+
+      <div class="input-group">
+        <label for="jy-output">Output</label>
+        <textarea id="jy-output" rows="12" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Conversion behavior</h3>
+      <ul>
+        <li>JSON output is pretty-printed with two-space indentation.</li>
+        <li>YAML output uses two-space indentation and block style where possible.</li>
+        <li>All parsing and conversion runs in the browser using the same parser family as the existing YAML formatter.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js" integrity="sha384-HmFBat9JiOEDEAg3vXbTVMbkfqZBXVx8ZSrTAL/cNMvf3v0A/rCz+iBCX3q+y4" crossorigin="anonymous"></script>
+  <script src="/js/json-yaml-converter.js"></script>
+</body>
+</html>

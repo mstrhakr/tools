@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hex Viewer - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .hex-grid { font-family: monospace; font-size: 0.85rem; line-height: 1.5; white-space: pre; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Hex Viewer</h1>
+      <p>Inspect text or raw bytes in a classic hex-dump view and convert back from hex input</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="hex-input-mode">Input mode</label>
+          <select id="hex-input-mode">
+            <option value="text" selected>Plain text</option>
+            <option value="hex">Hex bytes</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex:0 0 auto;align-self:flex-end">
+          <button class="btn" id="btn-hex-render">Render</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="hex-input">Input</label>
+        <textarea id="hex-input" rows="8" placeholder="Paste text or hex bytes"></textarea>
+      </div>
+
+      <div id="hex-status" class="mt-2 text-muted"></div>
+
+      <div class="result mt-2">
+        <div class="result-label">Hex dump</div>
+        <div id="hex-dump" class="hex-grid text-muted">No data yet.</div>
+      </div>
+
+      <div class="input-group mt-2">
+        <label for="hex-output-text">Decoded UTF-8 text</label>
+        <textarea id="hex-output-text" rows="4" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Display format</h3>
+      <ul>
+        <li>Each line shows byte offset, 16 hex byte values, and an ASCII preview column.</li>
+        <li>In hex mode, input can contain spaces, new lines, and <code>0x</code> prefixes.</li>
+        <li>Non-printable bytes are displayed as dots in the ASCII column.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/hex-viewer.js"></script>
+</body>
+</html>

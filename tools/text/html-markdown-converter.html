@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML / Markdown Converter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .hm-preview { min-height: 220px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>HTML / Markdown Converter</h1>
+      <p>Convert simplified Markdown to HTML and convert common HTML tags back to Markdown</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="hm-direction">Direction</label>
+          <select id="hm-direction">
+            <option value="md2html" selected>Markdown to HTML</option>
+            <option value="html2md">HTML to Markdown</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex:0 0 auto;align-self:flex-end">
+          <button class="btn" id="btn-hm-convert">Convert</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="hm-input">Input</label>
+        <textarea id="hm-input" rows="9"></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="hm-output">Output</label>
+        <textarea id="hm-output" rows="9" readonly></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-secondary" id="btn-hm-copy">copy output</button>
+      </div>
+
+      <div id="hm-status" class="mt-2 text-muted"></div>
+
+      <div class="result hm-preview mt-2" id="hm-preview"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Scope</h3>
+      <ul>
+        <li>The converter supports the most common formatting patterns: headings, emphasis, links, lists, code blocks, and paragraphs.</li>
+        <li>It is intentionally lightweight and deterministic for quick transformations in the browser.</li>
+        <li>For strict CommonMark and full HTML fidelity, use a dedicated parser chain in your build pipeline.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/html-markdown-converter.js"></script>
+</body>
+</html>

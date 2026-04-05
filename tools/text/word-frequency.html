@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Word Frequency Counter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>Word Frequency Counter</h1>
+      <p>Count and rank repeated terms in text with stop-word filtering and quick export</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="wf-input">Input text</label>
+        <textarea id="wf-input" rows="10" placeholder="Paste logs, docs, or notes to analyze repeated terms"></textarea>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label for="wf-limit">Top results</label>
+          <input type="number" id="wf-limit" min="5" max="200" value="25">
+        </div>
+        <div class="input-group">
+          <label for="wf-minlen">Minimum word length</label>
+          <input type="number" id="wf-minlen" min="1" max="32" value="2">
+        </div>
+        <div class="input-group">
+          <label for="wf-stopwords">Ignore common words</label>
+          <select id="wf-stopwords">
+            <option value="yes" selected>Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-wf-run">Analyze</button>
+        <button class="btn btn-secondary" id="btn-wf-copy">copy csv</button>
+      </div>
+
+      <div id="wf-summary" class="mt-2 text-muted"></div>
+      <table class="conversion-table mt-2" id="wf-results">
+        <thead>
+          <tr><th>Rank</th><th>Word</th><th>Count</th><th>Share</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="tool-info">
+      <h3>Counting details</h3>
+      <ul>
+        <li>Text is normalized to lowercase, punctuation is stripped, and apostrophes inside words are preserved.</li>
+        <li>When stop-word filtering is enabled, common filler words are excluded so technical terms stand out.</li>
+        <li>Share is calculated as count divided by total matched words after filtering.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/word-frequency.js"></script>
+</body>
+</html>
