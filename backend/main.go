@@ -266,6 +266,14 @@ func main() {
 		http.HandlerFunc(handlers.DNSSEC),
 		rateLimitMiddleware(defaultRL),
 	))
+	mux.Handle("GET /api/caa", chain(
+		http.HandlerFunc(handlers.CAA),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/zonexfer", chain(
+		http.HandlerFunc(handlers.ZoneTransferProbe),
+		rateLimitMiddleware(defaultRL),
+	))
 
 	handler := corsMiddleware(mux)
 
