@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAPI Validator - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>OpenAPI Validator</h1>
+      <p>Validate core OpenAPI document structure from JSON or YAML input</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="oav-format">Input format</label>
+          <select id="oav-format">
+            <option value="yaml" selected>YAML</option>
+            <option value="json">JSON</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex:0 0 auto;align-self:flex-end">
+          <button class="btn" id="btn-oav-validate">Validate</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="oav-input">OpenAPI document</label>
+        <textarea id="oav-input" rows="14"></textarea>
+      </div>
+
+      <div id="oav-status" class="mt-1 text-muted"></div>
+      <div id="oav-results"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Checks performed</h3>
+      <ul>
+        <li>Document parses correctly as JSON or YAML.</li>
+        <li>Top-level version field exists (<code>openapi</code> or <code>swagger</code>).</li>
+        <li>Top-level <code>info</code> object includes <code>title</code> and <code>version</code>.</li>
+        <li><code>paths</code> exists and each operation has at least one response.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script src="/js/openapi-validator.js"></script>
+</body>
+</html>

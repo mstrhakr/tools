@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSONPath Tester - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>JSONPath Tester</h1>
+      <p>Run JSONPath-style queries against JSON documents and inspect matched values</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="jpt-path">Path expression</label>
+        <input type="text" id="jpt-path" value="$.users[*].email" placeholder="$.users[*].email">
+      </div>
+      <div class="input-group">
+        <label for="jpt-json">JSON input</label>
+        <textarea id="jpt-json" rows="12"></textarea>
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="btn-jpt-run">Run</button>
+        <button class="btn btn-secondary" id="btn-jpt-copy">copy results</button>
+      </div>
+      <div id="jpt-status" class="mt-2 text-muted"></div>
+      <div class="input-group mt-2">
+        <label for="jpt-output">Matches</label>
+        <textarea id="jpt-output" rows="10" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Supported subset</h3>
+      <p>Supports root <code>$</code>, dot keys, array indexes like <code>[0]</code>, and wildcard selectors <code>[*]</code>. Full filter expressions are not included.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/jsonpath-tester.js"></script>
+</body>
+</html>

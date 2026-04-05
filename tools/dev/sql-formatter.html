@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SQL Formatter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>SQL Formatter</h1>
+      <p>Format SQL queries with readable line breaks and uppercase reserved keywords</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="sqlf-input">SQL input</label>
+        <textarea id="sqlf-input" rows="10"></textarea>
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="btn-sqlf-format">Format SQL</button>
+        <button class="btn btn-secondary" id="btn-sqlf-copy">copy output</button>
+      </div>
+      <div id="sqlf-status" class="mt-1 text-muted"></div>
+      <div class="input-group mt-2">
+        <label for="sqlf-output">Formatted SQL</label>
+        <textarea id="sqlf-output" rows="12" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Formatter scope</h3>
+      <p>This formatter handles common SELECT/INSERT/UPDATE/DELETE statements with keyword normalization and layout improvements. It does not parse dialect-specific procedural SQL.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/sql-formatter.js"></script>
+</body>
+</html>
