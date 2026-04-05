@@ -173,7 +173,7 @@
       outputEl.textContent = '/' + source + '/' + flags;
       breakdownEl.innerHTML = describe(source, flags, built.help);
 
-      var testerUrl = '/tools/regex-tester.html?pattern=' + encodeURIComponent(source) + '&flags=' + encodeURIComponent(flags) + '&test=' + encodeURIComponent(sampleText);
+      var testerUrl = '/tools/dev/regex-tester.html?pattern=' + encodeURIComponent(source) + '&flags=' + encodeURIComponent(flags) + '&test=' + encodeURIComponent(sampleText);
       testerLinkEl.setAttribute('href', testerUrl);
 
       var reForCount = new RegExp(source, flags.indexOf('g') >= 0 ? flags : flags + 'g');
@@ -197,7 +197,7 @@
       statsEl.textContent = '';
       outputEl.removeAttribute('data-source');
       outputEl.removeAttribute('data-flags');
-      testerLinkEl.setAttribute('href', '/tools/regex-tester.html');
+      testerLinkEl.setAttribute('href', '/tools/dev/regex-tester.html');
     }
   }
 
