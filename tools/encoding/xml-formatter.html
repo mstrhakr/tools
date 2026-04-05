@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XML Formatter - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>XML Formatter</h1>
+      <p>Pretty-print and validate XML documents client-side with no network requests</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-group">
+        <label for="xml-input">XML input</label>
+        <textarea id="xml-input" rows="10" placeholder="&lt;note&gt;&lt;to&gt;dev&lt;/to&gt;&lt;/note&gt;"></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="btn-format-xml">Format XML</button>
+        <button class="btn btn-secondary" id="copy-xml">copy output</button>
+      </div>
+
+      <div id="xml-status" class="mt-2 text-muted"></div>
+
+      <div class="input-group mt-2">
+        <label for="xml-output">Formatted XML</label>
+        <textarea id="xml-output" rows="10" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Formatting notes</h3>
+      <ul>
+        <li>The parser validates for well-formed XML, including matching tags and correct nesting.</li>
+        <li>Formatting normalizes indentation while preserving element text, attributes, comments, and processing instructions.</li>
+        <li>This is an XML formatter, not an XSD validator. Schema validation belongs in a separate tool.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/xml-formatter.js"></script>
+</body>
+</html>
