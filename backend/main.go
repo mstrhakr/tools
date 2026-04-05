@@ -226,6 +226,14 @@ func main() {
 		http.HandlerFunc(handlers.DNSPropagation),
 		rateLimitMiddleware(defaultRL),
 	))
+	mux.Handle("GET /api/redirects", chain(
+		http.HandlerFunc(handlers.Redirects),
+		rateLimitMiddleware(defaultRL),
+	))
+	mux.Handle("GET /api/httpsecurity", chain(
+		http.HandlerFunc(handlers.HTTPSecurity),
+		rateLimitMiddleware(defaultRL),
+	))
 
 	handler := corsMiddleware(mux)
 
