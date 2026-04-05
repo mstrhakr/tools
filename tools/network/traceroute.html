@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>Traceroute</h1>
+      <h1>Traceroute <span class="badge badge-api">backend api</span></h1>
       <p>TCP-based network path discovery — shows hops and latency to a destination</p>
     </div>
 
@@ -39,6 +39,17 @@
     </div>
 
     <div id="trace-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>Traceroute exploits the IP <strong>Time-To-Live (TTL)</strong> field. Each router decrements TTL by 1; when it reaches zero the router discards the packet and sends back an ICMP Time Exceeded reply — revealing its address and latency. By sending probes with TTL 1, then 2, then 3, etc., each successive hop reveals itself.</p>
+      <p>This tool sends <strong>TCP probes from the backend server</strong> rather than the classic UDP probes used by Unix <code>traceroute</code>. TCP probes traverse NAT and firewalls more reliably. Because the trace runs server-side, you're seeing the network path from the server's perspective, not your ISP.</p>
+      <ul>
+        <li><strong>* * *</strong> — the router at this hop doesn't respond to probes. The path may still be working fine.</li>
+        <li><strong>Latency spike at one hop but not the next</strong> — that router deprioritizes probe responses; actual throughput is unaffected.</li>
+        <li>Most internet destinations are 10–20 hops away. Paths through CDNs or Anycast networks often appear unusually short.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

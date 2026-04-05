@@ -59,6 +59,18 @@
         <textarea id="output-uri" rows="5" readonly style="font-size:0.75rem;word-break:break-all"></textarea>
       </div>
     </div>
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>Images are read using the browser's <strong>FileReader API</strong> — nothing is uploaded or transmitted anywhere. The raw binary image data is Base64-encoded in-browser and formatted as a <strong>data URI</strong>.</p>
+      <p>A data URI looks like: <code>data:image/png;base64,iVBORw0KGgo...</code> and can be used anywhere a URL is accepted — HTML <code>&lt;img src&gt;</code>, CSS <code>background-image</code>, SVG embeds, and more.</p>
+      <p><strong>Trade-offs to consider:</strong></p>
+      <ul>
+        <li><strong>Eliminates one HTTP request</strong> — useful for small icons or inline images that are always needed on page load.</li>
+        <li><strong>~33% larger</strong> than the original file — Base64 encodes every 3 bytes as 4 ASCII characters.</li>
+        <li><strong>Not separately cached</strong> by the browser — the encoded string is embedded in your HTML or CSS, so it re-downloads with the page every time.</li>
+        <li>Best suited for <strong>small, frequently-used assets</strong> (favicons, UI icons under ~5 KB). Large images embedded this way hurt page load performance.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

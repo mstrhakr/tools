@@ -220,6 +220,18 @@ user.name
         Tip: keep patterns strict when validating user input. Use ^ and $ so partial matches do not pass by accident.
       </p>
     </details>
+
+    <div class="tool-info">
+      <h3>Building regex &amp; why it matters</h3>
+      <p>Regular expressions are a compact language for describing text patterns. A regex engine scans input and looks for a sequence of characters matching your pattern. The generated patterns here follow JavaScript syntax (<code>/pattern/flags</code>), which is compatible with most modern languages.</p>
+      <p><strong>Input validation tip:</strong> always anchor your patterns with <code>^</code> (start) and <code>$</code> (end) when validating user input — without them, a pattern like <code>\d+</code> will match any string that <em>contains</em> digits, not just strings that <em>are</em> digits.</p>
+      <p><strong>Common patterns and their trade-offs:</strong></p>
+      <ul>
+        <li><strong>Email:</strong> a truly correct RFC 5322 email regex is hundreds of lines long. The generated pattern here is pragmatic — it rejects obvious garbage but won't validate every valid edge case. Server-side validation and a confirmation email are the only reliable checks.</li>
+        <li><strong>URL:</strong> similarly simplified. Use a URL parsing library (like the browser's <code>URL</code> API) for production validation rather than raw regex.</li>
+        <li><strong>IPv4:</strong> the pattern checks the format, not whether each octet is &le;255 — regex alone struggles with numeric range constraints.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

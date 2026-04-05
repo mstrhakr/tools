@@ -47,6 +47,18 @@
         </div>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>YAML ("YAML Ain't Markup Language") is a human-friendly data serialization format commonly used for configuration files (Kubernetes manifests, Docker Compose, GitHub Actions, Ansible, etc.). Parsing and conversion use the <strong>js-yaml</strong> library loaded from CDN — all processing runs in your browser.</p>
+      <p>YAML is a strict <strong>superset of JSON</strong> — valid JSON is valid YAML. Its key feature is that <strong>indentation defines structure</strong>, not braces or brackets. Common gotchas:</p>
+      <ul>
+        <li><strong>Bare booleans:</strong> <code>yes</code>, <code>no</code>, <code>on</code>, <code>off</code>, <code>true</code>, <code>false</code> are all parsed as booleans in YAML 1.1 (still used by most parsers). Quote them if you mean the string <code>"yes"</code>.</li>
+        <li><strong>Colons in values:</strong> <code>key: value: with colon</code> needs quoting — <code>key: "value: with colon"</code>.</li>
+        <li><strong>Tabs are forbidden</strong> as indentation — use spaces only (2 is conventional).</li>
+        <li><strong>Bare numbers:</strong> <code>0755</code> is parsed as octal (493 decimal). Quote file-mode strings.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

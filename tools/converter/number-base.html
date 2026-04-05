@@ -51,6 +51,18 @@
     </div>
 
     <div id="base-results"></div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>Every number system uses the same principle: a digit's value depends on its position (positional notation). In <strong>base-N</strong>, each position is worth N<sup>position</sup>. Decimal uses 10 symbols (0–9); binary uses 2 (0–1); hex uses 16 (0–9, a–f).</p>
+      <ul>
+        <li><strong>Binary (base-2)</strong> maps directly onto bits — the native language of hardware. One byte = 8 binary digits.</li>
+        <li><strong>Octal (base-8)</strong> was popular in early computing; 3 binary digits = 1 octal digit. Still used for Unix file permissions (<code>chmod 755</code>).</li>
+        <li><strong>Hexadecimal (base-16)</strong> packs 4 binary digits into 1 hex digit, making large bit patterns readable. A byte is always 2 hex digits (00–FF). Color codes, memory addresses, and SHA hashes are all written in hex for this reason.</li>
+        <li><strong>Base-36</strong> uses 0–9 and a–z, the maximum expressible with standard alphanumeric characters. Useful for compact IDs.</li>
+      </ul>
+      <p>Conversion is client-side: input is parsed with JavaScript's <code>parseInt(value, fromBase)</code> and then rendered with <code>Number.prototype.toString(toBase)</code>.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

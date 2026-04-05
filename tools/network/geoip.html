@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>GeoIP Lookup</h1>
+      <h1>GeoIP Lookup <span class="badge badge-api">backend api</span></h1>
       <p>Look up geolocation, ISP, ASN, and timezone info for any IP address or hostname</p>
     </div>
 
@@ -41,6 +41,19 @@
     </div>
 
     <div id="geoip-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>The backend queries a locally hosted <strong>MaxMind GeoLite2</strong> database — a periodically updated dataset mapping IP ranges to geographic and organizational data. No third-party API call is made per lookup; the database is bundled server-side for fast, private results.</p>
+      <p>Accuracy varies significantly by data type:</p>
+      <ul>
+        <li><strong>Country</strong> — ~99% accurate. IP registrations are organized by country and rarely cross borders.</li>
+        <li><strong>City</strong> — ~80% accurate to within 50km. ISPs often assign IP blocks from a regional hub, not the user's actual city.</li>
+        <li><strong>Street-level</strong> — not reliable. GeoIP is not a GPS lookup; IP blocks are assigned to data centers or exchange points, not street addresses.</li>
+        <li><strong>ASN / ISP</strong> — very accurate. Each Autonomous System Number (ASN) is publicly registered with the owning organization.</li>
+      </ul>
+      <p>VPNs, Tor exit nodes, and cloud provider IPs (AWS, Azure, Google Cloud) will show the data center location and organization, not the end user's actual location.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

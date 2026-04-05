@@ -56,6 +56,19 @@
       <div id="char-detail" class="result mb-2" style="display:none"></div>
       <div class="char-grid" id="char-grid"></div>
     </div>
+
+    <div class="tool-info">
+      <h3>Unicode &amp; ASCII explained</h3>
+      <p><strong>ASCII</strong> (American Standard Code for Information Interchange, 1963) assigned numbers 0&ndash;127 to 128 characters: the Latin alphabet, digits, punctuation, and 33 non-printable control codes. It was the foundation of early computing and is still universally compatible — every UTF-8 file is valid ASCII for the 0&ndash;127 range.</p>
+      <p><strong>Unicode</strong> extends this to over <strong>150,000 characters</strong> across ~160 scripts as of Unicode 16.0 (2024), covering every living writing system plus historical scripts, symbols, emoji, and more. Each character has a unique <strong>code point</strong> written as <code>U+XXXX</code>.</p>
+      <p><strong>Encodings:</strong></p>
+      <ul>
+        <li><strong>UTF-8</strong> — variable-width: 1 byte for ASCII, 2–4 bytes for everything else. Backward-compatible with ASCII. The dominant encoding on the web (&gt;98% of pages).</li>
+        <li><strong>UTF-16</strong> — 2 or 4 bytes per character. Used internally by JavaScript, Windows, and Java.</li>
+        <li><strong>UTF-32</strong> — always 4 bytes. Simple but space-inefficient; used in some internal processing.</li>
+      </ul>
+      <p>Clicking any cell copies the character for easy pasting. The decimal and hex values shown are the Unicode code point for that character.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

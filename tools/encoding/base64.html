@@ -48,6 +48,13 @@
 
       <div id="error-msg" class="text-error mt-1" style="display:none"></div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>Base64 encodes arbitrary binary data as a sequence of 64 printable ASCII characters: <code>A–Z</code>, <code>a–z</code>, <code>0–9</code>, <code>+</code>, and <code>/</code>, with <code>=</code> as padding. Every <strong>3 bytes of input</strong> become <strong>4 characters of output</strong>, resulting in ~33% size overhead.</p>
+      <p>It was designed to transmit binary data over channels that only handle plain text — email attachments (MIME), HTTP Basic Auth headers, and CSS data URIs all use Base64. It is <strong>encoding, not encryption</strong>: anyone can decode it instantly.</p>
+      <p>This tool handles full <strong>UTF-8</strong> text correctly by passing input through <code>TextEncoder</code> before encoding, and through <code>TextDecoder</code> after decoding — so emoji, accented characters, and non-Latin scripts all work as expected.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

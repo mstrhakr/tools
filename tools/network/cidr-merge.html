@@ -44,6 +44,17 @@
         <textarea id="cidr-output" rows="10" readonly></textarea>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How CIDR Merging Works</h3>
+      <p>Firewall rules, routing tables, and ACLs accumulate redundant prefixes over time. This tool removes duplicates, eliminates subnets already covered by a larger supernet, and merges adjacent blocks into a single prefix — a process called <strong>supernetting</strong>. Everything runs client-side; no data leaves your browser.</p>
+      <p>The algorithm sorts prefixes numerically, then scans left-to-right: any prefix fully contained within the previous is dropped. Adjacent prefixes that share an aligned boundary are combined into the next larger block (/N → /N-1), and the scan restarts until no more merges are possible.</p>
+      <ul>
+        <li><strong>Example merge:</strong> <code>192.168.0.0/24</code> + <code>192.168.1.0/24</code> → <code>192.168.0.0/23</code>. They are adjacent and together form a valid /23 boundary.</li>
+        <li><strong>Not all adjacent blocks merge:</strong> <code>192.168.1.0/24</code> + <code>192.168.2.0/24</code> cannot merge — they don't share an aligned /23 boundary.</li>
+        <li>Useful for minimizing firewall rule counts, building BGP prefix lists, and cleaning up IP allow/deny lists.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

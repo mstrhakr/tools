@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>Ping</h1>
+      <h1>Ping <span class="badge badge-api">backend api</span></h1>
       <p>TCP reachability check (ports 443/80) from the backend server. Measures round-trip latency. Requires the self-hosted backend at <code>api.tools.mstrhakr.com</code>.</p>
     </div>
 
@@ -39,6 +39,17 @@
     </div>
 
     <div id="ping-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>Browsers have no raw socket API and cannot send ICMP packets — the mechanism used by the classic <code>ping</code> command. The backend performs a <strong>TCP connect probe</strong> to the target on port 443 (HTTPS), falling back to port 80. These ports are almost universally reachable, giving better results than ICMP which many firewalls silently block.</p>
+      <p>The latency reflects the round-trip from the <em>server</em>, not your browser — useful for checking reachability and baseline latency from a neutral vantage point.</p>
+      <ul>
+        <li><strong>&lt; 20ms</strong> — same region or data center</li>
+        <li><strong>20–100ms</strong> — cross-continent; typical for most public services</li>
+        <li><strong>&gt; 200ms</strong> — distant geography, congested path, or the host is rate-limiting probe connections</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

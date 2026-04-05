@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>SSL Cert Checker</h1>
+      <h1>SSL Cert Checker <span class="badge badge-api">backend api</span></h1>
       <p>Inspect TLS certificates, expiry, issuer, SANs and cipher suite. Requires the self-hosted backend at <code>api.tools.mstrhakr.com</code>.</p>
     </div>
 
@@ -39,6 +39,17 @@
     </div>
 
     <div id="ssl-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>The backend performs a real <strong>TLS handshake</strong> using Go's <code>crypto/tls</code> package and inspects the certificate chain returned by the server. Browsers deliberately hide raw TLS details from JavaScript — you can't access the full cert chain or negotiated cipher suite through the standard Fetch API.</p>
+      <ul>
+        <li><strong>Subject Alternative Names (SANs)</strong> — the hostnames this certificate is valid for. Modern certs use SANs exclusively; the older CN field is ignored by browsers.</li>
+        <li><strong>Certificate chain</strong> — a cert is only trusted if it chains up to a root CA in the browser's trust store. Chains have 2–3 certs: end-entity → intermediate → root.</li>
+        <li><strong>Cipher suite</strong> — the negotiated algorithm pair for key exchange and encryption. TLS 1.3 mandates AEAD ciphers only; TLS 1.2 allows older options (avoid RC4 and 3DES).</li>
+        <li><strong>Days remaining</strong> — Let's Encrypt certs expire every 90 days. Commercial wildcard certs typically last 1 year. Browsers show a hard error for any expired cert.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

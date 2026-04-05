@@ -78,6 +78,16 @@
         <span id="p3-direction" class="text-muted"></span>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>The math behind each mode</h3>
+      <ul>
+        <li><strong>X% of Y</strong> — <code>result = (X / 100) &times; Y</code>. Example: 25% of 200 = (25/100) &times; 200 = 50.</li>
+        <li><strong>X is what % of Y</strong> — <code>result = (X / Y) &times; 100</code>. Example: 50 is what % of 200? = (50/200) &times; 100 = 25%.</li>
+        <li><strong>Percentage change from X to Y</strong> — <code>result = ((Y &minus; X) / |X|) &times; 100</code>. A positive result is an increase; negative is a decrease. Example: 100 to 150 = ((150-100)/100) &times; 100 = +50%.</li>
+      </ul>
+      <p>Percentage change uses the <strong>absolute value of X</strong> as the denominator so sign changes (e.g. negative to positive numbers) produce meaningful results.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

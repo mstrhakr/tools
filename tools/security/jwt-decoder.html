@@ -74,6 +74,17 @@
       <h2>Parsed Claims</h2>
       <div id="jwt-claims"></div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works &amp; security notes</h3>
+      <p>A JSON Web Token (JWT) is three <strong>Base64URL-encoded</strong> JSON objects joined by dots: <code>header.payload.signature</code>. This tool splits and decodes all three parts client-side in your browser — nothing is sent anywhere.</p>
+      <ul>
+        <li><strong>Header</strong> — declares the token type (<code>JWT</code>) and signing algorithm (e.g. <code>HS256</code>, <code>RS256</code>).</li>
+        <li><strong>Payload</strong> — contains <em>claims</em>: statements about the user or session. Common registered claims: <code>iss</code> (issuer), <code>sub</code> (subject), <code>exp</code> (expiry), <code>iat</code> (issued at), <code>aud</code> (audience).</li>
+        <li><strong>Signature</strong> — a cryptographic MAC or digital signature over the header and payload, used to verify the token hasn't been tampered with.</li>
+      </ul>
+      <p><strong>Important:</strong> this tool <em>decodes</em> the token but does <em>not</em> verify the signature. Any valid or invalid JWT can be decoded. Never trust the claims in a JWT on the client side — signature verification must be done server-side with the correct secret or public key. A decoded token with a forged signature is meaningless without verification.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

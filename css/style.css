@@ -838,6 +838,86 @@ input[type="checkbox"] {
 .font-mono { font-family: inherit; }
 .gap-sm { gap: 0.5rem; }
 
+/* --- Tool Info Section --- */
+.tool-info {
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: var(--gap);
+  font-size: 0.84rem;
+  color: var(--fg-muted);
+  line-height: 1.75;
+}
+
+.tool-info h3 {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.tool-info p {
+  margin-bottom: 0.5rem;
+}
+
+.tool-info p:last-child {
+  margin-bottom: 0;
+}
+
+.tool-info ul {
+  margin: 0.4rem 0 0.5rem 1.1rem;
+}
+
+.tool-info li {
+  margin-bottom: 0.25rem;
+}
+
+.tool-info strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.tool-info code {
+  font-family: inherit;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0 0.3em;
+  font-size: 0.9em;
+}
+
+/* --- API Badges --- */
+.badge {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-left: 0.55rem;
+  line-height: 1.6;
+  position: relative;
+  top: -2px;
+}
+
+.badge-api {
+  background-color: rgba(42, 161, 152, 0.12);
+  color: var(--cyan);
+  border: 1px solid rgba(42, 161, 152, 0.35);
+}
+
+.badge-ext-api {
+  background-color: rgba(181, 137, 0, 0.12);
+  color: var(--yellow);
+  border: 1px solid rgba(181, 137, 0, 0.35);
+}
+
 /* --- Responsive --- */
 @media (max-width: 600px) {
   .hero h1 {

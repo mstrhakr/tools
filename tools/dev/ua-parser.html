@@ -37,6 +37,19 @@
     </div>
 
     <div id="ua-results"></div>
+
+    <div class="tool-info">
+      <h3>How User-Agent strings work &amp; why they&rsquo;re a mess</h3>
+      <p>A User-Agent (UA) string is sent by the browser in every HTTP request to tell the server what client it is. They were meant to be simple, but decades of browser history made them absurd — a modern Chrome UA looks something like this:</p>
+      <p><code>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36</code></p>
+      <p>That string says <em>Mozilla, WebKit, like Gecko, Safari</em> — and it's actually Chrome. Here's why:</p>
+      <ul>
+        <li>Netscape (Mozilla) was dominant, so sites served good content only to <code>Mozilla/</code> UA strings — other browsers started spoofing it to get the full site.</li>
+        <li>IE added <code>like Gecko</code> to pass Gecko-detection scripts. Safari inherited WebKit tokens. Chrome inherited both <em>WebKit and Safari</em> tokens.</li>
+        <li>Every browser now claims to be every other browser for compatibility reasons.</li>
+      </ul>
+      <p>Parsing is done client-side using regex pattern matching against known browser and OS signatures — the same approach used by libraries like ua-parser-js. User-Agent parsing is inherently heuristic; sufficiently unusual or spoofed strings may produce incorrect results.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

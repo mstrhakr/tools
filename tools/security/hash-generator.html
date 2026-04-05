@@ -36,6 +36,18 @@
     </div>
 
     <div id="hash-results"></div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>Hashes are computed using the browser's built-in <strong>WebCrypto API</strong> (<code>window.crypto.subtle.digest</code>) — no external library, no server call, no data leaves your browser.</p>
+      <p>A cryptographic hash function takes any input and produces a fixed-length fingerprint. The same input always produces the same output, but even a single changed character produces a completely different hash. This makes hashing ideal for <strong>data integrity verification, password storage, and digital signatures</strong>.</p>
+      <ul>
+        <li><strong>SHA-256</strong> — 256-bit output. The most widely used; standard for TLS certificates, code signing, and blockchain.</li>
+        <li><strong>SHA-384 / SHA-512</strong> — larger outputs with higher security margin; used in high-assurance environments.</li>
+        <li><strong>SHA-1</strong> — included for legacy/compatibility lookups only. <em>Cryptographically broken</em> — do not use for new security-sensitive work.</li>
+      </ul>
+      <p>MD5 is intentionally omitted — it has been fully broken since 2004 and should never be used for security purposes. Hashes are <strong>one-way</strong>: you cannot reverse a hash to recover the original input (pre-image resistance), and finding two inputs with the same hash is computationally infeasible for SHA-2 (collision resistance).</p>
+    </div>
   </main>
 
   <footer class="site-footer">

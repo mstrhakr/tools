@@ -49,6 +49,18 @@
 
       <div id="error-msg" class="text-error mt-1" style="display:none"></div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>URLs can only contain a safe subset of ASCII characters. <strong>Percent-encoding</strong> (defined in RFC 3986) converts any other character to <code>%XX</code> where <code>XX</code> is the byte's hexadecimal value. For example, a space becomes <code>%20</code> and <code>&amp;</code> becomes <code>%26</code>.</p>
+      <p>The three buttons do different things:</p>
+      <ul>
+        <li><strong>Encode (component)</strong> — uses <code>encodeURIComponent()</code>. Encodes everything <em>except</em> unreserved characters (<code>A–Z a–z 0–9 - _ . ~</code>). Use this for individual query parameter values — it will encode <code>&amp;</code>, <code>=</code>, <code>/</code>, and <code>?</code>.</li>
+        <li><strong>Encode Full URI</strong> — uses <code>encodeURI()</code>. Leaves URI structural characters (<code>: / ? # [ ] @ ! $ &amp; ' ( ) * + , ; =</code>) intact. Use this for a complete URL where you want the structure preserved.</li>
+        <li><strong>Decode</strong> — uses <code>decodeURIComponent()</code> to reverse any percent-encoding.</li>
+      </ul>
+      <p>Common gotcha: HTML forms encode spaces as <code>+</code> (application/x-www-form-urlencoded), but RFC 3986 uses <code>%20</code>. These are different encodings — be aware of which one your system expects.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

@@ -63,6 +63,16 @@
         <span class="text-muted">Select a date above</span>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>A Unix timestamp is the number of <strong>seconds</strong> (or milliseconds, in JavaScript) elapsed since <strong>January 1, 1970, 00:00:00 UTC</strong>. This single integer represents any point in time unambiguously, without timezone or locale complexity — which is why it's ubiquitous in databases, APIs, and log files.</p>
+      <ul>
+        <li><strong>Seconds vs. milliseconds:</strong> Unix traditionally counts seconds; JavaScript's <code>Date.now()</code> returns milliseconds. This tool auto-detects which you've entered (timestamps &gt; ~2 billion are treated as milliseconds).</li>
+        <li><strong>Y2K38:</strong> 32-bit signed integers can only represent timestamps up to <code>2,147,483,647</code> — which expires on <strong>January 19, 2038 at 03:14:07 UTC</strong>. Any system still using 32-bit time_t is at risk. 64-bit systems extend this to the year 292 billion.</li>
+        <li><strong>Negative timestamps</strong> represent dates before 1970 and are valid on most systems.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

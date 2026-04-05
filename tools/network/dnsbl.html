@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>DNSBL Blacklist Check</h1>
+      <h1>DNSBL Blacklist Check <span class="badge badge-api">backend api</span></h1>
       <p>Check if an IPv4 address is listed on common spam and abuse blacklists</p>
     </div>
 
@@ -39,6 +39,19 @@
     </div>
 
     <div id="dnsbl-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>DNS-based Blackhole Lists use a clever DNS trick: to check if <code>1.2.3.4</code> is listed on <code>zen.spamhaus.org</code>, the backend queries <code>4.3.2.1.zen.spamhaus.org</code> — the IP reversed and prepended to the DNSBL zone. An <strong>A record response</strong> (e.g., <code>127.0.0.2</code>) means listed; <strong>NXDOMAIN</strong> means clean. The specific return code encodes the reason for listing. Browsers can't perform raw DNS queries, so lookups run server-side and results across multiple lists are aggregated simultaneously.</p>
+      <p>Common blacklists checked:</p>
+      <ul>
+        <li><strong>Spamhaus ZEN</strong> — the industry standard; covers known spam sources, hijacked IPs, and compromised hosts.</li>
+        <li><strong>Barracuda BRBL</strong> — focused on email spam sources.</li>
+        <li><strong>SORBS</strong> — covers spam originators and open proxies.</li>
+        <li><strong>SpamCop</strong> — based on user-submitted spam reports.</li>
+      </ul>
+      <p>Being listed doesn't always mean active malicious activity — residential IPs are often listed due to a previous user, and cloud/VPS IPs are frequently listed preemptively. Contact the blacklist operator's removal process to delist.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

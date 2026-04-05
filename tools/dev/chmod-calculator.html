@@ -126,6 +126,18 @@
         <button class="btn btn-secondary btn-sm" data-preset="664">664 &mdash; rw-rw-r--</button>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How Unix permissions work</h3>
+      <p>Unix file permissions are built from <strong>three groups</strong> (owner, group, other) each containing <strong>three bits</strong>: read, write, execute. The octal number is just those 9 bits written as three octal digits (each octal digit = 3 bits).</p>
+      <ul>
+        <li><strong>r (read) = 4</strong> — view file contents; list directory contents</li>
+        <li><strong>w (write) = 2</strong> — modify file; create/delete files in directory</li>
+        <li><strong>x (execute) = 1</strong> — run file as program; enter/traverse directory</li>
+      </ul>
+      <p>Each digit is the sum of its active bits. <code>7 = 4+2+1 = rwx</code>; <code>5 = 4+0+1 = r-x</code>; <code>6 = 4+2+0 = rw-</code>. So <code>chmod 755</code> gives the owner full access and everyone else read+execute.</p>
+      <p><strong>Notable presets:</strong> <code>644</code> is standard for web files (owner edits, everyone reads). <code>600</code> is for private keys — SSH will refuse to use a key file world-readable. <code>777</code> gives everyone everything — avoid on servers. <code>755</code> is the conventional default for directories and executables.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

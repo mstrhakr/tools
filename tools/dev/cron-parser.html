@@ -46,6 +46,19 @@
     </div>
 
     <div id="cron-fields"></div>
+
+    <div class="tool-info">
+      <h3>How cron expressions work</h3>
+      <p>A cron expression is five space-separated fields that define a repeating schedule. From left to right: <strong>minute</strong> (0–59), <strong>hour</strong> (0–23), <strong>day of month</strong> (1–31), <strong>month</strong> (1–12), <strong>day of week</strong> (0–7, where 0 and 7 are both Sunday).</p>
+      <ul>
+        <li><code>*</code> &mdash; any value</li>
+        <li><code>*/5</code> &mdash; every 5 units (step)</li>
+        <li><code>1,3,5</code> &mdash; specific values (list)</li>
+        <li><code>1-5</code> &mdash; range</li>
+      </ul>
+      <p>So <code>*/15 9-17 * * 1-5</code> means &ldquo;every 15 minutes, between 9am and 5pm, weekdays only.&rdquo;</p>
+      <p>Cron originates from <strong>Unix Version 7 (1979)</strong>, written by Ken Thompson. It's still used virtually everywhere — Linux <code>crontab</code>, Kubernetes CronJobs, GitHub Actions schedules, AWS EventBridge, and more all use this same five-field syntax. Some systems extend it with a sixth <em>seconds</em> field at the front — this tool uses the standard 5-field format.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

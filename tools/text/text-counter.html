@@ -41,6 +41,18 @@
         <div class="stat-item"><div class="stat-value" id="s-bytes">0</div><div class="stat-label">Bytes (UTF-8)</div></div>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How counting works</h3>
+      <ul>
+        <li><strong>Characters</strong> — uses JavaScript's <code>.length</code> property, which counts UTF-16 code units. Most characters = 1; emoji and characters above U+FFFF = 2 (surrogate pairs). This matches what most text fields and databases report.</li>
+        <li><strong>Words</strong> — splits on whitespace runs (<code>/\S+/g</code> matches). Consecutive spaces count as one delimiter.</li>
+        <li><strong>Sentences</strong> — heuristic: splits on <code>.</code> <code>!</code> <code>?</code> followed by a space or end of string. Abbreviations and decimal numbers may produce false splits.</li>
+        <li><strong>Paragraphs</strong> — counts non-empty blocks separated by one or more blank lines.</li>
+        <li><strong>Reading time</strong> — estimated at 200 words per minute (the commonly cited average for silent reading of English prose).</li>
+        <li><strong>Bytes (UTF-8)</strong> — uses <code>TextEncoder</code> to get the true byte count. ASCII is 1 byte per char; most Latin-extended and common symbols are 2–3 bytes; emoji are typically 4 bytes.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

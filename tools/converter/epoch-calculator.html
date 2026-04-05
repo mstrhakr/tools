@@ -63,6 +63,13 @@
       </div>
       <div id="add-result" class="result mt-2" style="display:none"></div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>All date math is done using JavaScript's built-in <code>Date</code> object, which internally stores time as milliseconds since the <strong>Unix epoch: January 1, 1970, 00:00:00 UTC</strong>. Differences are computed in milliseconds and then broken down into days, hours, minutes, and seconds.</p>
+      <p>The epoch date was chosen as the approximate birth of Unix at Bell Labs. Adding/subtracting durations is handled carefully for calendar irregularities (variable month lengths, leap years) using the <code>Date</code> API rather than raw arithmetic.</p>
+      <p><strong>Gotcha to watch out for:</strong> months in JavaScript's Date API are zero-indexed (January = 0, December = 11), but the display and input are 1-indexed as you'd expect. This tool handles that transparently.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

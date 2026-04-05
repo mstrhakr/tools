@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>IP Address Info</h1>
+      <h1>IP Address Info <span class="badge badge-api">backend api</span></h1>
       <p>Look up your public IP address and basic geolocation info</p>
     </div>
 
@@ -48,6 +48,17 @@
       </div>
       <div id="custom-error" class="text-error mt-1" style="display:none"></div>
       <div class="stats-grid mt-2" id="custom-results"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>This tool uses the same backend GeoIP endpoint as the GeoIP Lookup tool. When you click "Lookup My IP," the backend reads your public address from the HTTP request's source IP — the same way every web server knows who's connecting. No JavaScript geolocation API, browser permissions, or tracking cookies are involved.</p>
+      <p>The IP shown is your <strong>public IP</strong> as seen by the internet — the address your ISP assigns to your router (or VPN exit node). All devices on your home network share this single address via NAT. Mobile carriers using CGNAT may share one public IP among thousands of subscribers.</p>
+      <ul>
+        <li><strong>IPv4 vs IPv6</strong> — if your ISP and browser support IPv6 and prefer it, the tool shows your IPv6 address. Both are valid public addresses.</li>
+        <li><strong>VPN / proxy</strong> — the IP shown will be the VPN server's exit address, not your ISP address.</li>
+        <li><strong>ASN</strong> — identifies the network operator. Residential ISPs, cloud providers, and CDNs each have distinct ASN ranges and are easy to distinguish.</li>
+      </ul>
     </div>
   </main>
 

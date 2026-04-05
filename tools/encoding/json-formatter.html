@@ -47,6 +47,19 @@
         </div>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>JSON (JavaScript Object Notation, RFC 8259) is a lightweight text format for structured data. Formatting uses <code>JSON.parse()</code> to validate and parse, then <code>JSON.stringify()</code> with an indent argument to pretty-print. All processing happens in your browser.</p>
+      <p>JSON is a <strong>strict subset of JavaScript</strong> with a few important rules people often forget:</p>
+      <ul>
+        <li><strong>Keys must be double-quoted strings</strong> — <code>{name: "x"}</code> is invalid JSON; <code>{"name": "x"}</code> is correct.</li>
+        <li><strong>No trailing commas</strong> — <code>[1, 2, 3,]</code> is a syntax error.</li>
+        <li><strong>No comments</strong> — JSON has no comment syntax; use a superset like JSON5 or JSONC if you need them.</li>
+        <li><strong>Numbers</strong> have no integer/float distinction; all are IEEE 754 doubles. Very large integers lose precision — use strings for 64-bit IDs.</li>
+      </ul>
+      <p>Minifying strips all non-significant whitespace, shrinking transmission size. Syntax highlighting here uses color to distinguish keys, strings, numbers, booleans, and null at a glance.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

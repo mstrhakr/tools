@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>WHOIS Lookup</h1>
+      <h1>WHOIS Lookup <span class="badge badge-api">backend api</span></h1>
       <p>Query registration information for domains (via IANA) and IP addresses (via ARIN)</p>
     </div>
 
@@ -39,6 +39,17 @@
     </div>
 
     <div id="whois-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>Traditional WHOIS uses a plain-text TCP protocol (port 43) — not something a browser can connect to. The backend queries the appropriate registry using <strong>RDAP</strong> (Registration Data Access Protocol), the modern JSON-based WHOIS successor standardized by ICANN. It returns structured, parseable data rather than free-form text.</p>
+      <p>The lookup is two-step: the IANA bootstrap registry identifies which regional authority manages the TLD or IP block, then that authority is queried directly. For example, <code>.com</code> goes to Verisign, IP addresses go to ARIN (North America), RIPE (Europe), APNIC (Asia-Pacific), LACNIC (Latin America), or AFRINIC (Africa).</p>
+      <ul>
+        <li><strong>Registrant info</strong> — often redacted under GDPR. Registrar name and creation/expiry dates are usually available even when contact details are hidden.</li>
+        <li><strong>Nameservers</strong> — the authoritative DNS servers for this domain. Changes propagate globally in 24–48 hours.</li>
+        <li><strong>clientTransferProhibited</strong> — the domain is locked at the registrar, preventing unauthorized transfers.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

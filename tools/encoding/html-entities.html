@@ -46,6 +46,18 @@
         <button class="btn btn-secondary btn-sm" id="btn-copy">Copy Output</button>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>HTML uses certain characters as markup syntax (<code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>, <code>"</code>). When you want to display these literally in a page, they must be replaced with <strong>HTML entities</strong> so the browser doesn't interpret them as code.</p>
+      <p>There are three equivalent notations for the same character:</p>
+      <ul>
+        <li><strong>Named</strong> — <code>&amp;amp;</code>, <code>&amp;lt;</code>, <code>&amp;copy;</code> — human-readable but only available for a defined subset of characters.</li>
+        <li><strong>Decimal</strong> — <code>&amp;#38;</code> — works for any Unicode code point.</li>
+        <li><strong>Hex</strong> — <code>&amp;#x26;</code> — same as decimal but in base-16; common in XML and security tooling.</li>
+      </ul>
+      <p>Beyond markup safety, entity encoding is a core <strong>XSS (Cross-Site Scripting) prevention</strong> technique: if you insert untrusted user input into an HTML page, encoding it ensures any injected <code>&lt;script&gt;</code> tags are rendered as text, not executed as code.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

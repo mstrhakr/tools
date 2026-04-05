@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>HTTP Headers Inspector</h1>
+      <h1>HTTP Headers Inspector <span class="badge badge-api">backend api</span></h1>
       <p>Fetch and inspect HTTP response headers including security headers analysis. Requires the self-hosted backend at <code>api.tools.mstrhakr.com</code>.</p>
     </div>
 
@@ -39,6 +39,19 @@
     </div>
 
     <div id="headers-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>Browsers enforce <strong>CORS</strong> (Cross-Origin Resource Sharing), which prevents client-side JavaScript from reading response headers from arbitrary domains. The backend fetches the URL server-side using Go's <code>net/http</code> client and returns the full headers — bypassing the CORS restriction without any privacy concern since the request originates from the server.</p>
+      <p>Security headers to look for:</p>
+      <ul>
+        <li><strong>Strict-Transport-Security (HSTS)</strong> — forces HTTPS and prevents downgrade attacks. Use <code>includeSubDomains</code> with <code>max-age</code> ≥ 31536000 (1 year).</li>
+        <li><strong>Content-Security-Policy (CSP)</strong> — restricts which scripts, styles, and resources a page can load, defeating most XSS attacks.</li>
+        <li><strong>X-Frame-Options</strong> — prevents clickjacking by blocking iframe embedding. Superseded by CSP <code>frame-ancestors</code> in modern browsers.</li>
+        <li><strong>X-Content-Type-Options: nosniff</strong> — stops browsers from guessing content types, preventing MIME-confusion attacks.</li>
+        <li><strong>Permissions-Policy</strong> — controls access to browser APIs like camera, microphone, and geolocation on a per-origin basis.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

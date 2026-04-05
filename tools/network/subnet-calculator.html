@@ -55,6 +55,18 @@
         </table>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How Subnetting Works</h3>
+      <p>An IP address in CIDR notation like <code>192.168.1.0/24</code> encodes two things: the address, and a <strong>prefix length</strong> indicating how many leading bits belong to the network. A /24 has 24 network bits and 8 host bits, yielding 2⁸ = 256 total addresses. All calculations run client-side using JavaScript bitwise operations — no data leaves your browser.</p>
+      <ul>
+        <li><strong>Network address</strong> — first address in the range (host bits all zero). Not assignable to a device.</li>
+        <li><strong>Broadcast address</strong> — last address (host bits all one). Packets to this address reach every host on the subnet. Not assignable.</li>
+        <li><strong>Usable hosts</strong> — total addresses minus 2. A /24 gives 254 usable host addresses.</li>
+        <li><strong>Subnet mask</strong> — the prefix length as a 32-bit number with N leading 1s (e.g., /24 → <code>255.255.255.0</code>).</li>
+      </ul>
+      <p>Common sizes: <strong>/24</strong> (256 addr, 254 hosts) · <strong>/25</strong> (128/126) · <strong>/28</strong> (16/14) · <strong>/30</strong> (4/2, point-to-point links) · <strong>/32</strong> (single host route).</p>
+    </div>
   </main>
 
   <footer class="site-footer">

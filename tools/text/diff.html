@@ -56,6 +56,13 @@
       <h2>Diff output</h2>
       <div id="diff-output" style="font-family:inherit"></div>
     </div>
+
+    <div class="tool-info">
+      <h3>How diff works</h3>
+      <p>Text comparison uses the <strong>Myers diff algorithm</strong> (1986), which finds the shortest edit script between two sequences — the minimum number of insertions and deletions needed to transform one text into the other. It runs in O(ND) time, where N is the combined length of both texts and D is the edit distance (number of changes).</p>
+      <p>The algorithm operates on <strong>lines</strong>: it finds longest common subsequences of unchanged lines, then marks everything outside those sequences as added or removed. This is the same algorithm used by <code>git diff</code>, <code>diff</code>, and most code review tools.</p>
+      <p>All processing is done entirely in your browser — no text is sent anywhere.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

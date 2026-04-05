@@ -40,6 +40,12 @@
 
       <ul class="output-list mt-2" id="uuid-list"></ul>
     </div>
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>UUIDs (Universally Unique Identifiers) are 128-bit values standardized in RFC 9562. <strong>Version 4</strong> — what this tool generates — fills 122 of those bits with cryptographically random data; the remaining 6 bits encode the version and variant markers.</p>
+      <p>This tool uses the browser's native <strong>crypto.randomUUID()</strong> — no external library, no server call. The output is formatted as <code>xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx</code> where <code>4</code> indicates v4 and <code>y</code> is one of <code>8</code>, <code>9</code>, <code>a</code>, or <code>b</code> (variant bits).</p>
+      <p><strong>Collision odds:</strong> you'd need to generate approximately 2.7 &times; 10<sup>18</sup> UUIDs before reaching a 50% probability of any two matching — effectively impossible in practice. UUIDs are widely used as database primary keys and distributed system identifiers precisely because they require no central coordinator to guarantee uniqueness.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

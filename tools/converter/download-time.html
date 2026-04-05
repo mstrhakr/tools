@@ -65,6 +65,13 @@
         <div class="text-muted mt-1" id="time-seconds"></div>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>The formula is simple: <strong>Time = File Size &divide; Transfer Rate</strong>. The tricky part is unit consistency — ISPs advertise speeds in <strong>megabits per second (Mbps)</strong>, but file sizes are in <strong>megabytes (MB)</strong>. There are 8 bits in a byte, so a 100 Mbps connection has a theoretical maximum of 12.5 MB/s.</p>
+      <p><strong>Real-world vs. theoretical:</strong> Advertised speeds are the best-case maximum. In practice, TCP overhead, server upload speed, Wi-Fi interference, network congestion, and protocol handshakes all reduce effective throughput. A reasonable rule of thumb is 70–80% of advertised speed for sustained downloads.</p>
+      <p>Note: file sizes here use decimal units (1 MB = 1,000,000 bytes), matching how most file hosting and storage providers report sizes.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

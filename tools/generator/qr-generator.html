@@ -352,6 +352,20 @@
     <div class="tool-section qr-wrap" id="qr-output" style="display:none">
       <canvas id="qr-canvas"></canvas>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>QR codes (Quick Response codes) are generated entirely in your browser using the <strong>qrcode.js</strong> library — no data is sent to a server. The standard is defined in <strong>ISO/IEC 18004</strong>, originally developed by Denso Wave in 1994 for tracking automotive parts.</p>
+      <p>Data is encoded into a grid of dark and light modules, along with redundant error-correction data so scanners can recover the full content even when part of the code is damaged, obscured, or covered by a logo.</p>
+      <p><strong>Error correction levels:</strong></p>
+      <ul>
+        <li><strong>L (Low)</strong> — up to 7% damage recovery. Smallest, densest code.</li>
+        <li><strong>M (Medium)</strong> — up to 15%. Good default for most uses.</li>
+        <li><strong>Q (Quartile)</strong> — up to 25%. Recommended when adding a center logo.</li>
+        <li><strong>H (High)</strong> — up to 30% recovery. Largest code; best for print on rough surfaces.</li>
+      </ul>
+      <p>Higher error correction produces a larger, denser QR code. If you're embedding a center image, use Q or H — the logo physically covers modules that the error correction will reconstruct.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

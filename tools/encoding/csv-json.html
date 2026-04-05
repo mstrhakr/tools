@@ -56,6 +56,14 @@
         <textarea id="csv-output" rows="10" readonly></textarea>
       </div>
     </div>
+
+    <div class="tool-info">
+      <h3>How it works</h3>
+      <p>CSV (Comma-Separated Values) and JSON are both common data interchange formats. This converter parses one and produces the other entirely in your browser — no data is sent anywhere.</p>
+      <p><strong>CSV → JSON:</strong> The first row is treated as column headers. Each subsequent row becomes a JSON object with those keys. Values are kept as strings unless they parse cleanly as numbers.</p>
+      <p><strong>JSON → CSV:</strong> Expects an array of objects at the top level. Keys from the first object become headers; missing keys in later rows produce empty cells.</p>
+      <p><strong>delimiter note:</strong> CSV has no single formal spec (RFC 4180 is informational). Spreadsheet exports often use semicolons in European locales and tabs in TSV files — use the delimiter selector to match your data. Fields containing the delimiter character must be wrapped in double quotes, which this parser handles automatically.</p>
+    </div>
   </main>
 
   <footer class="site-footer">

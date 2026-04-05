@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>Reverse DNS Lookup</h1>
+      <h1>Reverse DNS Lookup <span class="badge badge-api">backend api</span></h1>
       <p>Look up the PTR record(s) for an IP address — executed server-side for accurate results</p>
     </div>
 
@@ -39,6 +39,16 @@
     </div>
 
     <div id="rdns-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>Reverse DNS maps an IP address back to a hostname using <strong>PTR records</strong> in the special <code>in-addr.arpa</code> DNS zone. Browsers can't perform DNS queries directly, so the backend resolves the PTR record server-side. The lookup works by reversing the IP and appending the zone: <code>8.8.8.8</code> becomes the query <code>8.8.8.8.in-addr.arpa</code>, which resolves to <code>dns.google</code>. For IPv6, the same principle applies using the <code>ip6.arpa</code> zone with each nibble reversed.</p>
+      <ul>
+        <li><strong>PTR records are set by the IP block owner</strong> — your ISP must configure reverse DNS for your IP range. You can't set it yourself unless you control the IP allocation.</li>
+        <li><strong>Missing PTR</strong> — many residential and dynamic IPs have no PTR record. Some mail servers reject email from IPs without a matching forward-confirmed rDNS (FCrDNS).</li>
+        <li><strong>Multiple PTR records</strong> — valid; load balancers and CDN nodes often return several hostnames for the same IP.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

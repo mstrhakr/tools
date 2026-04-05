@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>MAC Address Lookup</h1>
+      <h1>MAC Address Lookup <span class="badge badge-ext-api">external api</span></h1>
       <p>Identify the manufacturer from a MAC address OUI prefix</p>
     </div>
 
@@ -40,6 +40,17 @@
       <div id="mac-error" class="text-error mt-1" style="display:none"></div>
 
       <div class="stats-grid mt-2" id="mac-results"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>Every network interface has a <strong>MAC address</strong> — a 48-bit identifier (6 octets in hex). The first 3 octets form the <strong>OUI (Organizationally Unique Identifier)</strong>, which IEEE assigns to hardware manufacturers. This tool calls the <a href="https://maclookup.app" target="_blank" rel="noopener">maclookup.app</a> API directly from your browser to resolve the OUI to a vendor name.</p>
+      <p>The IEEE OUI registry contains over 40,000 registered prefixes covering network equipment giants (Cisco, Intel, Broadcom) to consumer device makers (Apple, Samsung, Sony).</p>
+      <ul>
+        <li><strong>Locally administered bit</strong> — if the second-least-significant bit of the first octet is set (e.g., <code>02:xx:xx</code>), the MAC is locally assigned with no meaningful OUI. Modern OSes randomize MAC addresses for Wi-Fi privacy; these will always show as locally administered.</li>
+        <li><strong>Multicast bit</strong> — if the least-significant bit of the first octet is set, it's a multicast address (<code>01:00:5E</code> for IPv4 multicast, <code>33:33</code> prefix for IPv6).</li>
+        <li>MAC addresses are not globally routable — they're only meaningful within a local network segment and are replaced at each router hop.</li>
+      </ul>
     </div>
   </main>
 

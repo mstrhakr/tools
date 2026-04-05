@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>DNS Lookup</h1>
+      <h1>DNS Lookup <span class="badge badge-ext-api">external api</span></h1>
       <p>Query DNS records via Cloudflare DNS-over-HTTPS. A, AAAA, MX, TXT, NS, CNAME, SOA, PTR, and more. Includes SPF/DMARC/DKIM email security checker.</p>
     </div>
 
@@ -58,6 +58,18 @@
 
     <div id="dns-status" style="margin-top:0.75rem;font-size:0.85rem"></div>
     <div id="dns-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>DNS queries are sent directly from your browser to <strong>Cloudflare's DNS-over-HTTPS (DoH) endpoint</strong> at <code>cloudflare-dns.com/dns-query</code>. DoH wraps DNS in standard HTTPS, allowing lookups to work from a browser context — traditional DNS (UDP port 53) is inaccessible to web pages. This means results come from Cloudflare's resolvers, not your local ISP's DNS, and may differ from what <code>dig</code> or <code>nslookup</code> show on your machine.</p>
+      <ul>
+        <li><strong>A / AAAA</strong> — IPv4 and IPv6 address records; the primary way domain names map to IPs.</li>
+        <li><strong>MX</strong> — mail exchanger records specifying which servers handle incoming email. Lower priority value = higher preference.</li>
+        <li><strong>TXT</strong> — arbitrary text used for SPF (anti-spoofing), DKIM public keys, domain ownership verification, and more.</li>
+        <li><strong>CNAME</strong> — canonical name alias; the domain points to another domain. CNAMEs cannot coexist with other records at the zone apex (<code>@</code>).</li>
+        <li><strong>TTL</strong> — Time To Live in seconds; how long resolvers cache this record before re-querying the authoritative server.</li>
+      </ul>
+    </div>
   </main>
 
   <footer class="site-footer">

@@ -20,7 +20,7 @@
 
   <main class="container">
     <div class="tool-header">
-      <h1>Port Scanner</h1>
+      <h1>Port Scanner <span class="badge badge-api">backend api</span></h1>
       <p>Check common ports (21-27017) on a host. Scans ~25 well-known ports via TCP connect from the backend server. Requires the self-hosted backend at <code>api.tools.mstrhakr.com</code>.</p>
     </div>
 
@@ -43,6 +43,17 @@
 
     <div id="ps-summary" style="font-size:0.875rem;color:var(--fg-muted);margin-top:0.75rem"></div>
     <div id="ps-results"></div>
+
+    <div class="tool-info">
+      <h3>How This Works</h3>
+      <p>The backend performs a <strong>TCP connect scan</strong> — it attempts a full TCP handshake on each port. Browsers cannot open raw TCP sockets to arbitrary hosts, so all scanning happens server-side: you're seeing which ports are externally visible from the server's network, not from your local IP.</p>
+      <ul>
+        <li><strong>Open</strong> — a service responded and completed the TCP handshake. The port is reachable and actively accepting connections.</li>
+        <li><strong>Closed</strong> — the host replied with TCP RST. The host is reachable but nothing is listening on that port.</li>
+        <li><strong>Filtered</strong> — the probe timed out with no reply. A firewall or security group is silently dropping packets to this port.</li>
+      </ul>
+      <p>This tool scans a curated set of ~25 well-known ports (FTP, SSH, SMTP, HTTP, HTTPS, RDP, MySQL, etc.). Results reflect external visibility — NAT and load balancers may hide internal service topology. Only scan hosts you own or have permission to test.</p>
+    </div>
   </main>
 
   <footer class="site-footer">
