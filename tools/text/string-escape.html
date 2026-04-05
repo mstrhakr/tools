@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>String Escape / Unescape - mstrhakr tools</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav>
+        <ul class="nav-links"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tool-header">
+      <h1>String Escape / Unescape</h1>
+      <p>Escape or decode strings for JSON, JavaScript, HTML, and URLs without leaving the browser</p>
+    </div>
+
+    <div class="tool-section">
+      <div class="input-row">
+        <div class="input-group">
+          <label for="escape-format">Format</label>
+          <select id="escape-format">
+            <option value="json">JSON / JavaScript string</option>
+            <option value="html">HTML entities</option>
+            <option value="url">URL encoding</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>&nbsp;</label>
+          <div class="btn-group">
+            <button class="btn" id="btn-escape">Escape</button>
+            <button class="btn btn-secondary" id="btn-unescape">Unescape</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="escape-input">Input</label>
+        <textarea id="escape-input" rows="7" placeholder="Paste a raw or escaped string here"></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="escape-output">Output</label>
+        <textarea id="escape-output" rows="7" readonly></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-secondary" id="copy-output">copy output</button>
+      </div>
+      <div id="escape-status" class="mt-2 text-muted"></div>
+    </div>
+
+    <div class="tool-info">
+      <h3>Formats supported</h3>
+      <ul>
+        <li><strong>JSON / JavaScript string</strong> turns control characters into sequences like <code>\n</code> and <code>\t</code>.</li>
+        <li><strong>HTML entities</strong> is useful when you need literal markup characters rendered safely in a page or snippet.</li>
+        <li><strong>URL encoding</strong> applies percent encoding, which is appropriate for query parameter values and path components.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/string-escape.js"></script>
+</body>
+</html>
