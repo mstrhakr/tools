@@ -50,6 +50,28 @@
     </div>
 
     <div id="dane-results"></div>
+
+    <div class="tool-info">
+      <h3>What is DANE?</h3>
+      <p><strong>DNS-based Authentication of Named Entities (DANE)</strong> is a security protocol defined in <a href="https://datatracker.ietf.org/doc/html/rfc6698" target="_blank" rel="noopener">RFC 6698</a> that lets domain owners publish TLS certificate constraints directly in DNS, via <strong>TLSA records</strong>. This allows a connecting client to verify a server's certificate against what the domain owner has published — without relying solely on a Certificate Authority (CA).</p>
+      <h3>How TLSA Records Work</h3>
+      <p>A TLSA record is published at a well-known owner name derived from the service endpoint:</p>
+      <p><code>_&lt;port&gt;._&lt;protocol&gt;.&lt;hostname&gt;</code></p>
+      <p>For example, to protect SMTP on port 25 over TCP for <code>example.com</code>, the TLSA record lives at <code>_25._tcp.example.com</code>. Each record contains three fields:</p>
+      <ul>
+        <li><strong>Certificate Usage</strong> — how to use the referenced certificate material (pinned CA, pinned end-entity, etc.).</li>
+        <li><strong>Selector</strong> — whether the full certificate or just the public key is matched.</li>
+        <li><strong>Matching Type</strong> — whether the record stores the raw data or a SHA-256/SHA-512 hash of it.</li>
+      </ul>
+      <h3>Why It Matters</h3>
+      <p>DANE is primarily used to harden <strong>SMTP (email)</strong> delivery via <em>DANE-SMTP</em> (RFC 7672), preventing downgrade and man-in-the-middle attacks that ordinary STARTTLS is vulnerable to. It is also applicable to HTTPS and other TLS services. Because TLSA records are signed with <strong>DNSSEC</strong>, the published certificate constraints are tamper-evident — an attacker would have to compromise both DNS and the CA ecosystem to forge a connection.</p>
+      <h3>Scoring</h3>
+      <ul>
+        <li><strong>+1</strong> — DNS resolver returned a successful (NOERROR) status for the TLSA query name.</li>
+        <li><strong>+1</strong> — At least one TLSA record was found for the endpoint.</li>
+      </ul>
+      <p>A score of <strong>2/2</strong> means the endpoint has a valid, published TLSA record. A score of 0 or 1 means DANE is not fully configured for this service.</p>
+    </div>
   </main>
 
   <footer class="site-footer">
