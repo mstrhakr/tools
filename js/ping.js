@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function ping() {
     var host = document.getElementById('ping-host').value.trim();
     var errorEl = document.getElementById('ping-error');
@@ -22,15 +20,8 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/ping?host=' + encodeURIComponent(host))
-      .then(function (r) { return r.json(); })
+    mtools.apiFetch('/api/ping?host=' + encodeURIComponent(host))
       .then(function (data) {
-        if (data.error) {
-          errorEl.textContent = data.error;
-          errorEl.style.display = 'block';
-          return;
-        }
-
         var row = document.createElement('div');
         row.className = 'result mt-1';
         var e = window.mtools.escapeHtml;

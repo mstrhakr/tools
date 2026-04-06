@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function lookup() {
     var query = document.getElementById('whois-input').value.trim();
     var errorEl = document.getElementById('whois-error');
@@ -22,15 +20,8 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/whois?query=' + encodeURIComponent(query))
-      .then(function (r) { return r.json(); })
+    mtools.apiFetch('/api/whois?query=' + encodeURIComponent(query))
       .then(function (data) {
-        if (data.error) {
-          errorEl.textContent = data.error;
-          errorEl.style.display = 'block';
-          return;
-        }
-
         var el = document.createElement('div');
         el.className = 'tool-section';
         el.innerHTML =

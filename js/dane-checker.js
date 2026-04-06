@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function esc(v) {
     return window.mtools.escapeHtml(v == null ? '' : String(v));
   }
@@ -64,12 +62,10 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    var url = API_BASE + '/api/dane?host=' + encodeURIComponent(host) + '&port=' + encodeURIComponent(port || '25') + '&protocol=' + encodeURIComponent(protocol || 'tcp');
-    fetch(url)
-      .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
-      .then(function (resp) {
-        if (!resp.ok || resp.body.error) throw new Error(resp.body.error || 'DANE check failed');
-        outEl.innerHTML = render(resp.body);
+    var url = '/api/dane?host=' + encodeURIComponent(host) + '&port=' + encodeURIComponent(port || '25') + '&protocol=' + encodeURIComponent(protocol || 'tcp');
+    mtools.apiFetch(url)
+      .then(function (data) {
+        outEl.innerHTML = render(data);
       })
       .catch(function (err) {
         errEl.textContent = err.message || 'Request failed.';

@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"net"
 	"net/http"
 	"strconv"
@@ -11,14 +10,14 @@ import (
 )
 
 type DNSInspectResult struct {
-	Domain string   `json:"domain"`
-	A      []string `json:"a"`
-	AAAA   []string `json:"aaaa"`
-	CNAME  string   `json:"cname,omitempty"`
-	NS     []string `json:"ns"`
-	MX     []string `json:"mx"`
-	TXT    []string `json:"txt"`
-	Errors []string `json:"errors,omitempty"`
+	Domain  string   `json:"domain"`
+	A       []string `json:"a"`
+	AAAA    []string `json:"aaaa"`
+	CNAME   string   `json:"cname,omitempty"`
+	NS      []string `json:"ns"`
+	MX      []string `json:"mx"`
+	TXT     []string `json:"txt"`
+	Notices []string `json:"notices,omitempty"`
 }
 
 func DNSInspect(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +55,7 @@ func DNSInspect(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	} else {
-		out.Errors = append(out.Errors, "A/AAAA lookup failed")
+		out.Notices = append(out.Notices, "A/AAAA lookup failed")
 	}
 
 	if cname, err := resolver.LookupCNAME(ctx, domain); err == nil {
@@ -68,7 +67,7 @@ func DNSInspect(w http.ResponseWriter, r *http.Request) {
 			out.NS = append(out.NS, strings.TrimSuffix(rec.Host, "."))
 		}
 	} else {
-		out.Errors = append(out.Errors, "NS lookup failed")
+		out.Notices = append(out.Notices, "NS lookup failed")
 	}
 
 	if mx, err := resolver.LookupMX(ctx, domain); err == nil {
@@ -76,7 +75,7 @@ func DNSInspect(w http.ResponseWriter, r *http.Request) {
 			out.MX = append(out.MX, strings.TrimSpace(strings.TrimSuffix(rec.Host, "."))+" (priority "+itoa(rec.Pref)+")")
 		}
 	} else {
-		out.Errors = append(out.Errors, "MX lookup failed")
+		out.Notices = append(out.Notices, "MX lookup failed")
 	}
 
 	if txt, err := resolver.LookupTXT(ctx, domain); err == nil {
@@ -87,11 +86,10 @@ func DNSInspect(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	} else {
-		out.Errors = append(out.Errors, "TXT lookup failed")
+		out.Notices = append(out.Notices, "TXT lookup failed")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(out)
+	writeJSON(w, out)
 }
 
 func itoa(v uint16) string {

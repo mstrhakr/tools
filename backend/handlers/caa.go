@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 )
@@ -44,8 +43,7 @@ func CAA(w http.ResponseWriter, r *http.Request) {
 	resp, err := dohLookup(domain, 257)
 	if err != nil {
 		out.Error = "CAA lookup failed"
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(out)
+		writeJSON(w, out)
 		return
 	}
 
@@ -90,8 +88,7 @@ func CAA(w http.ResponseWriter, r *http.Request) {
 		out.Observations = append(out.Observations, "Empty issue policy may block certificate issuance depending on record semantics.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(out)
+	writeJSON(w, out)
 }
 
 func parseCAAData(raw string) (tag string, value string) {

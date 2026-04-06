@@ -86,8 +86,7 @@ func DANE(w http.ResponseWriter, r *http.Request) {
 	resp, err := dohLookup(queryName, 52)
 	if err != nil {
 		out.Error = "DANE lookup failed"
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(out)
+		writeJSON(w, out)
 		return
 	}
 
@@ -115,8 +114,7 @@ func DANE(w http.ResponseWriter, r *http.Request) {
 		out.Observations = append(out.Observations, "DNS resolver returned non-zero status code.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(out)
+	writeJSON(w, out)
 }
 
 func dohLookup(name string, rrType int) (daneJSONResponse, error) {

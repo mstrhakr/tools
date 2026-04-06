@@ -121,8 +121,7 @@ func DNSPropagation(w http.ResponseWriter, r *http.Request) {
 
 	wg.Wait()
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(DNSPropagationResult{
+	writeJSON(w, DNSPropagationResult{
 		Domain:    domain,
 		Type:      typeName,
 		Resolvers: results,

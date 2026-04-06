@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function lookup() {
     var ip = document.getElementById('rdns-input').value.trim();
     var errorEl = document.getElementById('rdns-error');
@@ -22,14 +20,8 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/reversedns?ip=' + encodeURIComponent(ip))
-      .then(function (r) { return r.json(); })
+    mtools.apiFetch('/api/reversedns?ip=' + encodeURIComponent(ip))
       .then(function (data) {
-        if (data.error) {
-          errorEl.textContent = data.error;
-          errorEl.style.display = 'block';
-          return;
-        }
         var el = document.createElement('div');
         el.className = 'tool-section';
         var inner = '<div class="result-label">PTR records for ' + data.ip + '</div>';

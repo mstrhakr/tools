@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net"
 	"net/http"
 	"strings"
@@ -38,6 +37,5 @@ func ReverseDNS(w http.ResponseWriter, r *http.Request) {
 		result.Hosts = hosts
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	writeJSON(w, result)
 }

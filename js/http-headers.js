@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   // Security headers to call out specifically
   var SECURITY_HEADERS = [
     'Strict-Transport-Security',
@@ -34,14 +32,8 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/headers?url=' + encodeURIComponent(url))
-      .then(function (r) { return r.json(); })
+    mtools.apiFetch('/api/headers?url=' + encodeURIComponent(url))
       .then(function (data) {
-        if (data.error) {
-          errorEl.textContent = data.error;
-          errorEl.style.display = 'block';
-          return;
-        }
         renderResults(data);
       })
       .catch(function (err) {

@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"net"
 	"net/http"
 	"strings"
@@ -59,8 +58,7 @@ func BIMI(w http.ResponseWriter, r *http.Request) {
 	txt, err := resolver.LookupTXT(ctx, recordName)
 	if err != nil || len(txt) == 0 {
 		out.Observations = append(out.Observations, "No BIMI TXT record found for selector.")
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(out)
+		writeJSON(w, out)
 		return
 	}
 
@@ -75,8 +73,7 @@ func BIMI(w http.ResponseWriter, r *http.Request) {
 
 	if !out.RecordFound {
 		out.Observations = append(out.Observations, "TXT records exist but none look like BIMI (v=BIMI1).")
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(out)
+		writeJSON(w, out)
 		return
 	}
 
@@ -101,8 +98,7 @@ func BIMI(w http.ResponseWriter, r *http.Request) {
 		out.Observations = append(out.Observations, "No VMC URL (a=). Some mailbox providers may not display BIMI logos.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(out)
+	writeJSON(w, out)
 }
 
 func parseBIMIRecord(record string) (version, logoURL, vmcURL string) {

@@ -462,10 +462,33 @@
     initGoatCounter();
   });
 
+  var API_BASE = 'https://api.tools.mstrhakr.com';
+
+  // Unified API fetch: calls the backend, unwraps the {ok, data} envelope,
+  // and returns data on success or rejects with an Error on failure.
+  // Gracefully handles non-JSON responses (e.g. reverse-proxy errors).
+  function apiFetch(path) {
+    return fetch(API_BASE + path).then(function (res) {
+      var contentType = res.headers.get('content-type') || '';
+      if (contentType.indexOf('application/json') === -1) {
+        return res.text().then(function (text) {
+          return Promise.reject(new Error(text || ('HTTP ' + res.status)));
+        });
+      }
+      return res.json().then(function (body) {
+        if (body.ok === false || !res.ok) {
+          return Promise.reject(new Error(body.error || ('HTTP ' + res.status)));
+        }
+        return body.data !== undefined ? body.data : body;
+      });
+    });
+  }
+
   // Expose utilities globally for tool pages
   window.mtools = {
     copyToClipboard: copyToClipboard,
     showToast: showToast,
-    escapeHtml: escapeHtml
+    escapeHtml: escapeHtml,
+    apiFetch: apiFetch
   };
 })();

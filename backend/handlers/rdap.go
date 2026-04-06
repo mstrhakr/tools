@@ -1,11 +1,11 @@
 package handlers
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"log"
-	"net"
 	"net/http"
 	"net/url"
 	"strings"
@@ -65,9 +65,18 @@ func RDAP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(resp.StatusCode)
-	w.Write(body)
+	if resp.StatusCode >= 400 {
+		writeError(w, "RDAP lookup returned "+resp.Status, http.StatusBadGateway)
+		return
+	}
+
+	var parsed interface{}
+	if err := json.Unmarshal(body, &parsed); err != nil {
+		writeError(w, "invalid RDAP response", http.StatusBadGateway)
+		return
+	}
+
+	writeJSON(w, parsed)
 }
 
 // isIPAddress uses net.ParseIP for reliable IP detection.

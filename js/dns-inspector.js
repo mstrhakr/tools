@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function esc(v) {
     return window.mtools.escapeHtml(v == null ? '' : String(v));
   }
@@ -31,9 +29,9 @@
     html += listBlock('MX', data.mx);
     html += listBlock('TXT', data.txt);
 
-    if (Array.isArray(data.errors) && data.errors.length) {
+    if (Array.isArray(data.notices) && data.notices.length) {
       html += '<div class="tool-section mt-2"><h2>Lookup notices</h2><div class="result">';
-      data.errors.forEach(function (err) {
+      data.notices.forEach(function (err) {
         html += '<div class="text-muted">' + esc(err) + '</div>';
       });
       html += '</div></div>';
@@ -65,21 +63,13 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/dnsinspect?domain=' + encodeURIComponent(domain))
-      .then(function (res) {
-        return res.json().then(function (body) {
-          return { ok: res.ok, body: body };
-        });
-      })
-      .then(function (resp) {
-        if (!resp.ok || resp.body.error) {
-          throw new Error(resp.body.error || 'DNS inspect failed');
-        }
-        outEl.innerHTML = render(resp.body);
+    mtools.apiFetch('/api/dnsinspect?domain=' + encodeURIComponent(domain))
+      .then(function (data) {
+        outEl.innerHTML = render(data);
         var copyBtn = document.getElementById('dnsi-copy');
         if (copyBtn) {
           copyBtn.addEventListener('click', function () {
-            window.mtools.copyToClipboard(JSON.stringify(resp.body, null, 2), 'Copied DNS JSON');
+            window.mtools.copyToClipboard(JSON.stringify(data, null, 2), 'Copied DNS JSON');
           });
         }
       })

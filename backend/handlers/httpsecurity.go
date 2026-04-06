@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"net"
 	"net/http"
 	"net/url"
@@ -88,8 +87,7 @@ func HTTPSecurity(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(HTTPSecurityResult{URL: rawURL, Error: "request failed"})
+		writeError(w, "request failed", http.StatusBadGateway)
 		return
 	}
 	defer resp.Body.Close()
@@ -106,8 +104,7 @@ func HTTPSecurity(w http.ResponseWriter, r *http.Request) {
 		Checks:     checks,
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	writeJSON(w, result)
 }
 
 func normalizeHeaders(h http.Header) map[string]string {

@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  const API_BASE = 'https://api.tools.mstrhakr.com';
-
   const input   = document.getElementById('trace-host');
   const btn     = document.getElementById('trace-btn');
   const loader  = document.getElementById('trace-loader');
@@ -20,16 +18,13 @@
     loader.style.display = 'inline';
     btn.disabled = true;
 
-    fetch(API_BASE + '/api/traceroute?host=' + encodeURIComponent(host))
-      .then(function (r) { return r.json(); })
+    mtools.apiFetch('/api/traceroute?host=' + encodeURIComponent(host))
       .then(render)
       .catch(function (err) { showError('Request failed: ' + err.message); })
       .finally(function () { loader.style.display = 'none'; btn.disabled = false; });
   }
 
   function render(data) {
-    if (data.error) { showError(data.error); return; }
-
     var hops = data.hops || [];
     if (hops.length === 0) { showError('No hops returned.'); return; }
 

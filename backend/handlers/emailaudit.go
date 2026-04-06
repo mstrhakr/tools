@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"net"
 	"net/http"
 	"strings"
@@ -130,8 +129,7 @@ func EmailAudit(w http.ResponseWriter, r *http.Request) {
 		out.Observations = append(out.Observations, "No DKIM record found for selector 'default'.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(out)
+	writeJSON(w, out)
 }
 
 func extractDMARCPolicy(record string) string {

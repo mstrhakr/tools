@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  const API_BASE = 'https://api.tools.mstrhakr.com';
-
   const input   = document.getElementById('dnsbl-input');
   const btn     = document.getElementById('dnsbl-btn');
   const loader  = document.getElementById('dnsbl-loader');
@@ -20,16 +18,13 @@
     loader.style.display = 'inline';
     btn.disabled = true;
 
-    fetch(API_BASE + '/api/dnsbl?ip=' + encodeURIComponent(ip))
-      .then(function (r) { return r.json(); })
+    mtools.apiFetch('/api/dnsbl?ip=' + encodeURIComponent(ip))
       .then(render)
       .catch(function (err) { showError('Request failed: ' + err.message); })
       .finally(function () { loader.style.display = 'none'; btn.disabled = false; });
   }
 
   function render(data) {
-    if (data.error) { showError(data.error); return; }
-
     var listedCount  = data.listed_count  || 0;
     var checkedCount = data.checked_count || 0;
     var entries      = data.entries || [];

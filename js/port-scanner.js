@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function scan() {
     var host = document.getElementById('ps-host').value.trim();
     var errorEl = document.getElementById('ps-error');
@@ -24,14 +22,8 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/portscan?host=' + encodeURIComponent(host))
-      .then(function (r) { return r.json(); })
+    mtools.apiFetch('/api/portscan?host=' + encodeURIComponent(host))
       .then(function (data) {
-        if (data.error) {
-          errorEl.textContent = data.error;
-          errorEl.style.display = 'block';
-          return;
-        }
         renderResults(data);
       })
       .catch(function (err) {

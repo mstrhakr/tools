@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"io"
 	"net"
 	"net/http"
@@ -113,8 +112,7 @@ func MTASTS(w http.ResponseWriter, r *http.Request) {
 		out.Observations = append(out.Observations, "Policy mode is missing or invalid.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(out)
+	writeJSON(w, out)
 }
 
 func fetchMTASTSPolicy(host string, pinnedIP net.IP) (string, error) {

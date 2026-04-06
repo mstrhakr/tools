@@ -3,7 +3,6 @@ package handlers
 import (
 	"crypto/rand"
 	"encoding/binary"
-	"encoding/json"
 	"io"
 	"net"
 	"net/http"
@@ -51,8 +50,7 @@ func ZoneTransferProbe(w http.ResponseWriter, r *http.Request) {
 	nsRecords, err := net.LookupNS(domain)
 	if err != nil || len(nsRecords) == 0 {
 		result.Error = "failed to resolve NS records"
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(result)
+		writeJSON(w, result)
 		return
 	}
 
@@ -94,8 +92,7 @@ func ZoneTransferProbe(w http.ResponseWriter, r *http.Request) {
 		result.Observations = append(result.Observations, "At least one nameserver appears to allow AXFR; investigate immediately.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	writeJSON(w, result)
 }
 
 func probeAXFR(ip net.IP, domain string) (rcode int, allowed bool, err error) {

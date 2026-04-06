@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 )
@@ -49,8 +48,7 @@ func DNSSEC(w http.ResponseWriter, r *http.Request) {
 	dsResp, err := dohLookup(domain, 43)
 	if err != nil {
 		out.Error = "DS lookup failed"
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(out)
+		writeJSON(w, out)
 		return
 	}
 	for _, ans := range dsResp.Answer {
@@ -63,8 +61,7 @@ func DNSSEC(w http.ResponseWriter, r *http.Request) {
 	dnskeyResp, err := dohLookup(domain, 48)
 	if err != nil {
 		out.Error = "DNSKEY lookup failed"
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(out)
+		writeJSON(w, out)
 		return
 	}
 	for _, ans := range dnskeyResp.Answer {
@@ -94,8 +91,7 @@ func DNSSEC(w http.ResponseWriter, r *http.Request) {
 		out.Observations = append(out.Observations, "DNSKEY exists without DS in parent; chain of trust is incomplete.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(out)
+	writeJSON(w, out)
 }
 
 func parentZone(domain string) string {

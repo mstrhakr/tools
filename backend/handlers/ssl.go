@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"crypto/tls"
-	"encoding/json"
 	"net"
 	"net/http"
 	"strings"
@@ -56,8 +55,7 @@ func SSL(w http.ResponseWriter, r *http.Request) {
 		ServerName: host,
 	})
 	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(SSLResult{Host: host, Error: "TLS connection failed"})
+		writeError(w, "TLS connection failed", http.StatusBadGateway)
 		return
 	}
 	defer conn.Close()
@@ -86,8 +84,7 @@ func SSL(w http.ResponseWriter, r *http.Request) {
 		result.Certs = append(result.Certs, info)
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	writeJSON(w, result)
 }
 
 func tlsVersionName(v uint16) string {

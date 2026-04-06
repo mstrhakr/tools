@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function lookup() {
     var host = document.getElementById('ssl-host').value.trim()
       .replace(/^https?:\/\//, '').split('/')[0];
@@ -23,14 +21,8 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/ssl?host=' + encodeURIComponent(host))
-      .then(function (r) { return r.json(); })
+    mtools.apiFetch('/api/ssl?host=' + encodeURIComponent(host))
       .then(function (data) {
-        if (data.error) {
-          errorEl.textContent = data.error;
-          errorEl.style.display = 'block';
-          return;
-        }
         renderResults(data);
       })
       .catch(function (err) {

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"net"
 	"net/http"
@@ -83,8 +82,7 @@ func PortScan(w http.ResponseWriter, r *http.Request) {
 	// Sort by port number
 	sortPorts(results)
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(PortScanResult{Host: host, Ports: results})
+	writeJSON(w, PortScanResult{Host: host, Ports: results})
 }
 
 func sortPorts(ports []PortResult) {

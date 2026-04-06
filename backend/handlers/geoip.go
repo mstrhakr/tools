@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"io"
 	"log"
 	"net"
@@ -57,9 +58,23 @@ func GeoIP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(resp.StatusCode)
-	w.Write(body)
+	var parsed map[string]interface{}
+	if err := json.Unmarshal(body, &parsed); err != nil {
+		writeError(w, "invalid upstream response", http.StatusBadGateway)
+		return
+	}
+
+	// ip-api.com returns {"status":"fail","message":"..."} on error
+	if status, _ := parsed["status"].(string); status == "fail" {
+		msg, _ := parsed["message"].(string)
+		if msg == "" {
+			msg = "GeoIP lookup failed"
+		}
+		writeError(w, msg, http.StatusBadGateway)
+		return
+	}
+
+	writeJSON(w, parsed)
 }
 
 // clientIP extracts the real client IP from the request.

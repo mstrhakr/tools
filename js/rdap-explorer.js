@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function esc(v) {
     return window.mtools.escapeHtml(v == null ? '' : String(v));
   }
@@ -119,22 +117,13 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/rdap?query=' + encodeURIComponent(input))
-      .then(function (res) {
-        return res.json().then(function (body) {
-          return { ok: res.ok, body: body };
-        });
-      })
-      .then(function (resp) {
-        if (!resp.ok || resp.body.error) {
-          throw new Error(resp.body.error || 'RDAP lookup failed');
-        }
-
-        resultsEl.innerHTML = render(resp.body, input);
+    mtools.apiFetch('/api/rdap?query=' + encodeURIComponent(input))
+      .then(function (data) {
+        resultsEl.innerHTML = render(data, input);
         var copyBtn = document.getElementById('rdap-copy-raw');
         if (copyBtn) {
           copyBtn.addEventListener('click', function () {
-            window.mtools.copyToClipboard(JSON.stringify(resp.body, null, 2), 'Copied RDAP JSON');
+            window.mtools.copyToClipboard(JSON.stringify(data, null, 2), 'Copied RDAP JSON');
           });
         }
       })

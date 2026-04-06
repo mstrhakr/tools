@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"net"
 	"net/http"
@@ -111,6 +110,5 @@ func DNSBL(w http.ResponseWriter, r *http.Request) {
 		Entries: entries,
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	writeJSON(w, result)
 }

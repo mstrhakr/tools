@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function lookup() {
     var ip = document.getElementById('geoip-input').value.trim();
     var errorEl = document.getElementById('geoip-error');
@@ -22,19 +20,8 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/geoip?ip=' + encodeURIComponent(ip))
-      .then(function (r) { return r.json(); })
+    mtools.apiFetch('/api/geoip?ip=' + encodeURIComponent(ip))
       .then(function (data) {
-        if (data.error) {
-          errorEl.textContent = data.error;
-          errorEl.style.display = 'block';
-          return;
-        }
-        if (data.status === 'fail') {
-          errorEl.textContent = data.message || 'Lookup failed';
-          errorEl.style.display = 'block';
-          return;
-        }
         renderResults(data);
       })
       .catch(function (err) {

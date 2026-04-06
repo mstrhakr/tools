@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"io"
 	"net"
 	"net/http"
@@ -72,8 +71,7 @@ func CrawlCheck(w http.ResponseWriter, r *http.Request) {
 		result.Score++
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	writeJSON(w, result)
 }
 
 func fetchPinnedResource(host string, pinnedIP net.IP, path string, maxBytes int64) (CrawlResource, string) {

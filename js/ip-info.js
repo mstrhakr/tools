@@ -1,11 +1,6 @@
 (function () {
   'use strict';
 
-  // Route through our own backend so the browser never makes a plaintext HTTP
-  // request directly to ip-api.com. The backend handles the ip-api.com call
-  // server-side and returns the same JSON structure.
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function makeStatItem(label, value) {
     var e = window.mtools.escapeHtml;
     return '<div class="stat-item">' +
@@ -34,24 +29,15 @@
     if (loadingEl) loadingEl.style.display = 'block';
     resultsEl.innerHTML = '';
 
-    var url = API_BASE + '/api/geoip?ip=' + encodeURIComponent(ip || 'self');
-    fetch(url)
-      .then(function (res) { return res.json(); })
+    mtools.apiFetch('/api/geoip?ip=' + encodeURIComponent(ip || 'self'))
       .then(function (data) {
         if (loadingEl) loadingEl.style.display = 'none';
-        if (data.error || data.status === 'fail') {
-          if (errorEl) {
-            errorEl.textContent = data.message || data.error || 'Lookup failed';
-            errorEl.style.display = 'block';
-          }
-          return;
-        }
         renderIPInfo(data, resultsEl);
       })
-      .catch(function () {
+      .catch(function (err) {
         if (loadingEl) loadingEl.style.display = 'none';
         if (errorEl) {
-          errorEl.textContent = 'Request failed.';
+          errorEl.textContent = err.message || 'Request failed.';
           errorEl.style.display = 'block';
         }
       });

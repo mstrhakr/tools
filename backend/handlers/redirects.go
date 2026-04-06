@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"net"
 	"net/http"
 	"net/url"
@@ -76,8 +75,7 @@ func Redirects(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	writeJSON(w, result)
 }
 
 func inspectSingleHop(rawURL string) (RedirectStep, *url.URL, error) {

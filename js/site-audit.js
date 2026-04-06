@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function esc(v) {
     return window.mtools.escapeHtml(v == null ? '' : String(v));
   }
@@ -38,10 +36,9 @@
     html += '<div class="result mt-1"><strong>Permissions-Policy:</strong> ' + passFail(data.permissions_policy) + '</div>';
     html += '</div>';
 
-    var notices = [data.http_security_error, data.https_connection_error, data.tls_inspection_error].filter(Boolean);
-    if (notices.length) {
+    if (Array.isArray(data.notices) && data.notices.length) {
       html += '<div class="tool-section mt-2"><h2>Notices</h2><div class="result">';
-      notices.forEach(function (n) {
+      data.notices.forEach(function (n) {
         html += '<div class="text-muted">' + esc(n) + '</div>';
       });
       html += '</div></div>';
@@ -70,17 +67,9 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/siteaudit?host=' + encodeURIComponent(host))
-      .then(function (res) {
-        return res.json().then(function (body) {
-          return { ok: res.ok, body: body };
-        });
-      })
-      .then(function (resp) {
-        if (!resp.ok || resp.body.error) {
-          throw new Error(resp.body.error || 'Audit failed');
-        }
-        outEl.innerHTML = render(resp.body);
+    mtools.apiFetch('/api/siteaudit?host=' + encodeURIComponent(host))
+      .then(function (data) {
+        outEl.innerHTML = render(data);
       })
       .catch(function (err) {
         errEl.textContent = err.message || 'Request failed.';

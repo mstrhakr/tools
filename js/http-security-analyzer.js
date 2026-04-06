@@ -1,8 +1,6 @@
 (function () {
   'use strict';
 
-  var API_BASE = 'https://api.tools.mstrhakr.com';
-
   function esc(v) {
     return window.mtools.escapeHtml(v == null ? '' : String(v));
   }
@@ -55,17 +53,9 @@
     btn.disabled = true;
     loader.style.display = 'inline';
 
-    fetch(API_BASE + '/api/httpsecurity?url=' + encodeURIComponent(input))
-      .then(function (res) {
-        return res.json().then(function (body) {
-          return { ok: res.ok, body: body };
-        });
-      })
-      .then(function (resp) {
-        if (!resp.ok || resp.body.error) {
-          throw new Error(resp.body.error || 'Security analysis failed');
-        }
-        outEl.innerHTML = render(resp.body);
+    mtools.apiFetch('/api/httpsecurity?url=' + encodeURIComponent(input))
+      .then(function (data) {
+        outEl.innerHTML = render(data);
       })
       .catch(function (err) {
         errEl.textContent = err.message || 'Request failed.';

@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"net"
 	"net/http"
 	"strings"
@@ -52,8 +51,7 @@ func TLSRPT(w http.ResponseWriter, r *http.Request) {
 	txt, err := resolver.LookupTXT(ctx, recordName)
 	if err != nil || len(txt) == 0 {
 		out.Observations = append(out.Observations, "No TLS-RPT TXT record found.")
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(out)
+		writeJSON(w, out)
 		return
 	}
 
@@ -68,8 +66,7 @@ func TLSRPT(w http.ResponseWriter, r *http.Request) {
 
 	if !out.RecordFound {
 		out.Observations = append(out.Observations, "TXT records exist but none look like TLS-RPT (v=TLSRPTv1).")
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(out)
+		writeJSON(w, out)
 		return
 	}
 
@@ -86,8 +83,7 @@ func TLSRPT(w http.ResponseWriter, r *http.Request) {
 		out.Observations = append(out.Observations, "No rua reporting URI found.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(out)
+	writeJSON(w, out)
 }
 
 func parseTLSRPTRecord(record string) (version string, uris []string) {

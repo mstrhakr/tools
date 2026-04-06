@@ -3,7 +3,6 @@ package handlers
 import (
 	"context"
 	"crypto/tls"
-	"encoding/json"
 	"net"
 	"net/http"
 	"net/url"
@@ -12,26 +11,24 @@ import (
 )
 
 type SiteAuditResult struct {
-	Host                  string `json:"host"`
-	HTTPStatus            string `json:"http_status"`
-	HTTPSTatus            string `json:"https_status"`
-	RedirectsToHTTPS      bool   `json:"redirects_to_https"`
-	TLSVersion            string `json:"tls_version"`
-	CipherSuite           string `json:"cipher_suite"`
-	CertDaysLeft          int    `json:"cert_days_left"`
-	CertExpired           bool   `json:"cert_expired"`
-	HSTS                  bool   `json:"hsts"`
-	CSP                   bool   `json:"csp"`
-	NoSniff               bool   `json:"nosniff"`
-	FrameProtection       bool   `json:"frame_protection"`
-	ReferrerPolicy        bool   `json:"referrer_policy"`
-	PermissionsPolicy     bool   `json:"permissions_policy"`
-	Score                 int    `json:"score"`
-	MaxScore              int    `json:"max_score"`
-	Error                 string `json:"error,omitempty"`
-	HTTPSecurityError     string `json:"http_security_error,omitempty"`
-	HTTPSConnectionError  string `json:"https_connection_error,omitempty"`
-	TLSInspectionError    string `json:"tls_inspection_error,omitempty"`
+	Host                  string   `json:"host"`
+	HTTPStatus            string   `json:"http_status"`
+	HTTPSTatus            string   `json:"https_status"`
+	RedirectsToHTTPS      bool     `json:"redirects_to_https"`
+	TLSVersion            string   `json:"tls_version"`
+	CipherSuite           string   `json:"cipher_suite"`
+	CertDaysLeft          int      `json:"cert_days_left"`
+	CertExpired           bool     `json:"cert_expired"`
+	HSTS                  bool     `json:"hsts"`
+	CSP                   bool     `json:"csp"`
+	NoSniff               bool     `json:"nosniff"`
+	FrameProtection       bool     `json:"frame_protection"`
+	ReferrerPolicy        bool     `json:"referrer_policy"`
+	PermissionsPolicy     bool     `json:"permissions_policy"`
+	Score                 int      `json:"score"`
+	MaxScore              int      `json:"max_score"`
+	Notices               []string `json:"notices,omitempty"`
+	Error                 string   `json:"error,omitempty"`
 }
 
 func SiteAudit(w http.ResponseWriter, r *http.Request) {
@@ -57,7 +54,7 @@ func SiteAudit(w http.ResponseWriter, r *http.Request) {
 
 	httpStatus, location, httpErr := headPinned("http", host, pinnedIP)
 	if httpErr != nil {
-		result.HTTPSecurityError = httpErr.Error()
+		result.Notices = append(result.Notices, "HTTP check: "+httpErr.Error())
 	} else {
 		result.HTTPStatus = httpStatus
 		if strings.HasPrefix(strings.ToLower(location), "https://") {
@@ -67,7 +64,7 @@ func SiteAudit(w http.ResponseWriter, r *http.Request) {
 
 	httpsStatus, _, httpsHeaders, httpsErr := headPinnedWithHeaders("https", host, pinnedIP)
 	if httpsErr != nil {
-		result.HTTPSConnectionError = httpsErr.Error()
+		result.Notices = append(result.Notices, "HTTPS check: "+httpsErr.Error())
 	} else {
 		result.HTTPSTatus = httpsStatus
 		result.HSTS = strings.TrimSpace(httpsHeaders.Get("Strict-Transport-Security")) != ""
@@ -79,7 +76,7 @@ func SiteAudit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if tlsVersion, cipher, daysLeft, expired, tlsErr := inspectTLS(host, pinnedIP); tlsErr != nil {
-		result.TLSInspectionError = tlsErr.Error()
+		result.Notices = append(result.Notices, "TLS inspection: "+tlsErr.Error())
 	} else {
 		result.TLSVersion = tlsVersion
 		result.CipherSuite = cipher
@@ -113,8 +110,7 @@ func SiteAudit(w http.ResponseWriter, r *http.Request) {
 		result.Score++
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+	writeJSON(w, result)
 }
 
 func normalizeHost(raw string) string {

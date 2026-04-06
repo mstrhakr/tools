@@ -142,7 +142,7 @@ func rateLimitMiddleware(rl *rateLimiter) func(http.Handler) http.Handler {
 func writeError(w http.ResponseWriter, msg string, code int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	json.NewEncoder(w).Encode(map[string]string{"error": msg})
+	json.NewEncoder(w).Encode(map[string]interface{}{"ok": false, "error": msg})
 }
 
 func chain(h http.Handler, middlewares ...func(http.Handler) http.Handler) http.Handler {
@@ -168,7 +168,7 @@ func main() {
 	mux.Handle("GET /health", chain(
 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+			json.NewEncoder(w).Encode(map[string]interface{}{"ok": true, "data": map[string]string{"status": "ok"}})
 		}),
 		rateLimitMiddleware(defaultRL),
 	))
@@ -274,6 +274,11 @@ func main() {
 		http.HandlerFunc(handlers.ZoneTransferProbe),
 		rateLimitMiddleware(defaultRL),
 	))
+
+	// JSON 404 catch-all so unmatched routes never return plain text
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		writeError(w, "not found", http.StatusNotFound)
+	})
 
 	handler := corsMiddleware(mux)
 
