@@ -34,7 +34,7 @@ type dnsJSONAnswer struct {
 	TTL  int    `json:"TTL"`
 }
 
-type dnsJSONResponse struct {
+type daneJSONResponse struct {
 	Status int             `json:"Status"`
 	Answer []dnsJSONAnswer `json:"Answer"`
 }
@@ -119,30 +119,30 @@ func DANE(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(out)
 }
 
-func dohLookup(name string, rrType int) (dnsJSONResponse, error) {
+func dohLookup(name string, rrType int) (daneJSONResponse, error) {
 	client := &http.Client{Timeout: 10 * time.Second}
 	q := "https://cloudflare-dns.com/dns-query?name=" + url.QueryEscape(name) + "&type=" + strconv.Itoa(rrType)
 	req, err := http.NewRequest(http.MethodGet, q, nil)
 	if err != nil {
-		return dnsJSONResponse{}, err
+		return daneJSONResponse{}, err
 	}
 	req.Header.Set("Accept", "application/dns-json")
 	req.Header.Set("User-Agent", "mstrhakr-tools/1.0")
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return dnsJSONResponse{}, err
+		return daneJSONResponse{}, err
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(io.LimitReader(resp.Body, 512*1024))
 	if err != nil {
-		return dnsJSONResponse{}, err
+		return daneJSONResponse{}, err
 	}
 
-	var out dnsJSONResponse
+	var out daneJSONResponse
 	if err := json.Unmarshal(body, &out); err != nil {
-		return dnsJSONResponse{}, err
+		return daneJSONResponse{}, err
 	}
 	return out, nil
 }
