@@ -1,0 +1,5 @@
+{
+  "name": "Network",
+  "description": "Network diagnostics, DNS, and connectivity tools",
+  "order": 6
+}

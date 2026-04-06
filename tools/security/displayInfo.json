@@ -1,0 +1,5 @@
+{
+  "name": "Security",
+  "description": "Encryption, hashing, and security analysis tools",
+  "order": 7
+}

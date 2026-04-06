@@ -1,0 +1,14 @@
+{
+  "name": "DNS",
+  "description": "DNS lookup, inspection, and validation tools",
+  "order": 1,
+  "tools": [
+    "dns-lookup",
+    "dns-inspector",
+    "dns-propagation-checker",
+    "dnssec-checker",
+    "dnsbl",
+    "reverse-dns",
+    "zone-transfer-probe"
+  ]
+}

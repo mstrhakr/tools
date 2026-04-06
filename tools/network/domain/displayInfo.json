@@ -1,0 +1,10 @@
+{
+  "name": "Domain",
+  "description": "Domain registration, WHOIS, and policy tools",
+  "order": 2,
+  "tools": [
+    "whois",
+    "rdap-explorer",
+    "caa-analyzer"
+  ]
+}

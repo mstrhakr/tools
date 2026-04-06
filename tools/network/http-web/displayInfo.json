@@ -1,0 +1,14 @@
+{
+  "name": "HTTP & Web",
+  "description": "HTTP inspection, SSL, and website analysis tools",
+  "order": 4,
+  "tools": [
+    "http-headers",
+    "http-security-analyzer",
+    "redirect-inspector",
+    "ssl-checker",
+    "dane-checker",
+    "site-audit",
+    "crawl-checker"
+  ]
+}

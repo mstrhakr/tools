@@ -1,0 +1,16 @@
+{
+  "name": "IP & Connectivity",
+  "description": "IP address, subnet, and connectivity testing tools",
+  "order": 5,
+  "tools": [
+    "ip-info",
+    "geoip",
+    "subnet-calculator",
+    "cidr-merge",
+    "asn-lookup",
+    "mac-lookup",
+    "ping",
+    "port-scanner",
+    "traceroute"
+  ]
+}

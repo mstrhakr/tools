@@ -1,0 +1,5 @@
+{
+  "name": "Generator",
+  "description": "Generate passwords, UUIDs, hashes, and more",
+  "order": 5
+}

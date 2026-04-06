@@ -41,8 +41,22 @@ jobs:
           import re
           from pathlib import Path
 
-          category_order = ['converter', 'encoding', 'text', 'math', 'generator', 'network', 'security', 'dev']
-          order_index = {name: idx for idx, name in enumerate(category_order)}
+          def read_display_info(folder):
+            """Read displayInfo.json from a folder, returning defaults if missing."""
+            info_path = folder / 'displayInfo.json'
+            info = {}
+            if info_path.exists():
+              try:
+                info = json.loads(info_path.read_text(encoding='utf-8'))
+              except (json.JSONDecodeError, OSError):
+                pass
+            name = info.get('name') or folder.name.replace('-', ' ').title()
+            return {
+              'name': name,
+              'description': info.get('description', ''),
+              'order': info.get('order', 999),
+              'tools': info.get('tools', []),
+            }
 
           def clean_name(title, slug):
             name = (title or '').strip()
@@ -62,30 +76,110 @@ jobs:
             desc = re.sub(r'<[^>]+>', '', m.group(1))
             return re.sub(r'\s+', ' ', desc).strip()
 
+          tools_root = Path('tools')
+
+          # Discover categories (immediate subdirectories with HTML files)
+          categories = {}
+          for cat_dir in sorted(tools_root.iterdir()):
+            if not cat_dir.is_dir():
+              continue
+            cat_info = read_display_info(cat_dir)
+            cat_slug = cat_dir.name
+
+            # Build subcategory slug->tool mapping from displayInfo.json files
+            subcategories = {}
+            subcategory_order = []
+            for sub_dir in sorted(cat_dir.iterdir()):
+              if not sub_dir.is_dir():
+                continue
+              sub_info = read_display_info(sub_dir)
+              sub_slug = sub_dir.name
+              if sub_info['tools']:
+                subcategories[sub_slug] = sub_info
+                subcategory_order.append(sub_slug)
+
+            # Sort subcategories by order
+            subcategory_order.sort(key=lambda s: subcategories[s]['order'])
+
+            # Build reverse map: tool_slug -> subcategory_slug
+            tool_to_sub = {}
+            for sub_slug, sub_info in subcategories.items():
+              for tool_slug in sub_info['tools']:
+                tool_to_sub[tool_slug] = sub_slug
+
+            categories[cat_slug] = {
+              'info': cat_info,
+              'subcategories': subcategories,
+              'subcategory_order': subcategory_order,
+              'tool_to_sub': tool_to_sub,
+            }
+
+          # Discover all tools
           tools = []
-          for html_path in Path('tools').glob('*/*.html'):
-            category = html_path.parent.name
+          for html_path in tools_root.glob('*/*.html'):
+            cat_slug = html_path.parent.name
             slug = html_path.stem
             rel = html_path.as_posix()
             html = html_path.read_text(encoding='utf-8')
             name = clean_name(parse_title(html), slug)
             description = parse_description(html)
-            tools.append({
-              'category': category,
+
+            cat_data = categories.get(cat_slug, {})
+            cat_info = cat_data.get('info', {})
+            sub_slug = cat_data.get('tool_to_sub', {}).get(slug)
+            sub_info = cat_data.get('subcategories', {}).get(sub_slug) if sub_slug else None
+
+            tool_entry = {
+              'category': cat_slug,
+              'categoryName': cat_info.get('name', cat_slug.replace('-', ' ').title()),
               'name': name,
               'url': '/' + rel,
-              'tags': (slug + ' ' + category + ' ' + name).lower(),
+              'tags': (slug + ' ' + cat_slug + ' ' + name).lower(),
               'description': description,
-            })
+            }
+            if sub_slug:
+              tool_entry['subcategory'] = sub_slug
+              tool_entry['subcategoryName'] = sub_info['name']
 
-          tools.sort(key=lambda t: (order_index.get(t['category'], 999), t['name'].lower()))
+            tools.append(tool_entry)
+
+          # Sort: by category order, then subcategorized tools first (by sub order),
+          # then uncategorized tools alphabetically
+          def sort_key(t):
+            cat_data = categories.get(t['category'], {})
+            cat_order = cat_data.get('info', {}).get('order', 999)
+            sub_slug = t.get('subcategory')
+            if sub_slug:
+              sub_info = cat_data.get('subcategories', {}).get(sub_slug, {})
+              sub_order = sub_info.get('order', 999)
+              return (cat_order, 0, sub_order, t['name'].lower())
+            else:
+              return (cat_order, 1, 0, t['name'].lower())
+          tools.sort(key=sort_key)
+
+          # Build subcategory metadata for the manifest
+          subcategory_meta = {}
+          for cat_slug, cat_data in categories.items():
+            if cat_data['subcategory_order']:
+              subcategory_meta[cat_slug] = []
+              for sub_slug in cat_data['subcategory_order']:
+                sub_info = cat_data['subcategories'][sub_slug]
+                subcategory_meta[cat_slug].append({
+                  'slug': sub_slug,
+                  'name': sub_info['name'],
+                  'description': sub_info.get('description', ''),
+                  'order': sub_info['order'],
+                })
 
           manifest = {
             'tools': tools,
+            'subcategories': subcategory_meta,
           }
 
           Path('tools-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
           print(f'Wrote tools-manifest.json with {len(tools)} tools')
+          for cat_slug, subs in subcategory_meta.items():
+            print(f'  {cat_slug}: {len(subs)} subcategories')
           PY
 
       - name: Commit manifest changes

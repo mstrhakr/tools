@@ -260,6 +260,94 @@ a:hover {
   border-bottom: none;
 }
 
+/* --- Subcategory Flyout Submenus --- */
+.nav-has-submenu {
+  position: relative;
+}
+
+.nav-submenu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.4rem 1rem;
+  white-space: nowrap;
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.nav-submenu-toggle:hover {
+  background-color: var(--bg);
+  color: var(--fg-emphasis);
+}
+
+.nav-submenu-caret {
+  font-size: 0.6rem;
+  margin-left: 0.75rem;
+  opacity: 0.6;
+}
+
+.nav-submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.4rem 0;
+  min-width: 200px;
+  list-style: none;
+  z-index: 210;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.nav-has-submenu:hover > .nav-submenu {
+  display: block;
+}
+
+.nav-submenu li a {
+  display: block;
+  padding: 0.4rem 1rem;
+  white-space: nowrap;
+  color: var(--fg-muted);
+  border-bottom: none;
+  font-size: 0.85rem;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.nav-submenu li a:hover,
+.nav-submenu li a.active {
+  background-color: var(--bg);
+  color: var(--fg-emphasis);
+  border-bottom: none;
+}
+
+/* Flip submenu to left when near viewport edge */
+.nav-submenu.flip-left {
+  left: auto;
+  right: 100%;
+}
+
+/* Divider between subcategories and uncategorized tools */
+.nav-divider {
+  border-top: 1px solid var(--border);
+  margin: 0.3rem 0;
+}
+
+/* Dropdown scroll safeguard */
+.nav-dropdown {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 .nav-stats {
   color: var(--fg-muted) !important;
 }
@@ -313,6 +401,40 @@ a:hover {
   }
 
   .nav-has-dropdown.open .nav-dropdown li a {
+    padding: 0.35rem 0.5rem;
+  }
+
+  /* Submenu overrides for mobile — accordion style, no flyout */
+  .nav-has-submenu:hover > .nav-submenu {
+    display: none;
+  }
+
+  .nav-submenu-caret {
+    transition: transform 0.15s ease;
+  }
+
+  .nav-has-submenu.open > .nav-submenu-toggle .nav-submenu-caret {
+    transform: rotate(90deg);
+  }
+
+  .nav-has-submenu.open > .nav-submenu {
+    display: block;
+    position: static;
+    box-shadow: none;
+    border: none;
+    border-left: 2px solid var(--border);
+    border-radius: 0;
+    padding: 0.25rem 0 0.25rem 0.75rem;
+    min-width: unset;
+    margin-top: 0.15rem;
+  }
+
+  .nav-has-submenu.open > .nav-submenu li a {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .nav-submenu-toggle {
     padding: 0.35rem 0.5rem;
   }
 }

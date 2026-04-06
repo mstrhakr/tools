@@ -1,0 +1,13 @@
+{
+  "name": "Email Auth",
+  "description": "Email authentication and deliverability tools",
+  "order": 3,
+  "tools": [
+    "bimi-checker",
+    "dmarc-parser",
+    "email-auth-audit",
+    "mta-sts-checker",
+    "spf-parser",
+    "tls-rpt-checker"
+  ]
+}
