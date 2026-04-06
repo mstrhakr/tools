@@ -342,10 +342,10 @@ a:hover {
   margin: 0.3rem 0;
 }
 
-/* Dropdown scroll safeguard */
+/* Dropdown scroll safeguard — overflow visible so flyout submenus aren't clipped */
 .nav-dropdown {
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: visible;
 }
 
 .nav-stats {
@@ -398,6 +398,7 @@ a:hover {
     padding: 0.25rem 0 0.25rem 0.75rem;
     min-width: unset;
     margin-top: 0.25rem;
+    overflow-y: auto;
   }
 
   .nav-has-dropdown.open .nav-dropdown li a {
