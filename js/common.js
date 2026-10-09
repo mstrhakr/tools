@@ -5,33 +5,120 @@
 (function () {
   'use strict';
 
-  // --- Manifest (single source of truth) ---
-  var _manifestPromise = null;
-  function loadManifest() {
-    if (!_manifestPromise) {
-      _manifestPromise = fetch('/tools-manifest.json')
-        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-        .catch(function () { return { tools: [], subcategories: {} }; });
+  // --- Tool Catalog (auto-generated from tool HTML files) ---
+  var CATEGORY_ORDER = ['converter', 'encoding', 'text', 'math', 'generator', 'network', 'security', 'dev'];
+  var TOOLS_CACHE_KEY = 'mtools:catalog:v3';
+  var TOOLS_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
+  var MANIFEST_URL = '/tools-manifest.json';
+
+  function normalizeAndSortTools(tools) {
+    tools.sort(function (a, b) {
+      var ai = CATEGORY_ORDER.indexOf(a.category);
+      var bi = CATEGORY_ORDER.indexOf(b.category);
+      if (ai !== bi) {
+        return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+      }
+      return a.name.localeCompare(b.name, 'en') || a.url.localeCompare(b.url, 'en');
+    });
+    return tools;
+  }
+
+  function readCachedTools() {
+    try {
+      var raw = localStorage.getItem(TOOLS_CACHE_KEY);
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.tools) || !parsed.updatedAt) return null;
+      if ((Date.now() - parsed.updatedAt) > TOOLS_CACHE_TTL_MS) return null;
+      return parsed.tools;
+    } catch (e) {
+      return null;
     }
-    return _manifestPromise;
+  }
+
+  function writeCachedTools(tools) {
+    try {
+      localStorage.setItem(TOOLS_CACHE_KEY, JSON.stringify({
+        updatedAt: Date.now(),
+        tools: tools
+      }));
+    } catch (e) {
+      // Ignore cache write failures.
+    }
+  }
+
+  function fetchToolsFromManifest() {
+    return fetch(MANIFEST_URL, { cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Failed to load tools manifest');
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data || !Array.isArray(data.tools) || !data.tools.length) {
+          throw new Error('Invalid tools manifest format');
+        }
+        return data.tools;
+      })
+      .then(normalizeAndSortTools);
+  }
+
+  function loadToolsCatalog() {
+    return fetchToolsFromManifest().then(function (tools) {
+      writeCachedTools(tools);
+      return tools;
+    }).catch(function (error) {
+      var cached = readCachedTools();
+      if (cached && cached.length) return normalizeAndSortTools(cached);
+      throw error;
+    });
+  }
+
+  function buildLegacyToolPathMap(tools) {
+    var map = {};
+    tools.forEach(function (tool) {
+      var m = tool.url.match(/^\/tools\/([a-z0-9-]+)\/([a-z0-9-]+)\.html$/i);
+      if (!m) return;
+      var slug = m[2];
+      map['/tools/' + slug + '.html'] = tool.url;
+    });
+    return map;
+  }
+
+  function rewriteLegacyToolLinks(legacyMap) {
+    document.querySelectorAll('a[href^="/tools/"]').forEach(function (a) {
+      var href = a.getAttribute('href');
+      if (!href) return;
+      var pieces = href.split('?');
+      var base = pieces[0];
+      if (legacyMap[base]) {
+        var next = legacyMap[base] + (pieces[1] ? ('?' + pieces[1]) : '');
+        a.setAttribute('href', next);
+      }
+    });
   }
 
   // --- Dynamic Nav Builder ---
-  function initNav(manifest) {
-    var tools = manifest.tools || [];
-    var subcategoryMeta = manifest.subcategories || {};
+  function initNav(toolsCatalog) {
     var navLinks = document.querySelector('.nav-links');
     if (!navLinks) return;
 
-    // Group tools by category, preserving manifest order
+    function closeAllDropdowns() {
+      navLinks.querySelectorAll('.nav-has-dropdown.open').forEach(function (li) {
+        li.classList.remove('open');
+        var t = li.querySelector('.nav-dropdown-toggle');
+        if (t) t.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    // Group tools by category, preserving insertion order
     var categoryOrder = [];
     var categories = {};
-    tools.forEach(function (tool) {
+    toolsCatalog.forEach(function (tool) {
       if (!categories[tool.category]) {
-        categories[tool.category] = { tools: [], displayName: tool.categoryName || tool.category };
+        categories[tool.category] = [];
         categoryOrder.push(tool.category);
       }
-      categories[tool.category].tools.push(tool);
+      categories[tool.category].push(tool);
     });
 
     var currentPath = window.location.pathname;
@@ -50,9 +137,7 @@
 
     // Category dropdowns
     categoryOrder.forEach(function (cat) {
-      var catData = categories[cat];
-      var catTools = catData.tools;
-      var subs = subcategoryMeta[cat] || [];
+      var tools = categories[cat];
       var li = document.createElement('li');
       li.className = 'nav-has-dropdown';
 
@@ -61,7 +146,7 @@
       toggle.setAttribute('aria-haspopup', 'true');
       toggle.setAttribute('aria-expanded', 'false');
 
-      var label = document.createTextNode(catData.displayName + '\u00a0');
+      var label = document.createTextNode(cat + '\u00a0');
       var caret = document.createElement('span');
       caret.className = 'nav-caret';
       caret.setAttribute('aria-hidden', 'true');
@@ -71,124 +156,23 @@
 
       var dropdown = document.createElement('ul');
       dropdown.className = 'nav-dropdown';
-      dropdown.setAttribute('aria-label', catData.displayName + ' tools');
+      dropdown.setAttribute('aria-label', cat + ' tools');
 
-      if (subs.length > 0) {
-        // Build subcategory tool groups
-        var subToolMap = {};
-        var uncategorized = [];
-        catTools.forEach(function (tool) {
-          if (tool.subcategory) {
-            if (!subToolMap[tool.subcategory]) subToolMap[tool.subcategory] = [];
-            subToolMap[tool.subcategory].push(tool);
-          } else {
-            uncategorized.push(tool);
-          }
+      tools.forEach(function (tool) {
+        var itemLi = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = tool.url;
+        a.textContent = tool.name;
+        a.addEventListener('click', function () {
+          closeAllDropdowns();
         });
-
-        // Render subcategory flyout items
-        subs.forEach(function (sub) {
-          var subTools = subToolMap[sub.slug] || [];
-          if (subTools.length === 0) return;
-
-          var subLi = document.createElement('li');
-          subLi.className = 'nav-has-submenu';
-
-          var subBtn = document.createElement('button');
-          subBtn.className = 'nav-submenu-toggle';
-          subBtn.setAttribute('aria-haspopup', 'true');
-          subBtn.setAttribute('aria-expanded', 'false');
-
-          var subLabel = document.createTextNode(sub.name);
-          var subCaret = document.createElement('span');
-          subCaret.className = 'nav-submenu-caret';
-          subCaret.setAttribute('aria-hidden', 'true');
-          subCaret.textContent = '\u25b8';
-          subBtn.appendChild(subLabel);
-          subBtn.appendChild(subCaret);
-
-          var submenu = document.createElement('ul');
-          submenu.className = 'nav-submenu';
-          submenu.setAttribute('aria-label', sub.name + ' tools');
-
-          subTools.forEach(function (tool) {
-            var itemLi = document.createElement('li');
-            var a = document.createElement('a');
-            a.href = tool.url;
-            a.textContent = tool.name;
-            if (currentPath === tool.url) {
-              a.classList.add('active');
-              toggle.classList.add('active');
-            }
-            itemLi.appendChild(a);
-            submenu.appendChild(itemLi);
-          });
-
-          // Desktop: open on hover. Mobile: toggle on click.
-          subBtn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            var isOpen = subLi.classList.toggle('open');
-            subBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-            // Close sibling submenus
-            dropdown.querySelectorAll('.nav-has-submenu.open').forEach(function (other) {
-              if (other !== subLi) {
-                other.classList.remove('open');
-                var ob = other.querySelector('.nav-submenu-toggle');
-                if (ob) ob.setAttribute('aria-expanded', 'false');
-              }
-            });
-          });
-
-          // Viewport edge detection for flyout positioning
-          subLi.addEventListener('mouseenter', function () {
-            submenu.classList.remove('flip-left');
-            var rect = submenu.getBoundingClientRect();
-            if (rect.right > window.innerWidth) {
-              submenu.classList.add('flip-left');
-            }
-          });
-
-          subLi.appendChild(subBtn);
-          subLi.appendChild(submenu);
-          dropdown.appendChild(subLi);
-        });
-
-        // Divider between subcategories and uncategorized tools
-        if (uncategorized.length > 0 && subs.length > 0) {
-          var divLi = document.createElement('li');
-          divLi.className = 'nav-divider';
-          divLi.setAttribute('role', 'separator');
-          dropdown.appendChild(divLi);
+        if (currentPath === tool.url) {
+          a.classList.add('active');
+          toggle.classList.add('active');
         }
-
-        // Uncategorized tools below
-        uncategorized.forEach(function (tool) {
-          var itemLi = document.createElement('li');
-          var a = document.createElement('a');
-          a.href = tool.url;
-          a.textContent = tool.name;
-          if (currentPath === tool.url) {
-            a.classList.add('active');
-            toggle.classList.add('active');
-          }
-          itemLi.appendChild(a);
-          dropdown.appendChild(itemLi);
-        });
-      } else {
-        // No subcategories — flat list (same as before)
-        catTools.forEach(function (tool) {
-          var itemLi = document.createElement('li');
-          var a = document.createElement('a');
-          a.href = tool.url;
-          a.textContent = tool.name;
-          if (currentPath === tool.url) {
-            a.classList.add('active');
-            toggle.classList.add('active');
-          }
-          itemLi.appendChild(a);
-          dropdown.appendChild(itemLi);
-        });
-      }
+        itemLi.appendChild(a);
+        dropdown.appendChild(itemLi);
+      });
 
       // Click toggle: for mobile and keyboard users
       toggle.addEventListener('click', function (e) {
@@ -233,43 +217,70 @@
     navLinks.innerHTML = '';
     navLinks.appendChild(fragment);
 
-    // Helper: close all open submenus within an element
-    function closeSubmenus(container) {
-      container.querySelectorAll('.nav-has-submenu.open').forEach(function (sub) {
-        sub.classList.remove('open');
-        var btn = sub.querySelector('.nav-submenu-toggle');
-        if (btn) btn.setAttribute('aria-expanded', 'false');
-      });
-    }
-
     // Close all dropdowns when clicking outside
     document.addEventListener('click', function (e) {
       if (!e.target.closest('.nav-has-dropdown')) {
-        navLinks.querySelectorAll('.nav-has-dropdown.open').forEach(function (openLi) {
-          openLi.classList.remove('open');
-          closeSubmenus(openLi);
-          var t = openLi.querySelector('.nav-dropdown-toggle');
-          if (t) t.setAttribute('aria-expanded', 'false');
-        });
+        closeAllDropdowns();
       }
     });
 
     // Close all dropdowns on Escape
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        navLinks.querySelectorAll('.nav-has-dropdown.open').forEach(function (openLi) {
-          openLi.classList.remove('open');
-          closeSubmenus(openLi);
-          var t = openLi.querySelector('.nav-dropdown-toggle');
-          if (t) t.setAttribute('aria-expanded', 'false');
-        });
+        closeAllDropdowns();
       }
+    });
+
+    // When restoring from bfcache, avoid stale open dropdown state.
+    window.addEventListener('pageshow', function () {
+      closeAllDropdowns();
     });
   }
 
+  // --- Homepage Tool Cards ---
+  function initHomepageCards(toolsCatalog) {
+    var grid = document.querySelector('.tool-grid');
+    if (!grid) return;
+
+    var fragment = document.createDocumentFragment();
+    toolsCatalog.forEach(function (tool) {
+      var card = document.createElement('a');
+      card.className = 'tool-card';
+      card.href = tool.url;
+      card.setAttribute('data-name', tool.name.toLowerCase());
+      card.setAttribute('data-tags', (tool.tags || '').toLowerCase());
+
+      var category = document.createElement('span');
+      category.className = 'card-category';
+      category.textContent = tool.category;
+
+      var h3 = document.createElement('h3');
+      h3.textContent = tool.name;
+
+      var p = document.createElement('p');
+      p.textContent = tool.description || (tool.name + ' tool');
+
+      card.appendChild(category);
+      card.appendChild(h3);
+      card.appendChild(p);
+      fragment.appendChild(card);
+    });
+
+    grid.innerHTML = '';
+    grid.appendChild(fragment);
+  }
+
   // --- Theme Toggle ---
+  function readStoredTheme() {
+    try {
+      return localStorage.getItem('theme');
+    } catch (e) {
+      return null;
+    }
+  }
+
   function getPreferredTheme() {
-    var stored = localStorage.getItem('theme');
+    var stored = readStoredTheme();
     if (stored) return stored;
     return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
   }
@@ -290,13 +301,17 @@
       btn.addEventListener('click', function () {
         var current = document.documentElement.getAttribute('data-theme') || 'dark';
         var next = current === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('theme', next);
+        try {
+          localStorage.setItem('theme', next);
+        } catch (e) {
+          // Theme switching still works when storage is unavailable.
+        }
         applyTheme(next);
       });
     }
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-      if (!localStorage.getItem('theme')) {
+      if (!readStoredTheme()) {
         applyTheme(e.matches ? 'dark' : 'light');
       }
     });
@@ -322,6 +337,17 @@
         hamburger.setAttribute('aria-expanded', 'false');
         hamburger.textContent = '[=]';
       });
+    });
+  }
+
+  // --- Active Nav Link ---
+  function initActiveLink() {
+    var path = window.location.pathname;
+    document.querySelectorAll('.nav-links a').forEach(function (link) {
+      var href = link.getAttribute('href');
+      if (href === path || (href !== '/' && path.startsWith(href))) {
+        link.classList.add('active');
+      }
     });
   }
 
@@ -386,42 +412,6 @@
     document.body.removeChild(ta);
   }
 
-  // --- Homepage Cards ---
-  function initHomepageCards(tools) {
-    var grid = document.querySelector('.tool-grid');
-    if (!grid) return;
-
-    var fragment = document.createDocumentFragment();
-    tools.forEach(function (tool) {
-      var card = document.createElement('a');
-      card.className = 'tool-card';
-      card.href = tool.url;
-      card.setAttribute('data-name', tool.name.toLowerCase());
-      card.setAttribute('data-tags', tool.tags || '');
-
-      var cat = document.createElement('span');
-      cat.className = 'card-category';
-      cat.textContent = tool.categoryName || tool.category;
-
-      var title = document.createElement('h3');
-      title.textContent = tool.name;
-
-      card.appendChild(cat);
-      card.appendChild(title);
-
-      if (tool.description) {
-        var desc = document.createElement('p');
-        desc.textContent = tool.description;
-        card.appendChild(desc);
-      }
-
-      fragment.appendChild(card);
-    });
-
-    grid.innerHTML = '';
-    grid.appendChild(fragment);
-  }
-
   // --- Homepage Search ---
   function initSearch() {
     var searchInput = document.getElementById('tool-search');
@@ -452,14 +442,30 @@
 
   // --- Init ---
   document.addEventListener('DOMContentLoaded', function () {
-    loadManifest().then(function (manifest) {
-      initNav(manifest);   // builds theme toggle and other nav elements
+    loadToolsCatalog().then(function (toolsCatalog) {
+      var legacyMap = buildLegacyToolPathMap(toolsCatalog);
+      rewriteLegacyToolLinks(legacyMap);
+      initNav(toolsCatalog); // must run first — builds theme toggle and other nav elements
       initTheme();
       initMobileNav();
-      initHomepageCards(manifest.tools || []);
+      initHomepageCards(toolsCatalog);
       initSearch();
+      initGoatCounter();
+    }).catch(function () {
+      // If discovery fails, still initialize non-catalog features.
+      var grid = document.querySelector('.tool-grid');
+      if (grid) {
+        var message = document.createElement('p');
+        message.setAttribute('role', 'status');
+        message.textContent = 'Unable to load tools. Please reload to try again.';
+        grid.innerHTML = '';
+        grid.appendChild(message);
+      }
+      initTheme();
+      initMobileNav();
+      initSearch();
+      initGoatCounter();
     });
-    initGoatCounter();
   });
 
   var API_BASE = 'https://api.tools.mstrhakr.com';

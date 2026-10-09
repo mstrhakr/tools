@@ -70,7 +70,13 @@
       <a href="/" class="site-title">mstrhakr tools</a>
       <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
       <nav>
-        <ul class="nav-links"></ul>
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/tools/math/calculator.html">calculator</a></li>
+          <li><a href="/tools/converter/data-size-converter.html">data size</a></li>
+          <li><a href="/tools/network/subnet-calculator.html">subnet</a></li>
+          <li><button class="theme-toggle" aria-label="Toggle theme">light</button></li>
+        </ul>
       </nav>
     </div>
   </header>
@@ -135,19 +141,6 @@
       </table>
       <p style="margin:0.75rem 0 0;color:var(--fg-muted);">Quick tip: start simple, test often, and only add complexity one token at a time.</p>
     </details>
-
-    <div class="tool-info">
-      <h3>How JavaScript regex works</h3>
-      <p>JavaScript uses a <strong>backtracking NFA</strong> (Non-deterministic Finite Automaton) engine — as opposed to a DFA. This means it supports powerful features like lookaheads, backreferences, and capture groups, but it also means certain patterns can cause <strong>catastrophic backtracking</strong>: exponential worst-case performance on crafted inputs. Avoid nested quantifiers on the same character class (e.g. <code>(a+)+</code>) in any security-sensitive context — this is known as a ReDoS vulnerability.</p>
-      <p><strong>Flags reference:</strong></p>
-      <ul>
-        <li><code>g</code> — global: find all matches, not just the first. Advances <code>lastIndex</code> after each match.</li>
-        <li><code>i</code> — case-insensitive: <code>A</code> matches <code>a</code>.</li>
-        <li><code>m</code> — multiline: <code>^</code> and <code>$</code> match start/end of each line, not just the whole string.</li>
-        <li><code>s</code> — dotAll: <code>.</code> matches newline characters (by default it doesn't).</li>
-        <li><code>u</code> — unicode: enables proper code-point handling for emoji and characters above U+FFFF. Required for <code>\p{...}</code> Unicode property escapes.</li>
-      </ul>
-    </div>
   </main>
 
   <footer class="site-footer">
