@@ -61,11 +61,25 @@ do not commit it. No npm install is required. The browser fetches the latest
 catalog on each page load, using a cached copy only if the fetch fails. If
 neither is available, the homepage shows an error instead of loading forever.
 
-Run catalog and shared-helper regression tests with:
+Run frontend regression tests (catalog, shared helpers, and IP matching) with:
 
 ```bash
-node --test tests/catalog.test.js
+node --test tests/*.test.js
 ```
+
+### IP List Checker
+
+Open `tools/network/ip-list-checker.html` through the static server. Paste a
+reference list of IPv4/IPv6 addresses, CIDRs, or inclusive `start - end` ranges,
+then a list of individual IPs to check. Local TXT files can be appended to
+either input. Newlines, commas, blank lines, and `#` comments are supported.
+
+Invalid reference entries block comparison unless explicitly skipped. CIDRs
+with host bits are normalized and reported. Results include matching reference
+lines, filters, pagination, copying included/excluded IPs, and CSV export.
+Both lists allow up to 100,000 entries and 5 MiB of characters; files are limited
+to 5 MiB each. No URL imports or backend calls; lists stay in browser memory.
+Modern browsers with BigInt support are required.
 
 ### Backend only
 

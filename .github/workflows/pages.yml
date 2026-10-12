@@ -10,7 +10,7 @@ on:
       - "js/**"
       - "tools/**"
       - "scripts/**"
-      - "tests/catalog.test.js"
+      - "tests/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -42,8 +42,8 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Test catalog
-        run: node --test tests/catalog.test.js
+      - name: Test frontend
+        run: node --test tests/*.test.js
 
       - name: Generate tools manifest
         run: node scripts/generate-tools-manifest.js

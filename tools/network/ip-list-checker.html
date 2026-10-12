@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IP List Checker - mstrhakr tools</title>
+  <meta name="description" content="Check IPv4 and IPv6 addresses against a list of IPs, CIDRs, and inclusive ranges. Runs locally in your browser.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%94%A7</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .ip-inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+    .ip-inputs textarea { font-family: var(--font-mono); min-height: 260px; }
+    .ip-note { color: var(--fg-muted); font-size: 0.85rem; margin: 0.65rem 0; }
+    .ip-checkbox { display: flex; align-items: center; gap: 0.35rem; margin: 1rem 0; }
+    .ip-table-wrap { overflow-x: auto; }
+    .ip-table-wrap td { overflow-wrap: anywhere; vertical-align: top; }
+    .ip-table-wrap td:first-child { font-family: var(--font-mono); min-width: 150px; }
+    .ip-included { color: var(--green); }
+    .ip-excluded { color: var(--fg-muted); }
+    .ip-invalid { color: var(--red); }
+    .ip-diagnostics { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 240px; overflow-y: auto; font-size: 0.85rem; }
+    .ip-results-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin: 1rem 0; }
+    .ip-results-toolbar .input-group { margin: 0; min-width: 180px; }
+    .ip-pager { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap; }
+    .ip-counts { display: flex; flex-wrap: wrap; gap: 1.5rem; font-size: 1rem; margin: 1rem 0; }
+    .ip-counts strong { color: var(--fg-emphasis); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    [hidden] { display: none !important; }
+    @media (max-width: 768px) { .ip-inputs { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="/" class="site-title">mstrhakr tools</a>
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">[=]</button>
+      <nav><ul class="nav-links"><li><a href="/">home</a></li><li><button class="theme-toggle" aria-label="Toggle theme">light</button></li></ul></nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="tool-header">
+      <h1>IP List Checker</h1>
+      <p>Check IPv4 and IPv6 addresses against IPs, CIDRs, and inclusive ranges — entirely in your browser</p>
+    </div>
+    <div class="ip-inputs">
+      <section class="tool-section" aria-labelledby="ip-reference-heading">
+        <h2 id="ip-reference-heading">1. Reference list</h2>
+        <div class="input-group">
+          <label for="ip-reference">IPs, CIDRs, or start - end ranges</label>
+          <textarea id="ip-reference" rows="11" spellcheck="false" autocomplete="off" aria-describedby="ip-reference-help" placeholder="203.0.113.7&#10;192.168.1.0/24&#10;10.0.0.10 - 10.0.0.50&#10;2001:db8::/32"></textarea>
+        </div>
+        <p id="ip-reference-help" class="ip-note">One entry per line or comma-separated. Write ranges as <code>192.0.2.10 - 192.0.2.20</code>; both endpoints included. Blank lines and # comments are ignored.</p>
+        <label for="ip-reference-file">Append a local TXT file (max 5 MiB)</label>
+        <input id="ip-reference-file" type="file" accept=".txt,text/plain">
+        <label class="ip-checkbox" for="ip-skip-invalid"><input id="ip-skip-invalid" type="checkbox"> Skip invalid reference entries (may change results)</label>
+      </section>
+      <section class="tool-section" aria-labelledby="ip-query-heading">
+        <h2 id="ip-query-heading">2. IPs to check</h2>
+        <div class="input-group">
+          <label for="ip-queries">Single IP or list of individual IPs</label>
+          <textarea id="ip-queries" rows="11" spellcheck="false" autocomplete="off" aria-describedby="ip-query-help" placeholder="192.168.1.25&#10;10.0.0.50&#10;8.8.8.8&#10;2001:db8::1"></textarea>
+        </div>
+        <p id="ip-query-help" class="ip-note">Newline/comma-separated. Query CIDRs and ranges are not supported. Original order and duplicates are preserved.</p>
+        <label for="ip-query-file">Append a local TXT file (max 5 MiB)</label>
+        <input id="ip-query-file" type="file" accept=".txt,text/plain">
+      </section>
+    </div>
+    <div class="tool-section">
+      <div class="btn-group">
+        <button id="ip-check" class="btn">Check IPs</button>
+        <button id="ip-example" class="btn btn-secondary">Load example</button>
+        <button id="ip-clear" class="btn btn-secondary">Clear</button>
+      </div>
+      <p id="ip-message" class="ip-note" role="status" aria-live="polite">Paste lists above, then check. No uploads, URL fetching, or backend requests.</p>
+      <div id="ip-error" class="text-error ip-diagnostics" role="alert" hidden></div>
+      <details id="ip-diagnostics" hidden>
+        <summary id="ip-diagnostics-summary">Reference diagnostics</summary>
+        <div id="ip-diagnostics-text" class="ip-diagnostics"></div>
+      </details>
+    </div>
+    <section id="ip-results" class="tool-section" aria-labelledby="ip-results-heading" hidden>
+      <h2 id="ip-results-heading">Results</h2>
+      <div id="ip-counts" class="ip-counts" aria-live="polite"></div>
+      <div class="ip-results-toolbar">
+        <div class="input-group">
+          <label for="ip-filter">Show</label>
+          <select id="ip-filter"><option value="all">All results</option><option value="included">Included</option><option value="excluded">Not included</option><option value="invalid">Invalid IPs</option></select>
+        </div>
+        <div class="btn-group">
+          <button id="ip-copy-included" class="btn btn-secondary btn-sm" disabled>Copy included IPs</button>
+          <button id="ip-copy-excluded" class="btn btn-secondary btn-sm" disabled>Copy not-included IPs</button>
+          <button id="ip-export" class="btn btn-secondary btn-sm" disabled>Export all results (CSV)</button>
+        </div>
+      </div>
+      <div class="ip-table-wrap">
+        <table class="conversion-table">
+          <thead><tr><th scope="col">IP</th><th scope="col">Result</th><th scope="col">Matching reference / error</th></tr></thead>
+          <tbody id="ip-result-rows"></tbody>
+        </table>
+      </div>
+      <div class="ip-pager">
+        <button id="ip-prev" class="btn btn-secondary btn-sm" disabled>Previous</button>
+        <span id="ip-page" role="status"></span>
+        <button id="ip-next" class="btn btn-secondary btn-sm" disabled>Next</button>
+      </div>
+    </section>
+    <div class="tool-info">
+      <h3>How matching works</h3>
+      <p>Each reference entry becomes a numeric interval. Sorted intervals allow fast lookups without expanding networks into individual addresses. Overlaps and duplicates are fine; one matching original entry and its reference line are shown.</p>
+      <ul>
+        <li><strong>CIDRs:</strong> host bits are normalized. <code>192.168.1.23/24</code> covers <code>192.168.1.0 - 192.168.1.255</code>, including network and broadcast addresses.</li>
+        <li><strong>IPv6:</strong> compressed and full notation are supported. IPv4 and IPv6 match separately; IPv4-mapped IPv6 remains IPv6. No ports, brackets, or zone IDs.</li>
+        <li><strong>Validation:</strong> invalid reference entries block checking unless explicitly skipped. Invalid query IPs get their own result, never “not included.”</li>
+        <li><strong>Limits:</strong> 100,000 entries and 5 MiB of characters per list. Results are paginated; copying and CSV export include all corresponding results, not just the visible page.</li>
+        <li><strong>Meaning:</strong> inclusion only means membership in your list — not that an IP is safe, malicious, reachable, or currently blocked.</li>
+      </ul>
+      <p>List processing stays local; pasted text and file contents are not sent to a server or stored by this tool. No external IP library or API is required.</p>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container">mstrhakr tools &middot; <a href="https://github.com/mstrhakr/tools">github</a></div></footer>
+  <script src="/js/common.js"></script>
+  <script src="/js/ip-list-core.js"></script>
+  <script src="/js/ip-list-checker.js"></script>
+</body>
+</html>
